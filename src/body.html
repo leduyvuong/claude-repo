@@ -1,0 +1,174 @@
+<div class="app">
+  <header class="top">
+    <div class="brand">Vở <span>Từ Vựng</span></div>
+    <div class="streak" title="Số ngày học liên tiếp">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 22c4 0 7-2.7 7-6.6 0-3.3-2.2-5.4-3.6-7.2-.3 2-1.4 3.2-2.6 3.6.4-3.4-1.2-6.6-4.3-8.8.1 3.5-1.6 5.6-3 7.5C4.3 12.2 5 13.8 5 15.4 5 19.3 8 22 12 22z"/></svg>
+      <span id="streak-n">0</span>&nbsp;ngày liên tiếp
+    </div>
+  </header>
+
+  <main>
+    <!-- Hôm nay -->
+    <section id="view-today" class="stack-lg">
+      <div class="stack">
+        <p class="eyebrow" id="today-date"></p>
+        <h2 id="today-title">Hôm nay mình học gì?</h2>
+      </div>
+      <div class="stats">
+        <div class="stat"><b id="st-learned">0</b><span>từ đang học</span></div>
+        <div class="stat"><b id="st-due">0</b><span>từ cần ôn</span></div>
+        <div class="stat"><b id="st-known">0</b><span>từ đã thuộc</span></div>
+      </div>
+      <div class="panel stack">
+        <div class="spread"><h3>Mục tiêu hôm nay</h3><span class="muted small" id="goal-text"></span></div>
+        <div class="goal-bar" aria-hidden="true"><i id="goal-fill" style="width:0%"></i></div>
+        <div class="grid-2">
+          <button class="btn" id="btn-learn" type="button">Học 5 từ mới</button>
+          <button class="btn ghost" id="btn-review" type="button">Ôn tập</button>
+        </div>
+        <p class="small muted" id="learn-hint"></p>
+      </div>
+      <div class="stack">
+        <div class="spread"><h3>Chủ đề</h3><span class="small muted">Chọn chủ đề cho lượt học tới</span></div>
+        <div class="topics" id="topics"></div>
+      </div>
+      <details class="panel settings" id="settings">
+        <summary>Cài đặt <span class="muted small">Mở</span></summary>
+        <div class="stack">
+          <div class="grid-2">
+            <div class="field">
+              <label for="set-goal">Số từ mới mỗi ngày</label>
+              <select class="select" id="set-goal">
+                <option value="5">5 từ</option><option value="10">10 từ</option>
+                <option value="15">15 từ</option><option value="20">20 từ</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="set-rate">Tốc độ đọc</label>
+              <select class="select" id="set-rate">
+                <option value="0.7">Chậm</option><option value="0.9">Vừa</option><option value="1">Bình thường</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="set-voice">Giọng đọc tiếng Anh</label>
+            <select class="select" id="set-voice"><option value="">Mặc định của máy</option></select>
+          </div>
+          <label class="row small"><input type="checkbox" id="set-auto"> Tự đọc to khi hiện từ mới</label>
+          <p class="small muted" id="save-status">Tiến độ được lưu trên trình duyệt này.</p>
+          <div class="row">
+            <button class="btn sm ghost" type="button" id="btn-reset">Xóa toàn bộ tiến độ</button>
+            <span class="row" id="reset-confirm" hidden>
+              <span class="small">Chắc chắn xóa?</span>
+              <button class="btn sm" type="button" id="btn-reset-yes">Xóa</button>
+              <button class="btn sm ghost" type="button" id="btn-reset-no">Giữ lại</button>
+            </span>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- Học từ mới -->
+    <section id="view-learn" class="stack-lg" hidden></section>
+
+    <!-- Ôn tập -->
+    <section id="view-review" class="stack-lg" hidden></section>
+
+    <!-- Luyện tập -->
+    <section id="view-practice" class="stack-lg" hidden>
+      <div class="stack">
+        <p class="eyebrow">Luyện tập</p>
+        <h2>Kiểm tra nhanh 10 câu</h2>
+        <div class="chips" id="modes" role="group" aria-label="Kiểu bài"></div>
+      </div>
+      <div id="quiz"></div>
+    </section>
+
+    <!-- Sổ từ -->
+    <section id="view-words" class="stack-lg" hidden>
+      <div class="spread">
+        <div class="stack" style="gap:4px"><p class="eyebrow">Sổ từ</p><h2 id="wl-title">Tất cả từ vựng</h2></div>
+        <button class="btn sm" type="button" id="btn-add">+ Thêm từ của bạn</button>
+      </div>
+      <form class="panel stack" id="add-form" hidden autocomplete="off">
+        <h3>Thêm từ mới vào sổ</h3>
+        <div class="field">
+          <label for="f-word">Từ tiếng Anh</label>
+          <div class="row" style="flex-wrap:nowrap">
+            <input class="input en" id="f-word" required maxlength="60" placeholder="ví dụ: grateful">
+            <button class="btn sm ghost" type="button" id="f-ai" hidden>Điền bằng AI</button>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field"><label for="f-ipa">Phiên âm (không bắt buộc)</label><input class="input en" id="f-ipa" maxlength="80" placeholder="ˈɡreɪtfəl"></div>
+          <div class="field"><label for="f-pos">Loại từ</label>
+            <select class="select" id="f-pos">
+              <option value="n">danh từ</option><option value="v">động từ</option><option value="adj">tính từ</option>
+              <option value="adv">trạng từ</option><option value="phr">cụm từ</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label for="f-vi">Nghĩa tiếng Việt</label><input class="input" id="f-vi" required maxlength="120" placeholder="biết ơn"></div>
+        <div class="field"><label for="f-ex">Câu ví dụ (không bắt buộc)</label><input class="input en" id="f-ex" maxlength="200" placeholder="I'm grateful for your help."></div>
+        <div class="field"><label for="f-exvi">Dịch câu ví dụ</label><input class="input" id="f-exvi" maxlength="200" placeholder="Tôi rất biết ơn sự giúp đỡ của bạn."></div>
+        <p class="small muted" id="f-status" role="status"></p>
+        <div class="row">
+          <button class="btn" type="submit">Lưu vào sổ</button>
+          <button class="btn ghost" type="button" id="f-cancel">Đóng</button>
+        </div>
+      </form>
+      <input class="input" id="search" type="search" placeholder="Tìm theo từ tiếng Anh hoặc nghĩa tiếng Việt" aria-label="Tìm từ">
+      <div class="chips" id="wl-filter" role="group" aria-label="Lọc theo trạng thái"></div>
+      <div class="wordlist" id="wordlist"></div>
+    </section>
+
+    <!-- AI -->
+    <section id="view-ai" class="stack-lg" hidden>
+      <div class="stack">
+        <p class="eyebrow">Luyện viết cùng AI</p>
+        <h2>Tự đặt câu, AI sửa và giải thích</h2>
+        <p class="muted">Viết một câu tiếng Anh có dùng từ bên dưới. AI chỉ ra lỗi sai, đưa câu đúng và giải thích bằng tiếng Việt.</p>
+      </div>
+      <p class="notice" id="ai-off" hidden>Phần AI chỉ chạy khi bạn mở trang này trên claude.ai và đã đăng nhập. Các phần còn lại vẫn dùng bình thường.</p>
+      <form class="panel stack" id="ai-form" autocomplete="off">
+        <div class="spread">
+          <div>Từ cần dùng: <b class="en" style="font-size:20px" id="ai-word">…</b> <span class="muted" id="ai-word-vi"></span></div>
+          <button type="button" class="btn sm ghost" id="ai-next">Đổi từ khác</button>
+        </div>
+        <label class="small muted" for="ai-input">Câu của bạn</label>
+        <textarea class="textarea en" id="ai-input" maxlength="400" placeholder="Ví dụ: I get along well with my colleagues."></textarea>
+        <div class="row">
+          <button class="btn" type="submit" id="ai-check">Chấm câu</button>
+          <button type="button" class="btn ghost" id="ai-stop" hidden>Dừng</button>
+        </div>
+      </form>
+      <div id="ai-result" aria-live="polite"></div>
+    </section>
+  </main>
+</div>
+
+<nav class="nav" aria-label="Chuyển mục">
+  <div class="nav-inner">
+    <button class="tab" type="button" data-view="today" aria-current="page">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+      Hôm nay
+    </button>
+    <button class="tab" type="button" data-view="review">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="14" height="14" rx="2"/><path d="M7 3h11a3 3 0 0 1 3 3v11"/></svg>
+      Ôn tập<span class="badge" id="due-badge" hidden>0</span>
+    </button>
+    <button class="tab" type="button" data-view="practice">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
+      Luyện tập
+    </button>
+    <button class="tab" type="button" data-view="words">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M8 7h7"/></svg>
+      Sổ từ
+    </button>
+    <button class="tab" type="button" data-view="ai">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.9L19 9.7l-5.2 1.8L12 16.5l-1.8-5L5 9.7l5.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
+      Viết câu
+    </button>
+  </div>
+</nav>
+<div class="toast" id="toast" role="status" hidden></div>
