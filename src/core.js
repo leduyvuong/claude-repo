@@ -285,8 +285,8 @@ function wordSheet(word, opts = {}) {
     if (word.ex) {
       sheet.append(h("div", { class: "example" },
         h("div", { class: "row", style: "flex-wrap:nowrap;align-items:flex-start;justify-content:space-between" },
-          h("span", { class: "en", lang: "en", text: word.ex }), speakBtn(word.ex, "Nghe câu ví dụ")),
-        word.exVi ? h("span", { class: "vi", text: word.exVi }) : null));
+          h("span", { class: "en", lang: "en", text: word.ex.replace(/ (B:)/, "\n$1") }), speakBtn(word.ex, "Nghe câu ví dụ")),
+        word.exVi ? h("span", { class: "vi", text: word.exVi.replace(/ (B:)/, "\n$1") }) : null));
     }
   } else {
     sheet.append(h("button", { class: "hidden-side", type: "button", onclick: onReveal, text: "Nhớ nghĩa của từ này chưa? Chạm để lật thẻ" }));

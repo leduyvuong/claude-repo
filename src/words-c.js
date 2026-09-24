@@ -30,7 +30,7 @@ extendTopic("nature", "Thiên nhiên & môi trường", [
   ["recycle", "v", "ˌriːˈsaɪkəl", "tái chế", "We recycle paper and plastic bottles.", "Chúng tôi tái chế giấy và chai nhựa."],
   ["trash", "n", "træʃ", "rác", "Please put your trash in the bin.", "Vui lòng bỏ rác vào thùng."],
   ["plastic bag", "n", "ˌplæstɪk ˈbæɡ", "túi ni lông", "I try not to use plastic bags.", "Tôi cố gắng không dùng túi ni lông."],
-  ["waste", "n", "weɪst", "chất thải, rác thải", "The city produces tons of waste every day.", "Thành phố thải ra hàng tấn rác mỗi ngày."],
+  ["cliff", "n", "klɪf", "vách đá", "Don't stand too close to the edge of the cliff.", "Đừng đứng quá gần mép vách đá."],
   ["litter", "v", "ˈlɪtɚ", "xả rác", "Don't litter in the park.", "Đừng xả rác trong công viên."],
   ["protect", "v", "prəˈtekt", "bảo vệ", "Trees protect the soil from floods.", "Cây cối bảo vệ đất khỏi lũ lụt."],
   ["climate change", "n", "ˈklaɪmət ˌtʃeɪndʒ", "biến đổi khí hậu", "Climate change affects farmers in the Mekong Delta.", "Biến đổi khí hậu ảnh hưởng đến nông dân ở đồng bằng sông Cửu Long."],

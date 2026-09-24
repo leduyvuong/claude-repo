@@ -167,6 +167,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .pos { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); }
 .meaning { font-size: 22px; font-weight: 600; }
 .example { border-left: 3px solid var(--accent); padding-left: 12px; display: flex; flex-direction: column; gap: 2px; }
+.example .en, .example .vi { white-space: pre-line; }
 .example .en { font-size: 18px; font-style: italic; }
 .example .vi { color: var(--muted); font-size: 14px; }
 .hidden-side { width: 100%; cursor: pointer; min-height: 132px; display: grid; place-items: center; border: 1.5px dashed var(--rule-strong); border-radius: 12px; color: var(--muted); font-size: 14px; background: color-mix(in srgb, var(--card) 80%, transparent); }

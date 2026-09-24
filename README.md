@@ -2,7 +2,7 @@
 
 Web học từ vựng tiếng Anh cho người Việt, chạy hoàn toàn trên trình duyệt.
 
-- **Học từ mới:** 120 từ thông dụng chia theo 10 chủ đề, có phiên âm Anh-Mỹ, câu ví dụ và phát âm.
+- **Học từ mới:** 1.000 từ và câu giao tiếp chia theo 25 chủ đề, có phiên âm Anh-Mỹ, câu ví dụ và phát âm.
 - **Ôn tập ngắt quãng:** thẻ ghi nhớ theo hộp Leitner. Từ nhớ tốt được hỏi lại thưa dần (1, 3, 7, 14, 30, 60 ngày).
 - **Luyện tập:** chọn nghĩa, chọn từ, nghe chọn từ, nghe và viết chính tả.
 - **Sổ từ:** tra cứu, lọc theo trạng thái, thêm từ của riêng bạn.
@@ -25,7 +25,7 @@ python3 build.py
 
 | File | Nội dung |
 |---|---|
-| `src/words.js` | Bộ từ vựng theo chủ đề |
+| `src/words.js`, `src/words-*.js` | Bộ từ vựng và câu giao tiếp theo chủ đề |
 | `src/core.js` | Lưu trữ, lịch ôn tập, phát âm, thẻ từ |
 | `src/views.js` | Trang Hôm nay, Học từ mới, Ôn tập |
 | `src/practice.js` | Luyện tập và Sổ từ |
