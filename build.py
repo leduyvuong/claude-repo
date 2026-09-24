@@ -10,7 +10,7 @@ import sys
 ROOT = pathlib.Path(__file__).parent
 SRC = ROOT / "src"
 WORD_FILES = ["words.js"] + sorted(p.name for p in SRC.glob("words-*.js"))
-SCRIPTS = WORD_FILES + ["core.js", "views.js", "practice.js", "ai.js"]
+SCRIPTS = WORD_FILES + ["core.js", "views.js", "practice.js", "fx.js", "games.js", "games2.js", "ai.js"]
 
 TITLE = "<title>Vở Từ Vựng</title>"
 FONTS = (

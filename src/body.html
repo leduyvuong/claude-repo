@@ -14,6 +14,8 @@
         <p class="eyebrow" id="today-date"></p>
         <h2 id="today-title">Hôm nay mình học gì?</h2>
       </div>
+      <div class="hero" id="hero"></div>
+      <div class="panel stack" id="quests"></div>
       <div class="stats">
         <div class="stat"><b id="st-learned">0</b><span>từ đang học</span></div>
         <div class="stat"><b id="st-due">0</b><span>từ cần ôn</span></div>
@@ -55,6 +57,7 @@
             <select class="select" id="set-voice"><option value="">Mặc định của máy</option></select>
           </div>
           <label class="row small"><input type="checkbox" id="set-auto"> Tự đọc to khi hiện từ mới</label>
+          <label class="row small"><input type="checkbox" id="set-sound"> Âm thanh hiệu ứng trong trò chơi</label>
           <p class="small muted" id="save-status">Tiến độ được lưu trên trình duyệt này.</p>
           <div class="row">
             <button class="btn sm ghost" type="button" id="btn-reset">Xóa toàn bộ tiến độ</button>
@@ -76,10 +79,12 @@
 
     <!-- Luyện tập -->
     <section id="view-practice" class="stack-lg" hidden>
-      <div class="stack">
-        <p class="eyebrow">Luyện tập</p>
-        <h2>Kiểm tra nhanh 10 câu</h2>
-        <div class="chips" id="modes" role="group" aria-label="Kiểu bài"></div>
+      <div class="stack" id="practice-head">
+        <div class="spread">
+          <div class="stack" style="gap:4px"><p class="eyebrow" id="pr-eyebrow">Trò chơi</p><h2 id="pr-title">Chơi mà học</h2></div>
+          <button class="btn sm ghost" type="button" id="pr-back" hidden>← Tất cả trò chơi</button>
+        </div>
+        <div class="chips" id="modes" role="group" aria-label="Kiểu bài" hidden></div>
       </div>
       <div id="quiz"></div>
     </section>
@@ -158,8 +163,8 @@
       Ôn tập<span class="badge" id="due-badge" hidden>0</span>
     </button>
     <button class="tab" type="button" data-view="practice">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
-      Luyện tập
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><circle cx="15.5" cy="11.5" r=".9" fill="currentColor"/><circle cx="17.5" cy="13.5" r=".9" fill="currentColor"/></svg>
+      Trò chơi
     </button>
     <button class="tab" type="button" data-view="words">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M8 7h7"/></svg>

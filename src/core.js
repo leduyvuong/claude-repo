@@ -69,7 +69,7 @@ function inDaysText(n) {
 
 // ---------- Trạng thái & lưu trữ ----------
 const LS_KEY = "vo-tu-vung:v1";
-const defaults = () => ({ v: 1, updatedAt: 0, goal: 10, rate: 0.9, voice: "", auto: true, topic: TOPICS[0].id, cards: {}, days: {}, custom: [] });
+const defaults = () => ({ v: 1, updatedAt: 0, goal: 10, rate: 0.9, voice: "", auto: true, topic: TOPICS[0].id, cards: {}, days: {}, custom: [], xp: 0, best: {}, sound: true });
 
 function normalize(s) {
   const d = defaults();
@@ -81,6 +81,9 @@ function normalize(s) {
   if (typeof out.cards !== "object" || !out.cards || Array.isArray(out.cards)) out.cards = {};
   if (typeof out.days !== "object" || !out.days || Array.isArray(out.days)) out.days = {};
   if (!Array.isArray(out.custom)) out.custom = [];
+  out.xp = Math.max(0, Number(out.xp) || 0);
+  if (typeof out.best !== "object" || !out.best || Array.isArray(out.best)) out.best = {};
+  out.sound = out.sound !== false;
   out.custom = out.custom.filter((w) => w && typeof w.id === "string" && typeof w.w === "string" && w.w.trim());
   if (!TOPICS.some((t) => t.id === out.topic)) out.topic = TOPICS[0].id;
   return out;
@@ -186,7 +189,7 @@ function pruneDays() {
   while (keys.length > 400) delete state.days[keys.shift()];
 }
 function streak() {
-  const active = (k) => { const d = state.days[k]; return d && (d.n + d.r + d.q + d.s) > 0; };
+  const active = (k) => { const d = state.days[k]; return d && (d.n + d.r + d.q + d.s + (d.g || 0)) > 0; };
   let k = dayKey();
   if (!active(k)) k = addDays(k, -1);
   let n = 0;

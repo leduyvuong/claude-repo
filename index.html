@@ -273,6 +273,131 @@ details.settings[open] summary { margin-bottom: 14px; }
 @media (hover: none), (max-width: 480px) {
   .kbd-hint { display: none; }
 }
+
+/* ---------- Trang Hôm nay: cấp độ & nhiệm vụ ---------- */
+.hero {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; padding: 18px;
+  border-radius: 20px; color: #fff; position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #4b2fb3 0%, #6d46e0 55%, #8a5cf0 100%);
+  box-shadow: 0 10px 30px rgba(75, 47, 179, .28);
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .14;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 23px, #fff 23px 24px), repeating-linear-gradient(to right, transparent 0 23px, #fff 23px 24px);
+}
+.hero > * { position: relative; z-index: 1; }
+.ring { position: relative; width: 80px; height: 80px; }
+.ring svg { width: 80px; height: 80px; transform: rotate(-90deg); }
+.ring circle { fill: none; stroke-width: 8; }
+.ring-bg { stroke: rgba(255, 255, 255, .22); }
+.ring-fg { stroke: #ffd166; stroke-linecap: round; transition: stroke-dashoffset .8s ease; }
+.ring-num { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; line-height: 1; }
+.ring-num b { font-size: 26px; }
+.ring-num span { font-size: 11px; opacity: .85; }
+.hero-eyebrow { color: #ffd166; }
+.hero-xp { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.hero .small { opacity: .85; }
+.hero-play { background: #fff; color: #4b2fb3; }
+@media (max-width: 480px) { .hero { grid-template-columns: auto 1fr; } .hero-play { grid-column: 1 / -1; } }
+.quests { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.quests li { display: flex; align-items: center; gap: 10px; }
+.quests .q-text { flex: 1; }
+.quests .check { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--rule-strong); display: grid; place-items: center; font-size: 13px; font-weight: 700; flex: none; }
+.quests li.done .check { background: var(--good); border-color: var(--good); color: #fff; }
+.quests li.done .q-text { color: var(--muted); text-decoration: line-through; }
+
+/* ---------- Kho trò chơi ---------- */
+.games { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.game-card {
+  display: flex; gap: 14px; align-items: center; text-align: left; padding: 14px; border-radius: 16px; cursor: pointer;
+  border: 1px solid var(--rule); background: var(--card); color: var(--ink); transition: transform .12s ease, box-shadow .2s ease, border-color .2s;
+}
+.game-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: color-mix(in srgb, var(--g) 50%, var(--rule)); }
+.game-icon { width: 56px; height: 56px; border-radius: 14px; display: grid; place-items: center; flex: none; color: #fff;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--g) 80%, #fff), var(--g)); box-shadow: 0 6px 16px color-mix(in srgb, var(--g) 35%, transparent); }
+.game-icon svg { width: 28px; height: 28px; }
+.game-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.game-meta strong { font-size: 16px; }
+.game-best { font-size: 12px; font-weight: 600; color: var(--g); margin-top: 2px; }
+
+/* ---------- Thanh điểm & đồng hồ ---------- */
+.hud { display: flex; gap: 8px; }
+.hud-item { flex: 1; background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 8px 10px; text-align: center; }
+.hud-item b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.hud-item span { font-size: 11px; color: var(--muted); }
+.hud-item.hot { border-color: var(--warn); background: var(--warn-soft); color: var(--warn); }
+.hud-item.lives b { color: var(--margin); letter-spacing: 2px; }
+.timer { position: relative; height: 26px; border-radius: 13px; background: var(--accent-soft); overflow: hidden; }
+.timer i { position: absolute; inset: 0 auto 0 0; background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 60%, #ec4899)); border-radius: 13px; transition: width .25s linear; }
+.timer span { position: relative; display: block; text-align: center; font-size: 13px; font-weight: 700; line-height: 26px; font-variant-numeric: tabular-nums; color: var(--ink); }
+
+/* Lật thẻ */
+.mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; perspective: 800px; }
+@media (max-width: 420px) { .mem-grid { grid-template-columns: repeat(3, 1fr); } .mem-card { aspect-ratio: 1 / 1; } }
+.mem-card { position: relative; aspect-ratio: 3 / 4; max-width: 100%; border: 0; padding: 0; background: none; cursor: pointer; transform-style: preserve-3d; transition: transform .35s ease; }
+.mem-card.up { transform: rotateY(180deg); }
+.mem-back, .mem-front { position: absolute; inset: 0; border-radius: 12px; display: grid; place-items: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; padding: 6px; text-align: center; overflow-wrap: anywhere; }
+.mem-back { background: linear-gradient(145deg, #6d46e0, #4b2fb3); color: rgba(255, 255, 255, .7); font-size: 26px; font-weight: 700;
+  background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.08) 0 6px, transparent 6px 12px), linear-gradient(145deg, #6d46e0, #4b2fb3); }
+.mem-front { transform: rotateY(180deg); background: var(--card); border: 1.5px solid var(--rule-strong); font-size: 14px; font-weight: 600; }
+.mem-front.en { font-size: 17px; }
+.mem-card.matched .mem-front { background: var(--good-soft); border-color: var(--good); color: var(--good); }
+
+/* Nối nhanh */
+.rush { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.rush-col { display: flex; flex-direction: column; gap: 8px; }
+.rush-item { min-height: 54px; padding: 8px 10px; border-radius: 12px; border: 1.5px solid var(--rule-strong); background: var(--card); cursor: pointer; font-weight: 600; font-size: 14px; animation: pop .25s ease; }
+.rush-item.en { font-size: 17px; }
+.rush-item.sel { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+
+/* Đúng hay Sai */
+.tf-card { text-align: center; align-items: center; display: flex; flex-direction: column; gap: 6px; }
+.tf-card .row { justify-content: center; }
+.tf-eq { color: var(--muted); font-size: 13px; }
+.tf-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tf-btns button { min-height: 72px; border-radius: 16px; border: 0; font-size: 20px; font-weight: 700; cursor: pointer; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.tf-btns small { font-size: 11px; font-weight: 500; opacity: .8; }
+.tf-no { background: var(--margin); }
+.tf-yes { background: var(--good); }
+@media (hover: none) { .tf-btns small { display: none; } }
+
+/* Mưa từ */
+.rain-target { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; padding: 10px 14px; border-radius: 12px; background: var(--accent-soft); }
+.rain-target b { font-size: 20px; }
+.arena { position: relative; height: 380px; border-radius: 16px; overflow: hidden; border: 1px solid var(--rule);
+  background: linear-gradient(to bottom, color-mix(in srgb, #3b7de0 12%, var(--card)), var(--card)); }
+.arena::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: var(--margin); opacity: .6; }
+.drop { position: absolute; top: 0; padding: 8px 14px; border-radius: 999px; border: 1.5px solid #3b7de0; background: var(--card); color: var(--ink);
+  font-size: 17px; font-weight: 700; cursor: pointer; white-space: nowrap; box-shadow: 0 4px 12px rgba(59, 125, 224, .2); will-change: transform; }
+
+/* Xếp chữ */
+.slots, .tiles { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.slot, .tile { width: 40px; height: 48px; border-radius: 10px; font-size: 22px; font-weight: 700; text-transform: lowercase; display: grid; place-items: center; }
+.slot { border: 2px dashed var(--rule-strong); background: transparent; cursor: pointer; }
+.slot.filled { border-style: solid; border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.slots.ok .slot { border-color: var(--good); background: var(--good-soft); color: var(--good); }
+.tile { border: 1px solid var(--rule-strong); background: var(--card); cursor: pointer; box-shadow: 0 3px 0 var(--rule-strong); }
+.tile:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--rule-strong); }
+.tile[disabled] { opacity: .25; box-shadow: none; }
+
+/* Xếp câu */
+.answer-line { min-height: 56px; padding: 8px; border-radius: 12px; border: 2px dashed var(--rule-strong); display: flex; flex-wrap: wrap; gap: 6px; align-content: flex-start; }
+.answer-line.ok { border-style: solid; border-color: var(--good); background: var(--good-soft); }
+.answer-line.no { border-style: solid; border-color: var(--margin); background: var(--margin-soft); }
+.chip-bank { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip-word { padding: 8px 12px; border-radius: 10px; border: 1px solid var(--rule-strong); background: var(--card); font-size: 17px; cursor: pointer; box-shadow: 0 2px 0 var(--rule-strong); }
+.chip-bank .chip-word[disabled] { visibility: hidden; }
+
+/* Hiệu ứng */
+.confetti { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+.float-pts { position: absolute; transform: translate(-50%, 0); font-weight: 800; font-size: 18px; color: var(--good); pointer-events: none; z-index: 40; animation: floatUp .9s ease-out forwards; }
+.float-pts.bad { color: var(--margin); }
+@keyframes floatUp { from { opacity: 1; transform: translate(-50%, 0); } to { opacity: 0; transform: translate(-50%, -48px); } }
+.shake { animation: shake .4s ease; }
+@keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+.result .score { font-size: 56px; background: linear-gradient(90deg, var(--accent), #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+#quiz { display: flex; flex-direction: column; gap: 12px; }
 </style>
 </head>
 <body>
@@ -292,6 +417,8 @@ details.settings[open] summary { margin-bottom: 14px; }
         <p class="eyebrow" id="today-date"></p>
         <h2 id="today-title">Hôm nay mình học gì?</h2>
       </div>
+      <div class="hero" id="hero"></div>
+      <div class="panel stack" id="quests"></div>
       <div class="stats">
         <div class="stat"><b id="st-learned">0</b><span>từ đang học</span></div>
         <div class="stat"><b id="st-due">0</b><span>từ cần ôn</span></div>
@@ -333,6 +460,7 @@ details.settings[open] summary { margin-bottom: 14px; }
             <select class="select" id="set-voice"><option value="">Mặc định của máy</option></select>
           </div>
           <label class="row small"><input type="checkbox" id="set-auto"> Tự đọc to khi hiện từ mới</label>
+          <label class="row small"><input type="checkbox" id="set-sound"> Âm thanh hiệu ứng trong trò chơi</label>
           <p class="small muted" id="save-status">Tiến độ được lưu trên trình duyệt này.</p>
           <div class="row">
             <button class="btn sm ghost" type="button" id="btn-reset">Xóa toàn bộ tiến độ</button>
@@ -354,10 +482,12 @@ details.settings[open] summary { margin-bottom: 14px; }
 
     <!-- Luyện tập -->
     <section id="view-practice" class="stack-lg" hidden>
-      <div class="stack">
-        <p class="eyebrow">Luyện tập</p>
-        <h2>Kiểm tra nhanh 10 câu</h2>
-        <div class="chips" id="modes" role="group" aria-label="Kiểu bài"></div>
+      <div class="stack" id="practice-head">
+        <div class="spread">
+          <div class="stack" style="gap:4px"><p class="eyebrow" id="pr-eyebrow">Trò chơi</p><h2 id="pr-title">Chơi mà học</h2></div>
+          <button class="btn sm ghost" type="button" id="pr-back" hidden>← Tất cả trò chơi</button>
+        </div>
+        <div class="chips" id="modes" role="group" aria-label="Kiểu bài" hidden></div>
       </div>
       <div id="quiz"></div>
     </section>
@@ -436,8 +566,8 @@ details.settings[open] summary { margin-bottom: 14px; }
       Ôn tập<span class="badge" id="due-badge" hidden>0</span>
     </button>
     <button class="tab" type="button" data-view="practice">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
-      Luyện tập
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="7" width="19" height="11" rx="5.5"/><path d="M7.5 10.5v4M5.5 12.5h4"/><circle cx="15.5" cy="11.5" r=".9" fill="currentColor"/><circle cx="17.5" cy="13.5" r=".9" fill="currentColor"/></svg>
+      Trò chơi
     </button>
     <button class="tab" type="button" data-view="words">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M8 7h7"/></svg>
@@ -1638,7 +1768,7 @@ function inDaysText(n) {
 
 // ---------- Trạng thái & lưu trữ ----------
 const LS_KEY = "vo-tu-vung:v1";
-const defaults = () => ({ v: 1, updatedAt: 0, goal: 10, rate: 0.9, voice: "", auto: true, topic: TOPICS[0].id, cards: {}, days: {}, custom: [] });
+const defaults = () => ({ v: 1, updatedAt: 0, goal: 10, rate: 0.9, voice: "", auto: true, topic: TOPICS[0].id, cards: {}, days: {}, custom: [], xp: 0, best: {}, sound: true });
 
 function normalize(s) {
   const d = defaults();
@@ -1650,6 +1780,9 @@ function normalize(s) {
   if (typeof out.cards !== "object" || !out.cards || Array.isArray(out.cards)) out.cards = {};
   if (typeof out.days !== "object" || !out.days || Array.isArray(out.days)) out.days = {};
   if (!Array.isArray(out.custom)) out.custom = [];
+  out.xp = Math.max(0, Number(out.xp) || 0);
+  if (typeof out.best !== "object" || !out.best || Array.isArray(out.best)) out.best = {};
+  out.sound = out.sound !== false;
   out.custom = out.custom.filter((w) => w && typeof w.id === "string" && typeof w.w === "string" && w.w.trim());
   if (!TOPICS.some((t) => t.id === out.topic)) out.topic = TOPICS[0].id;
   return out;
@@ -1755,7 +1888,7 @@ function pruneDays() {
   while (keys.length > 400) delete state.days[keys.shift()];
 }
 function streak() {
-  const active = (k) => { const d = state.days[k]; return d && (d.n + d.r + d.q + d.s) > 0; };
+  const active = (k) => { const d = state.days[k]; return d && (d.n + d.r + d.q + d.s + (d.g || 0)) > 0; };
   let k = dayKey();
   if (!active(k)) k = addDays(k, -1);
   let n = 0;
@@ -2390,6 +2523,629 @@ function saveCustomWord(e) {
   $("#f-status").textContent = "Đã lưu “" + word + "”. Từ này sẽ có trong lượt ôn ngày mai.";
   $("#f-word").focus();
   renderCurrent();
+}
+
+// ---------- Hiệu ứng: âm thanh, pháo giấy, rung ----------
+let audioCtx = null;
+function tone(freq, dur, when = 0, type = "sine", vol = 0.08) {
+  if (!state.sound) return;
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const t = audioCtx.currentTime + when;
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g).connect(audioCtx.destination);
+    o.start(t); o.stop(t + dur + 0.02);
+  } catch { /* không có âm thanh */ }
+}
+const sfx = {
+  good(combo = 1) { const b = 520 + Math.min(combo, 8) * 40; tone(b, 0.12); tone(b * 1.5, 0.16, 0.08); },
+  bad() { tone(180, 0.22, 0, "triangle", 0.1); },
+  flip() { tone(760, 0.05, 0, "square", 0.03); },
+  win() { [523, 659, 784, 1046].forEach((f, i) => tone(f, 0.2, i * 0.1)); },
+  tick() { tone(1200, 0.03, 0, "square", 0.02); },
+};
+function buzz(ms) { try { navigator.vibrate && navigator.vibrate(ms); } catch { /* bỏ qua */ } }
+
+function confetti() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const c = h("canvas", { class: "confetti", "aria-hidden": "true" });
+  document.body.append(c);
+  const ctx = c.getContext("2d");
+  const W = (c.width = innerWidth), H = (c.height = innerHeight);
+  const colors = ["#5b3cc4", "#d2455e", "#1e8757", "#e9b04d", "#3b82f6", "#ec4899"];
+  const parts = Array.from({ length: 140 }, () => ({
+    x: W / 2 + (Math.random() - 0.5) * 80, y: H * 0.35, vx: (Math.random() - 0.5) * 14, vy: -Math.random() * 14 - 4,
+    r: Math.random() * 6 + 3, c: colors[(Math.random() * colors.length) | 0], a: Math.random() * 6, s: (Math.random() - 0.5) * 0.3,
+  }));
+  const t0 = performance.now();
+  (function frame(t) {
+    ctx.clearRect(0, 0, W, H);
+    for (const p of parts) {
+      p.vy += 0.35; p.vx *= 0.99; p.x += p.vx; p.y += p.vy; p.a += p.s;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.fillStyle = p.c;
+      ctx.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); ctx.restore();
+    }
+    if (t - t0 < 2200) requestAnimationFrame(frame); else c.remove();
+  })(t0);
+}
+
+function floatText(target, text, cls = "") {
+  const r = target.getBoundingClientRect();
+  const f = h("div", { class: "float-pts " + cls, text, style: "left:" + (r.left + r.width / 2) + "px;top:" + (r.top + window.scrollY) + "px" });
+  document.body.append(f);
+  setTimeout(() => f.remove(), 900);
+}
+function shake(el) { el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); }
+
+// ---------- Điểm kinh nghiệm & cấp độ ----------
+function levelInfo(xp = state.xp) {
+  let level = 1, need = 100, rest = xp;
+  while (rest >= need) { rest -= need; level++; need = 100 + (level - 1) * 50; }
+  return { level, into: rest, need };
+}
+const RANKS = ["Mầm non", "Tập sự", "Chăm chỉ", "Tiến bộ", "Vững vàng", "Tự tin", "Lưu loát", "Cao thủ", "Bậc thầy", "Huyền thoại"];
+const rankName = (lv) => RANKS[Math.min(RANKS.length - 1, Math.floor((lv - 1) / 3))];
+
+function gainXP(n) {
+  if (!n) return;
+  const before = levelInfo().level;
+  state.xp += n;
+  const after = levelInfo().level;
+  if (after > before) setTimeout(() => { toast("Lên cấp " + after + "! Danh hiệu: " + rankName(after)); sfx.win(); confetti(); }, 300);
+}
+
+// Cộng XP cho các hoạt động sẵn có
+{
+  const _applyGrade = applyGrade;
+  applyGrade = function (id, grade, lapsed) { _applyGrade(id, grade, lapsed); gainXP(grade === "again" ? 1 : 4); };
+  const _addCard = addCard;
+  addCard = function (id, known) { _addCard(id, known); gainXP(known ? 2 : 6); };
+  const _finish = finishQuestion;
+  finishQuestion = function (ok, w) { _finish(ok, w); if (ok) { gainXP(5); sfx.good(); } else { sfx.bad(); buzz(60); } };
+}
+
+// ---------- Trang Hôm nay: thẻ cấp độ & nhiệm vụ ----------
+{
+  const _today = RENDER.today;
+  RENDER.today = () => {
+    _today();
+    const L = levelInfo();
+    const pct = L.into / L.need;
+    const R = 34, C = 2 * Math.PI * R;
+    $("#hero").innerHTML = "";
+    $("#hero").append(
+      h("div", { class: "ring", html:
+        '<svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="' + R + '" class="ring-bg"/><circle cx="40" cy="40" r="' + R +
+        '" class="ring-fg" stroke-dasharray="' + C + '" stroke-dashoffset="' + C * (1 - pct) + '"/></svg>' },
+        h("div", { class: "ring-num" }, h("b", { text: L.level }), h("span", { text: "cấp" }))),
+      h("div", { class: "hero-body" },
+        h("p", { class: "eyebrow hero-eyebrow", text: rankName(L.level) }),
+        h("p", { class: "hero-xp", text: state.xp.toLocaleString("vi-VN") + " XP" }),
+        h("p", { class: "small", text: "Còn " + (L.need - L.into) + " XP nữa để lên cấp " + (L.level + 1) })),
+      h("button", { class: "btn hero-play", type: "button", text: "Chơi ngay", onclick: () => { game = null; show("practice"); } }));
+
+    const log = todayLog();
+    const due = dueIds().length;
+    const quests = [
+      { done: log.n >= Math.min(5, state.goal), text: "Học 5 từ mới", prog: Math.min(log.n, 5) + "/5" },
+      { done: due === 0 && Object.keys(state.cards).length > 0, text: "Ôn hết các từ đến hạn", prog: due ? "còn " + due : Object.keys(state.cards).length ? "xong" : "chưa có từ" },
+      { done: (log.g || 0) >= 2, text: "Chơi 2 trò chơi", prog: Math.min(log.g || 0, 2) + "/2" },
+    ];
+    const doneN = quests.filter((q) => q.done).length;
+    $("#quests").replaceChildren(
+      h("div", { class: "spread" }, h("h3", { text: "Nhiệm vụ hôm nay" }), h("span", { class: "small muted", text: doneN + "/3 hoàn thành" })),
+      h("ul", { class: "quests" }, quests.map((q) => h("li", { class: q.done ? "done" : "" },
+        h("span", { class: "check", "aria-hidden": "true", text: q.done ? "✓" : "" }),
+        h("span", { class: "q-text", text: q.text }), h("span", { class: "small muted", text: q.prog })))));
+    $("#set-sound").checked = !!state.sound;
+  };
+  $("#set-sound").addEventListener("change", (e) => { state.sound = e.target.checked; commit(); if (state.sound) sfx.good(); });
+}
+
+// ---------- Khung trò chơi ----------
+let game = null;
+const GAMES = [];
+
+function gamePool(min = 8, filter = () => true) {
+  const learned = Object.keys(state.cards).map((id) => WORDS[id]).filter((w) => w && filter(w));
+  if (learned.length >= min) return learned;
+  const topic = topicWords(state.topic).filter(filter);
+  const extra = shuffle(Object.values(WORDS).filter(filter));
+  const seen = new Set();
+  return [...learned, ...topic, ...extra].filter((w) => !seen.has(w.id) && seen.add(w.id)).slice(0, Math.max(min, 40));
+}
+const isWord = (w) => w.p !== "s";
+
+function startGame(id) {
+  game = id;
+  const g = GAMES.find((x) => x.id === id);
+  if (g && g.start) g.start();
+  renderCurrent();
+}
+
+function finishGame(id, score, lines = []) {
+  const g = GAMES.find((x) => x.id === id);
+  const prev = state.best[id] || 0;
+  const record = score > prev;
+  if (record) state.best[id] = score;
+  const log = todayLog(); log.g = (log.g || 0) + 1;
+  gainXP(Math.round(score / 10) + 10);
+  commit();
+  if (record && score > 0) { confetti(); sfx.win(); } else sfx.good(3);
+  const root = $("#quiz");
+  root.replaceChildren(h("div", { class: "sheet stack pop result" },
+    h("p", { class: "eyebrow", text: g.name + (record && score > 0 ? " · Kỷ lục mới!" : "") }),
+    h("div", { class: "score", text: score.toLocaleString("vi-VN") }),
+    h("p", { class: "muted", text: "Điểm cao nhất: " + Math.max(prev, score).toLocaleString("vi-VN") + " · +" + (Math.round(score / 10) + 10) + " XP" }),
+    lines.map((l) => (typeof l === "string" ? h("p", { text: l }) : l)),
+    h("div", { class: "grid-2" },
+      h("button", { class: "btn", type: "button", text: "Chơi lại", onclick: () => startGame(id) }),
+      h("button", { class: "btn ghost", type: "button", text: "Trò khác", onclick: () => { game = null; renderCurrent(); } }))));
+}
+
+function missedList(words) {
+  if (!words.length) return null;
+  return h("div", { class: "stack", style: "gap:6px" }, h("p", { class: "eyebrow", text: "Từ cần xem lại" }),
+    words.slice(0, 8).map((w) => h("div", { class: "row" }, h("b", { class: "en", lang: "en", text: w.w }), h("span", { class: "muted", text: "· " + w.vi }), speakBtn(w.w))));
+}
+
+{
+  const renderQuiz = RENDER.practice;
+  RENDER.practice = () => {
+    const back = $("#pr-back"), modes = $("#modes");
+    back.hidden = !game;
+    modes.hidden = game !== "quiz";
+    const g = GAMES.find((x) => x.id === game);
+    $("#pr-eyebrow").textContent = g ? "Trò chơi" : "Trò chơi · " + GAMES.length + " trò";
+    $("#pr-title").textContent = g ? g.name : "Chơi mà học";
+    if (game === "quiz") { renderQuiz(); return; }
+    if (g) { g.render($("#quiz")); return; }
+    renderHub();
+  };
+  $("#pr-back").addEventListener("click", () => { if (GAMES.find((x) => x.id === game)?.stop) GAMES.find((x) => x.id === game).stop(); game = null; renderCurrent(); });
+}
+
+function renderHub() {
+  const root = $("#quiz");
+  root.replaceChildren(
+    h("p", { class: "muted", text: "Trò chơi lấy từ bạn đã học. Chưa học đủ thì lấy thêm từ chủ đề đang chọn." }),
+    h("div", { class: "games" }, GAMES.map((g) => h("button", {
+      class: "game-card", type: "button", style: "--g:" + g.color, onclick: () => startGame(g.id),
+    },
+      h("span", { class: "game-icon", html: g.icon }),
+      h("span", { class: "game-meta" },
+        h("strong", { text: g.name }),
+        h("span", { class: "small muted", text: g.desc }),
+        h("span", { class: "game-best", text: state.best[g.id] ? "Kỷ lục " + state.best[g.id].toLocaleString("vi-VN") : "Chưa chơi" }))))));
+}
+
+// ---------- Các trò chơi (phần 1) ----------
+const ICON = (d) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + "</svg>";
+
+function timerBar(total, left) {
+  return h("div", { class: "timer", "aria-label": "Còn " + Math.ceil(left) + " giây" },
+    h("i", { style: "width:" + Math.max(0, (left / total) * 100) + "%" }), h("span", { text: Math.ceil(left) + "s" }));
+}
+function hud(items) {
+  return h("div", { class: "hud" }, items.map(([k, v, cls]) => h("div", { class: "hud-item " + (cls || "") }, h("b", { text: v }), h("span", { text: k }))));
+}
+
+// 1. Trắc nghiệm (bài luyện tập cũ)
+GAMES.push({
+  id: "quiz", name: "Trắc nghiệm", desc: "10 câu: chọn nghĩa, chọn từ, nghe và viết", color: "#5b3cc4",
+  icon: ICON('<path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/>'),
+  start() { quiz = null; },
+});
+{
+  const _next = nextQuestion;
+  nextQuestion = function () {
+    _next();
+    if (quiz && quiz.i >= quiz.list.length && !quiz.counted) {
+      quiz.counted = true;
+      const score = quiz.right * 100;
+      if (score > (state.best.quiz || 0)) state.best.quiz = score;
+      const log = todayLog(); log.g = (log.g || 0) + 1;
+      gainXP(10); commit();
+      if (quiz.right === quiz.list.length) { confetti(); sfx.win(); }
+    }
+  };
+}
+
+// 2. Lật thẻ ghép đôi
+let mem = null;
+GAMES.push({
+  id: "memory", name: "Lật thẻ ghép đôi", desc: "Lật 2 thẻ, ghép từ tiếng Anh với nghĩa", color: "#e0567a",
+  icon: ICON('<rect x="3" y="4" width="8" height="11" rx="2"/><rect x="13" y="9" width="8" height="11" rx="2"/>'),
+  start() {
+    const words = shuffle(gamePool(6, isWord)).slice(0, 6);
+    const cards = shuffle(words.flatMap((w) => [{ id: w.id, side: "en", text: w.w }, { id: w.id, side: "vi", text: w.vi }]));
+    mem = { words, cards, open: [], done: new Set(), moves: 0, t0: Date.now(), lock: false };
+  },
+  render(root) {
+    root.replaceChildren(hud([["lượt lật", mem.moves], ["cặp đúng", mem.done.size + "/6"]]));
+    const grid = h("div", { class: "mem-grid" }, mem.cards.map((c, i) => {
+      const up = mem.open.includes(i) || mem.done.has(c.id);
+      return h("button", {
+        class: "mem-card" + (up ? " up" : "") + (mem.done.has(c.id) ? " matched" : ""), type: "button",
+        "aria-label": up ? c.text : "Thẻ úp",
+        onclick: () => flipMem(i),
+      }, h("span", { class: "mem-back", "aria-hidden": "true", text: "?" }), h("span", { class: "mem-front " + (c.side === "en" ? "en" : ""), lang: c.side === "en" ? "en" : null, text: c.text }));
+    }));
+    root.append(grid);
+  },
+});
+function flipMem(i) {
+  if (mem.lock || mem.open.includes(i) || mem.done.has(mem.cards[i].id)) return;
+  sfx.flip();
+  mem.open.push(i);
+  if (mem.cards[i].side === "en") speak(mem.cards[i].text);
+  if (mem.open.length === 2) {
+    mem.moves++;
+    const [a, b] = mem.open.map((k) => mem.cards[k]);
+    if (a.id === b.id) {
+      mem.done.add(a.id); mem.open = []; sfx.good(mem.done.size);
+      if (mem.done.size === 6) {
+        const sec = Math.round((Date.now() - mem.t0) / 1000);
+        renderCurrent();
+        setTimeout(() => finishGame("memory", Math.max(100, 1200 - mem.moves * 25 - sec * 5),
+          ["Hoàn thành trong " + sec + " giây với " + mem.moves + " lượt lật."]), 500);
+        return;
+      }
+    } else {
+      mem.lock = true; sfx.bad();
+      renderCurrent();
+      setTimeout(() => { mem.open = []; mem.lock = false; renderCurrent(); }, 850);
+      return;
+    }
+  }
+  renderCurrent();
+}
+
+// 3. Nối nhanh 60 giây
+let rush = null;
+GAMES.push({
+  id: "rush", name: "Nối nhanh", desc: "60 giây nối từ với nghĩa, nối liền để nhân combo", color: "#0f9d8a",
+  icon: ICON('<circle cx="6" cy="7" r="2.5"/><circle cx="18" cy="17" r="2.5"/><path d="M8.5 7h3a3 3 0 0 1 3 3v4a3 3 0 0 0 3 3"/><path d="M13 3l-2 5h4l-2 5"/>'),
+  start() {
+    const pool = shuffle(gamePool(10, isWord));
+    rush = { pool, next: 0, left: [], right: [], sel: null, score: 0, combo: 0, best: 0, total: 60, end: Date.now() + 60000, missed: [], timer: null };
+    for (let i = 0; i < 5; i++) addRushPair();
+    rush.right = shuffle(rush.right);
+    clearInterval(rush.timer);
+    rush.timer = setInterval(() => {
+      if (current !== "practice" || game !== "rush") return;
+      const t = $(".timer", $("#quiz"));
+      const left = (rush.end - Date.now()) / 1000;
+      if (left <= 0) { clearInterval(rush.timer); finishGame("rush", rush.score, ["Combo dài nhất: x" + rush.best], ); const m = missedList(rush.missed); if (m) $(".result").insertBefore(m, $(".result .grid-2")); return; }
+      if (t) t.replaceWith(timerBar(rush.total, left));
+    }, 250);
+  },
+  stop() { if (rush) clearInterval(rush.timer); },
+  render(root) {
+    const left = (rush.end - Date.now()) / 1000;
+    root.replaceChildren(timerBar(rush.total, left), hud([["điểm", rush.score], ["combo", "x" + Math.max(1, rush.combo), rush.combo >= 3 ? "hot" : ""]]));
+    const col = (items, side) => h("div", { class: "rush-col" }, items.map((w) => h("button", {
+      class: "rush-item " + (side === "en" ? "en" : "") + (rush.sel && rush.sel.side === side && rush.sel.id === w.id ? " sel" : ""),
+      type: "button", lang: side === "en" ? "en" : null, "data-id": w.id, text: side === "en" ? w.w : w.vi,
+      onclick: (e) => pickRush(side, w, e.currentTarget),
+    })));
+    root.append(h("div", { class: "rush" }, col(rush.left, "en"), col(rush.right, "vi")));
+  },
+});
+function addRushPair() {
+  const used = new Set([...rush.left, ...rush.right].map((w) => w.id));
+  let w = null;
+  for (let k = 0; k < rush.pool.length; k++) { const c = rush.pool[(rush.next + k) % rush.pool.length]; if (!used.has(c.id)) { w = c; rush.next += k + 1; break; } }
+  if (!w) return;
+  rush.left.push(w); rush.right.push(w);
+}
+function pickRush(side, w, el) {
+  if (!rush.sel || rush.sel.side === side) { rush.sel = { side, id: w.id }; if (side === "en") speak(w.w); sfx.flip(); renderCurrent(); return; }
+  if (rush.sel.id === w.id) {
+    rush.combo++; rush.best = Math.max(rush.best, rush.combo);
+    const pts = 10 * Math.min(rush.combo, 5);
+    rush.score += pts; floatText(el, "+" + pts); sfx.good(rush.combo);
+    const li = rush.left.findIndex((x) => x.id === w.id), ri = rush.right.findIndex((x) => x.id === w.id);
+    rush.left.splice(li, 1); rush.right.splice(ri, 1);
+    addRushPair();
+    const nw = rush.left[rush.left.length - 1];
+    if (nw && !rush.right.includes(nw)) rush.right.push(nw);
+    // chèn nghĩa mới vào vị trí ngẫu nhiên để không đoán theo thứ tự
+    if (nw) { rush.right.splice(rush.right.indexOf(nw), 1); rush.right.splice(Math.floor(Math.random() * (rush.right.length + 1)), 0, nw); }
+  } else {
+    rush.combo = 0; rush.end -= 3000; sfx.bad(); buzz(80);
+    const miss = WORDS[rush.sel.side === "en" ? rush.sel.id : w.id];
+    if (miss && !rush.missed.includes(miss)) rush.missed.push(miss);
+    floatText(el, "−3s", "bad");
+  }
+  rush.sel = null;
+  renderCurrent();
+}
+
+// 4. Đúng hay Sai
+let tf = null;
+GAMES.push({
+  id: "truefalse", name: "Đúng hay Sai", desc: "45 giây phản xạ: nghĩa này có đúng không?", color: "#f08c2e",
+  icon: ICON('<path d="M4 12l4 4 8-9"/><path d="M15 15l5 5M20 15l-5 5"/>'),
+  start() {
+    tf = { pool: shuffle(gamePool(10, isWord)), i: 0, score: 0, combo: 0, best: 0, right: 0, total: 45, end: Date.now() + 45000, missed: [], q: null, timer: null };
+    nextTF();
+    clearInterval(tf.timer);
+    tf.timer = setInterval(() => {
+      if (current !== "practice" || game !== "truefalse") return;
+      const left = (tf.end - Date.now()) / 1000;
+      if (left <= 0) { clearInterval(tf.timer); endTF(); return; }
+      const t = $(".timer", $("#quiz")); if (t) t.replaceWith(timerBar(tf.total, left));
+    }, 250);
+  },
+  stop() { if (tf) clearInterval(tf.timer); },
+  render(root) {
+    const q = tf.q;
+    root.replaceChildren(timerBar(tf.total, (tf.end - Date.now()) / 1000),
+      hud([["điểm", tf.score], ["đúng", tf.right], ["combo", "x" + Math.max(1, tf.combo), tf.combo >= 3 ? "hot" : ""]]),
+      h("div", { class: "sheet tf-card pop" },
+        h("div", { class: "row" }, h("span", { class: "headword en", lang: "en", text: q.w.w }), speakBtn(q.w.w)),
+        h("p", { class: "tf-eq", text: "nghĩa là" }),
+        h("p", { class: "meaning", text: q.shown })),
+      h("div", { class: "tf-btns" },
+        h("button", { class: "tf-no", type: "button", onclick: (e) => answerTF(false, e.currentTarget) }, "✗ Sai", h("small", { text: "phím ←" })),
+        h("button", { class: "tf-yes", type: "button", onclick: (e) => answerTF(true, e.currentTarget) }, "✓ Đúng", h("small", { text: "phím →" }))));
+  },
+});
+function nextTF() {
+  const w = tf.pool[tf.i++ % tf.pool.length];
+  const truth = Math.random() < 0.5;
+  let shown = w.vi;
+  if (!truth) { const o = shuffle(Object.values(WORDS).filter((x) => x.vi !== w.vi && x.p === w.p))[0] || shuffle(Object.values(WORDS))[0]; shown = o.vi; }
+  tf.q = { w, truth, shown };
+}
+function answerTF(yes, el) {
+  if (!tf || !tf.q) return;
+  const ok = yes === tf.q.truth;
+  if (ok) { tf.combo++; tf.right++; tf.best = Math.max(tf.best, tf.combo); const p = 10 * Math.min(tf.combo, 5); tf.score += p; floatText(el, "+" + p); sfx.good(tf.combo); }
+  else { tf.combo = 0; sfx.bad(); buzz(80); shake($(".tf-card")); if (!tf.missed.includes(tf.q.w)) tf.missed.push(tf.q.w); floatText(el, tf.q.truth ? "Đúng mà!" : "Sai mà!", "bad"); }
+  nextTF();
+  setTimeout(renderCurrent, ok ? 0 : 350);
+}
+function endTF() {
+  finishGame("truefalse", tf.score, ["Trả lời đúng " + tf.right + " câu, combo dài nhất x" + tf.best + "."]);
+  const m = missedList(tf.missed); if (m) $(".result").insertBefore(m, $(".result .grid-2"));
+  tf.q = null;
+}
+document.addEventListener("keydown", (e) => {
+  if (current !== "practice" || game !== "truefalse" || !tf || !tf.q) return;
+  if (e.key === "ArrowLeft") answerTF(false, $(".tf-no"));
+  if (e.key === "ArrowRight") answerTF(true, $(".tf-yes"));
+});
+
+// ---------- Các trò chơi (phần 2) ----------
+
+// 5. Mưa từ
+let rain = null;
+GAMES.push({
+  id: "rain", name: "Mưa từ", desc: "Chạm đúng từ đang rơi trước khi chạm đất", color: "#3b7de0",
+  icon: ICON('<path d="M7 14a4 4 0 0 1 .5-8 5.5 5.5 0 0 1 10.5 1.5A3.5 3.5 0 0 1 17.5 14"/><path d="M8 17l-1 3M12 16l-1 4M16 17l-1 3"/>'),
+  start() {
+    const pool = shuffle(gamePool(10, (w) => isWord(w) && w.w.length <= 16));
+    rain = { pool, pi: 0, target: null, drops: [], lives: 3, score: 0, combo: 0, right: 0, speed: 42, gap: 1300, last: 0, since: 0, missed: [], raf: 0, prev: 0, over: false };
+    newRainTarget();
+    cancelAnimationFrame(rain.raf);
+    rain.raf = requestAnimationFrame(rainLoop);
+  },
+  stop() { if (rain) { rain.over = true; cancelAnimationFrame(rain.raf); } },
+  render(root) {
+    const arena = h("div", { class: "arena", "aria-label": "Khu vực từ rơi" }, rain.drops.map((d) => d.el));
+    rain.arena = arena;
+    root.replaceChildren(
+      hud([["điểm", rain.score], ["mạng", "♥".repeat(rain.lives) + "♡".repeat(3 - rain.lives), "lives"], ["combo", "x" + Math.max(1, rain.combo), rain.combo >= 3 ? "hot" : ""]]),
+      h("div", { class: "rain-target" }, h("span", { class: "small muted", text: "Tìm từ có nghĩa:" }), h("b", { text: rain.target.vi })),
+      arena);
+  },
+});
+function newRainTarget() {
+  rain.target = rain.pool[rain.pi++ % rain.pool.length];
+  rain.since = 0;
+}
+function spawnDrop() {
+  const onScreen = rain.drops.some((d) => d.w.id === rain.target.id);
+  let w;
+  if (!onScreen && (rain.since >= 2 || Math.random() < 0.4)) w = rain.target;
+  else w = shuffle(rain.pool.filter((x) => x.id !== rain.target.id))[0];
+  rain.since++;
+  const d = { w, y: -40, x: 4 + Math.random() * 62 };
+  d.el = h("button", { class: "drop en", type: "button", lang: "en", text: w.w, style: "left:" + d.x + "%;transform:translateY(-40px)", onclick: () => hitDrop(d) });
+  rain.drops.push(d);
+  if (rain.arena) rain.arena.append(d.el);
+}
+function rainLoop(t) {
+  if (!rain || rain.over) return;
+  if (current !== "practice" || game !== "rain") { rain.prev = 0; rain.raf = requestAnimationFrame(rainLoop); return; }
+  const dt = rain.prev ? Math.min(0.05, (t - rain.prev) / 1000) : 0;
+  rain.prev = t;
+  if (t - rain.last > rain.gap) { rain.last = t; spawnDrop(); }
+  const H = rain.arena ? rain.arena.clientHeight : 380;
+  for (const d of rain.drops.slice()) {
+    d.y += rain.speed * dt;
+    d.el.style.transform = "translateY(" + d.y + "px)";
+    if (d.y > H - 36) {
+      d.el.remove(); rain.drops.splice(rain.drops.indexOf(d), 1);
+      if (d.w.id === rain.target.id) { loseRainLife(d.w); newRainTarget(); renderCurrent(); if (rain.over) return; }
+    }
+  }
+  rain.raf = requestAnimationFrame(rainLoop);
+}
+function hitDrop(d) {
+  if (rain.over) return;
+  if (d.w.id === rain.target.id) {
+    rain.combo++; rain.right++;
+    const p = 10 * Math.min(rain.combo, 5);
+    rain.score += p; floatText(d.el, "+" + p); sfx.good(rain.combo); speak(d.w.w);
+    rain.speed = Math.min(130, rain.speed * 1.05); rain.gap = Math.max(650, rain.gap * 0.97);
+    d.el.remove(); rain.drops.splice(rain.drops.indexOf(d), 1);
+    newRainTarget();
+  } else {
+    floatText(d.el, "Sai rồi", "bad"); d.el.remove(); rain.drops.splice(rain.drops.indexOf(d), 1);
+    loseRainLife(rain.target);
+  }
+  if (!rain.over) renderCurrent();
+}
+function loseRainLife(w) {
+  rain.combo = 0; rain.lives--; sfx.bad(); buzz(100);
+  if (!rain.missed.includes(w)) rain.missed.push(w);
+  if (rain.arena) shake(rain.arena);
+  if (rain.lives <= 0) {
+    rain.over = true; cancelAnimationFrame(rain.raf);
+    finishGame("rain", rain.score, ["Bắt đúng " + rain.right + " từ."]);
+    const m = missedList(rain.missed); if (m) $(".result").insertBefore(m, $(".result .grid-2"));
+  }
+}
+
+// 6. Xếp chữ
+let scr = null;
+GAMES.push({
+  id: "scramble", name: "Xếp chữ", desc: "Sắp lại các chữ cái cho đúng từ", color: "#8b5cf6",
+  icon: ICON('<rect x="3" y="8" width="5" height="8" rx="1.5"/><rect x="9.5" y="8" width="5" height="8" rx="1.5"/><rect x="16" y="8" width="5" height="8" rx="1.5"/><path d="M5.5 5l4-2M18.5 19l-4 2"/>'),
+  start() {
+    const list = shuffle(gamePool(8, (w) => /^[a-z]{3,10}$/i.test(w.w))).slice(0, 8);
+    scr = { list, i: 0, score: 0, missed: [], right: 0 };
+    setupScramble();
+  },
+  render(root) {
+    const w = scr.list[scr.i];
+    const word = w.w.toLowerCase();
+    const slots = h("div", { class: "slots" + (scr.state ? " " + scr.state : "") }, word.split("").map((_, k) => {
+      const ti = scr.placed[k];
+      return h("button", { class: "slot en" + (ti != null ? " filled" : ""), type: "button", text: ti != null ? scr.tiles[ti] : "", disabled: scr.state === "ok",
+        onclick: () => { if (ti == null || scr.state) return; scr.placed = scr.placed.slice(0, k); sfx.flip(); renderCurrent(); } });
+    }));
+    const tiles = h("div", { class: "tiles" }, scr.tiles.map((ch, ti) => h("button", {
+      class: "tile en", type: "button", text: ch, disabled: scr.placed.includes(ti) || !!scr.state,
+      onclick: () => placeTile(ti),
+    })));
+    root.replaceChildren(
+      hud([["câu", (scr.i + 1) + "/" + scr.list.length], ["điểm", scr.score], ["gợi ý", scr.hints]]),
+      h("div", { class: "sheet stack pop", style: "align-items:center;text-align:center" },
+        h("p", { class: "muted", text: "Xếp lại thành từ có nghĩa:" }),
+        h("div", { class: "row", style: "justify-content:center" }, h("p", { class: "meaning", text: w.vi }), speakBtn(w.w)),
+        slots, tiles,
+        scr.state === "ok" ? h("p", { class: "feedback ok", text: "Chính xác! " + w.w + " /" + w.ipa + "/" }) : null,
+        scr.state === "skip" ? h("p", { class: "feedback no", text: "Đáp án: " + w.w }) : null),
+      scr.state
+        ? h("button", { class: "btn block", type: "button", text: scr.i + 1 < scr.list.length ? "Từ tiếp theo" : "Xem kết quả", onclick: nextScramble })
+        : h("div", { class: "grid-2" },
+            h("button", { class: "btn ghost", type: "button", text: "Gợi ý 1 chữ", onclick: hintScramble }),
+            h("button", { class: "btn ghost", type: "button", text: "Bỏ qua", onclick: () => { scr.state = "skip"; scr.missed.push(w); sfx.bad(); renderCurrent(); } })));
+  },
+});
+function setupScramble() {
+  const word = scr.list[scr.i].w.toLowerCase();
+  let tiles = word.split("");
+  for (let k = 0; k < 6 && tiles.join("") === word; k++) tiles = shuffle(tiles);
+  Object.assign(scr, { tiles, placed: [], hints: 0, state: null });
+}
+function placeTile(ti) {
+  const word = scr.list[scr.i].w.toLowerCase();
+  scr.placed.push(ti); sfx.flip();
+  if (scr.placed.length === word.length) {
+    const guess = scr.placed.map((k) => scr.tiles[k]).join("");
+    if (guess === word) {
+      scr.state = "ok"; scr.right++;
+      const p = Math.max(20, 100 - scr.hints * 30); scr.score += p;
+      sfx.good(scr.right); speak(scr.list[scr.i].w);
+    } else {
+      sfx.bad(); buzz(80);
+      renderCurrent(); shake($(".slots"));
+      setTimeout(() => { scr.placed = []; renderCurrent(); }, 600);
+      return;
+    }
+  }
+  renderCurrent();
+}
+function hintScramble() {
+  const word = scr.list[scr.i].w.toLowerCase();
+  let k = 0;
+  while (k < scr.placed.length && scr.tiles[scr.placed[k]] === word[k]) k++;
+  scr.placed = scr.placed.slice(0, k);
+  if (k >= word.length) return;
+  const ti = scr.tiles.findIndex((ch, idx) => ch === word[k] && !scr.placed.includes(idx));
+  scr.hints++;
+  if (ti >= 0) placeTile(ti); else renderCurrent();
+}
+function nextScramble() {
+  scr.i++;
+  if (scr.i >= scr.list.length) {
+    finishGame("scramble", scr.score, ["Xếp đúng " + scr.right + "/" + scr.list.length + " từ."]);
+    const m = missedList(scr.missed); if (m) $(".result").insertBefore(m, $(".result .grid-2"));
+    return;
+  }
+  setupScramble(); renderCurrent();
+}
+
+// 7. Xếp câu
+let sb = null;
+GAMES.push({
+  id: "builder", name: "Xếp câu", desc: "Ghép các mảnh thành câu tiếng Anh hoàn chỉnh", color: "#16a34a",
+  icon: ICON('<rect x="3" y="5" width="7" height="5" rx="1.5"/><rect x="12" y="5" width="9" height="5" rx="1.5"/><rect x="3" y="14" width="10" height="5" rx="1.5"/><path d="M16 16.5h5M18.5 14v5"/>'),
+  start() {
+    const src = gamePool(12, () => true);
+    const items = [];
+    for (const w of shuffle(src)) {
+      const en = w.p === "s" ? w.w : w.ex, vi = w.p === "s" ? w.vi : w.exVi;
+      if (!en || !vi || /\bA:/.test(en)) continue;
+      const n = en.split(/\s+/).length;
+      if (n >= 3 && n <= 11) items.push({ en, vi });
+      if (items.length === 6) break;
+    }
+    sb = { items, i: 0, score: 0, right: 0, wrong: [] };
+    setupBuilder();
+  },
+  render(root) {
+    const it = sb.items[sb.i];
+    root.replaceChildren(
+      hud([["câu", (sb.i + 1) + "/" + sb.items.length], ["điểm", sb.score]]),
+      h("div", { class: "sheet stack pop" },
+        h("p", { class: "muted", text: "Dịch sang tiếng Anh bằng cách xếp các mảnh:" }),
+        h("p", { class: "meaning", style: "font-size:19px", text: it.vi }),
+        h("div", { class: "answer-line" + (sb.state ? " " + sb.state : "") }, sb.answer.map((ci, k) => h("button", {
+          class: "chip-word en", type: "button", text: sb.chips[ci], disabled: !!sb.state,
+          onclick: () => { sb.answer.splice(k, 1); sfx.flip(); renderCurrent(); } }))),
+        h("div", { class: "chip-bank" }, sb.chips.map((c, ci) => h("button", {
+          class: "chip-word en", type: "button", text: c, disabled: sb.answer.includes(ci) || !!sb.state,
+          onclick: () => { sb.answer.push(ci); sfx.flip(); renderCurrent(); } }))),
+        sb.state === "ok" ? h("p", { class: "feedback ok", text: "Chính xác!" }) : null,
+        sb.state === "no" ? h("div", { class: "stack", style: "gap:4px" }, h("p", { class: "feedback no", text: "Chưa đúng. Câu đúng là:" }),
+          h("div", { class: "row", style: "flex-wrap:nowrap;justify-content:space-between" }, h("p", { class: "fix", lang: "en", text: it.en }), speakBtn(it.en))) : null),
+      sb.state
+        ? h("button", { class: "btn block", type: "button", text: sb.i + 1 < sb.items.length ? "Câu tiếp theo" : "Xem kết quả", onclick: nextBuilder })
+        : h("div", { class: "grid-2" },
+            h("button", { class: "btn ghost", type: "button", text: "Xóa hết", onclick: () => { sb.answer = []; renderCurrent(); } }),
+            h("button", { class: "btn", type: "button", text: "Kiểm tra", disabled: sb.answer.length !== sb.chips.length, onclick: checkBuilder })));
+  },
+});
+function setupBuilder() {
+  const toks = sb.items[sb.i].en.split(/\s+/);
+  let order = toks.map((_, i) => i);
+  for (let k = 0; k < 6 && order.every((v, i) => v === i); k++) order = shuffle(order);
+  Object.assign(sb, { chips: order.map((i) => toks[i]), answer: [], state: null });
+}
+function checkBuilder() {
+  const it = sb.items[sb.i];
+  const guess = sb.answer.map((ci) => sb.chips[ci]).join(" ");
+  if (guess === it.en) { sb.state = "ok"; sb.right++; sb.score += 150; sfx.good(sb.right); }
+  else { sb.state = "no"; sb.wrong.push(it); sfx.bad(); buzz(80); }
+  speak(it.en);
+  renderCurrent();
+}
+function nextBuilder() {
+  sb.i++;
+  if (sb.i >= sb.items.length) {
+    finishGame("builder", sb.score, ["Xếp đúng " + sb.right + "/" + sb.items.length + " câu."]);
+    return;
+  }
+  setupBuilder(); renderCurrent();
 }
 
 // ---------- AI: chấm câu & điền từ tự động ----------
