@@ -398,6 +398,87 @@ details.settings[open] summary { margin-bottom: 14px; }
 .result .score { font-size: 56px; background: linear-gradient(90deg, var(--accent), #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
 #quiz { display: flex; flex-direction: column; gap: 12px; }
+
+/* ---------- Chuyển cảnh ---------- */
+main > section:not([hidden]) { animation: viewIn .32s cubic-bezier(.2, .8, .2, 1); }
+@keyframes viewIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.hero { background-size: 200% 200%; animation: heroShift 12s ease-in-out infinite alternate; background-image: linear-gradient(135deg, #4b2fb3 0%, #6d46e0 40%, #9b5cf0 70%, #d9468f 100%); }
+@keyframes heroShift { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
+
+/* ---------- Từ của ngày ---------- */
+.wotd { position: relative; border-radius: 20px; padding: 18px 18px 16px 44px; background-color: var(--card); border: 1px solid var(--rule); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; gap: 6px;
+  background-image: linear-gradient(to right, transparent 30px, var(--margin) 30px, var(--margin) 31.5px, transparent 31.5px), repeating-linear-gradient(to bottom, transparent 0 23px, var(--rule) 23px 24px); }
+.wotd-top { display: flex; justify-content: space-between; align-items: center; }
+.wotd-word { font-size: 34px; font-weight: 700; line-height: 1.1; }
+.wotd-ex { font-style: italic; font-size: 17px; }
+
+/* ---------- Huy hiệu ---------- */
+.badges { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 10px; }
+.badge-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; padding: 10px 4px; border-radius: 14px; opacity: .45; filter: grayscale(1); }
+.badge-item.got { opacity: 1; filter: none; background: var(--warn-soft); }
+.badge-medal { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 15px; color: #fff;
+  background: radial-gradient(circle at 30% 30%, #ffe08a, #e9a21b 60%, #b7700f); box-shadow: 0 3px 0 #9a5d0c, inset 0 0 0 3px rgba(255,255,255,.35); }
+.badge-name { font-size: 12px; font-weight: 700; }
+.badge-desc { font-size: 10.5px; color: var(--muted); line-height: 1.3; }
+
+/* ---------- Hành trình ---------- */
+.journey { display: flex; flex-direction: column; align-items: center; gap: 6px; padding-block: 8px; position: relative; }
+.j-step { display: flex; flex-direction: column; align-items: center; gap: 6px; transform: translateX(var(--x)); position: relative; }
+.j-step + .j-step::before { content: ""; position: absolute; top: -14px; left: 50%; width: 6px; height: 14px; border-radius: 3px; background: var(--rule-strong); transform: translateX(-50%); }
+.j-node { width: 76px; height: 76px; border-radius: 50%; border: 0; padding: 7px; cursor: pointer; position: relative;
+  background: conic-gradient(var(--good) var(--p), var(--rule) 0); box-shadow: 0 6px 0 var(--rule-strong); transition: transform .15s ease; }
+.j-node:active { transform: translateY(4px); box-shadow: 0 2px 0 var(--rule-strong); }
+.j-core { width: 100%; height: 100%; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 22px; background: var(--card); color: var(--muted); }
+.j-step.going .j-core { color: var(--accent); }
+.j-step.done .j-node { background: conic-gradient(#e9a21b 360deg, #e9a21b 0); box-shadow: 0 6px 0 #b7700f; }
+.j-step.done .j-core { background: radial-gradient(circle at 30% 30%, #ffe08a, #e9a21b); color: #fff; }
+.j-step.sel .j-node { box-shadow: 0 6px 0 var(--accent), 0 0 0 6px var(--accent-soft); animation: bob 1.6s ease-in-out infinite; }
+.j-step.sel .j-core { background: var(--accent); color: #fff; }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+.j-label { font-size: 12.5px; font-weight: 600; max-width: 130px; text-align: center; line-height: 1.3; margin-bottom: 10px; }
+.j-card { display: flex; flex-direction: column; gap: 8px; width: min(280px, 80vw); padding: 14px; border-radius: 16px; background: var(--card); border: 1px solid var(--accent); box-shadow: var(--shadow); margin-bottom: 14px; }
+
+/* ---------- Thẻ ôn tập lật & vuốt ---------- */
+.flip-in { animation: flipIn .45s cubic-bezier(.2, .8, .2, 1); }
+@keyframes flipIn { from { transform: perspective(900px) rotateY(-90deg); opacity: .4; } to { transform: perspective(900px) rotateY(0); opacity: 1; } }
+.swipeable { touch-action: pan-y; cursor: grab; transition: transform .25s ease, box-shadow .2s; user-select: none; }
+.swipeable[data-dir="good"] { box-shadow: 0 0 0 3px var(--good), var(--shadow); }
+.swipeable[data-dir="again"] { box-shadow: 0 0 0 3px var(--margin), var(--shadow); }
+.swipe-hint { text-align: center; }
+@media (hover: hover) { .swipe-hint { display: none; } }
+
+/* ---------- AI: chọn chế độ & trò chuyện ---------- */
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border-radius: 12px; background: var(--accent-soft); }
+.seg button { border: 0; border-radius: 9px; padding: 9px; font-weight: 600; background: transparent; color: var(--muted); cursor: pointer; }
+.seg button[aria-selected="true"] { background: var(--card); color: var(--accent); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+#chat { display: flex; flex-direction: column; gap: 12px; }
+.scenarios { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.scenario { text-align: left; display: flex; flex-direction: column; gap: 4px; padding: 14px; border-radius: 16px; border: 1px solid var(--rule); background: var(--card); cursor: pointer; transition: transform .12s, box-shadow .2s, border-color .2s; }
+.scenario:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--accent); }
+.scenario-open { font-style: italic; color: var(--accent); margin-top: 4px; }
+.chat-list { display: flex; flex-direction: column; gap: 12px; max-height: 58vh; overflow-y: auto; padding: 12px; border-radius: 16px; border: 1px solid var(--rule);
+  background-color: var(--card); background-image: repeating-linear-gradient(to bottom, transparent 0 23px, color-mix(in srgb, var(--rule) 60%, transparent) 23px 24px); }
+.msg { display: flex; gap: 8px; align-items: flex-end; max-width: 88%; }
+.msg.ai { align-self: flex-start; }
+.msg.me { align-self: flex-end; flex-direction: column; align-items: flex-end; }
+.avatar { width: 32px; height: 32px; border-radius: 50%; flex: none; display: grid; place-items: center; font-size: 11px; font-weight: 800; color: #fff; background: linear-gradient(145deg, #8a5cf0, #4b2fb3); }
+.bubble { padding: 10px 14px; border-radius: 18px; font-size: 17px; }
+.msg.ai .bubble { background: var(--accent-soft); border-bottom-left-radius: 6px; }
+.msg.me .bubble { background: var(--accent); color: var(--accent-ink); border-bottom-right-radius: 6px; }
+.bubble-vi { font-size: 14px; color: var(--muted); margin-top: 4px; }
+.bubble-tools { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.bubble-tools .icon-btn { width: 32px; height: 32px; }
+.link-btn { border: 0; background: none; color: var(--accent); font-weight: 600; font-size: 13px; cursor: pointer; padding: 0; }
+.fixbox { font-size: 14px; padding: 8px 12px; border-radius: 12px; max-width: 100%; }
+.fixbox.ok { background: var(--good-soft); color: var(--good); }
+.fixbox.no { background: var(--warn-soft); color: var(--ink); border: 1px solid color-mix(in srgb, var(--warn) 40%, transparent); }
+.fixbox .en { font-size: 16px; font-weight: 700; }
+.sugg { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.chat-compose { display: flex; gap: 8px; align-items: flex-end; }
+.chat-input { min-height: 52px; flex: 1; }
+.badges { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 6px; scroll-snap-type: x proximity; }
+.badge-item { flex: 0 0 96px; scroll-snap-align: start; }
+@media (max-width: 420px) { .j-step { transform: translateX(calc(var(--x) * .7)); } }
 </style>
 </head>
 <body>
@@ -418,7 +499,9 @@ details.settings[open] summary { margin-bottom: 14px; }
         <h2 id="today-title">Hôm nay mình học gì?</h2>
       </div>
       <div class="hero" id="hero"></div>
+      <div id="wotd"></div>
       <div class="panel stack" id="quests"></div>
+      <div class="panel stack" id="badges"></div>
       <div class="stats">
         <div class="stat"><b id="st-learned">0</b><span>từ đang học</span></div>
         <div class="stat"><b id="st-due">0</b><span>từ cần ôn</span></div>
@@ -434,8 +517,8 @@ details.settings[open] summary { margin-bottom: 14px; }
         <p class="small muted" id="learn-hint"></p>
       </div>
       <div class="stack">
-        <div class="spread"><h3>Chủ đề</h3><span class="small muted">Chọn chủ đề cho lượt học tới</span></div>
-        <div class="topics" id="topics"></div>
+        <div class="spread"><h3>Hành trình 25 chặng</h3><span class="small muted" id="journey-sum"></span></div>
+        <div class="journey" id="topics"></div>
       </div>
       <details class="panel settings" id="settings">
         <summary>Cài đặt <span class="muted small">Mở</span></summary>
@@ -537,6 +620,8 @@ details.settings[open] summary { margin-bottom: 14px; }
         <h2>Tự đặt câu, AI sửa và giải thích</h2>
         <p class="muted">Viết một câu tiếng Anh có dùng từ bên dưới. AI chỉ ra lỗi sai, đưa câu đúng và giải thích bằng tiếng Việt.</p>
       </div>
+      <div class="seg" role="tablist" id="ai-seg"><button type="button" role="tab" data-mode="chat" aria-selected="true">Trò chuyện</button><button type="button" role="tab" data-mode="write" aria-selected="false">Viết câu</button></div>
+      <div id="chat"></div>
       <p class="notice" id="ai-off" hidden>Phần AI chỉ chạy khi bạn mở trang này trên claude.ai và đã đăng nhập. Các phần còn lại vẫn dùng bình thường.</p>
       <form class="panel stack" id="ai-form" autocomplete="off">
         <div class="spread">
@@ -575,7 +660,7 @@ details.settings[open] summary { margin-bottom: 14px; }
     </button>
     <button class="tab" type="button" data-view="ai">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.9L19 9.7l-5.2 1.8L12 16.5l-1.8-5L5 9.7l5.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
-      Viết câu
+      Nói với AI
     </button>
   </div>
 </nav>
@@ -3148,6 +3233,148 @@ function nextBuilder() {
   setupBuilder(); renderCurrent();
 }
 
+// ---------- Hành trình, từ của ngày, huy hiệu, thẻ vuốt ----------
+
+// Từ của ngày: cố định theo ngày
+function wordOfDay() {
+  const list = Object.values(WORDS).filter((w) => w.p !== "s" && w.topic !== "mine" && w.ex);
+  const k = dayKey();
+  let hsh = 0;
+  for (const ch of k) hsh = (hsh * 31 + ch.charCodeAt(0)) >>> 0;
+  return list[hsh % list.length];
+}
+
+const BADGES = [
+  { id: "first", name: "Khởi đầu", desc: "Học từ đầu tiên", icon: "✦", test: (s) => s.words >= 1 },
+  { id: "w50", name: "50 từ", desc: "Học 50 từ", icon: "50", test: (s) => s.words >= 50 },
+  { id: "w200", name: "200 từ", desc: "Học 200 từ", icon: "200", test: (s) => s.words >= 200 },
+  { id: "w500", name: "Nửa nghìn", desc: "Học 500 từ", icon: "500", test: (s) => s.words >= 500 },
+  { id: "known20", name: "Trí nhớ tốt", desc: "Thuộc 20 từ", icon: "★", test: (s) => s.known >= 20 },
+  { id: "s3", name: "Lửa nhỏ", desc: "Học 3 ngày liền", icon: "3🔥", test: (s) => s.streak >= 3 },
+  { id: "s7", name: "Một tuần", desc: "Học 7 ngày liền", icon: "7🔥", test: (s) => s.streak >= 7 },
+  { id: "s30", name: "Bền bỉ", desc: "Học 30 ngày liền", icon: "30", test: (s) => s.streak >= 30 },
+  { id: "lv5", name: "Cấp 5", desc: "Đạt cấp 5", icon: "Lv5", test: (s) => s.level >= 5 },
+  { id: "games", name: "Game thủ", desc: "Có kỷ lục ở 7 trò chơi", icon: "🎮", test: (s) => s.games >= 7 },
+  { id: "topic", name: "Về đích", desc: "Học hết một chặng", icon: "⚑", test: (s) => s.topicsDone >= 1 },
+  { id: "chat", name: "Mạnh dạn", desc: "Trò chuyện với AI 10 lượt", icon: "💬", test: (s) => s.chats >= 10 },
+];
+function badgeStats() {
+  return {
+    words: Object.keys(state.cards).length,
+    known: counts().known,
+    streak: streak(),
+    level: levelInfo().level,
+    games: Object.keys(state.best).length,
+    topicsDone: TOPICS.filter((t) => t.words.every(([w]) => state.cards[w])).length,
+    chats: state.chats || 0,
+  };
+}
+function checkBadges() {
+  state.badges = state.badges || {};
+  const s = badgeStats();
+  for (const b of BADGES) {
+    if (!state.badges[b.id] && b.test(s)) {
+      state.badges[b.id] = dayKey();
+      setTimeout(() => { toast("Huy hiệu mới: " + b.name + " · " + b.desc); confetti(); sfx.win(); }, 600);
+    }
+  }
+}
+{
+  const _commit = commit;
+  commit = function () { checkBadges(); _commit(); };
+}
+
+{
+  const _today = RENDER.today;
+  RENDER.today = () => {
+    _today();
+    // Từ của ngày
+    const w = wordOfDay();
+    const has = !!state.cards[w.id];
+    $("#wotd").replaceChildren(h("article", { class: "wotd" },
+      h("div", { class: "wotd-top" }, h("span", { class: "eyebrow", text: "Từ của ngày" }), h("span", { class: "pos", text: POS_VI[w.p] })),
+      h("div", { class: "row", style: "flex-wrap:nowrap" }, h("span", { class: "wotd-word en", lang: "en", text: w.w }), speakBtn(w.w)),
+      h("div", { class: "ipa", text: "/" + w.ipa + "/ · " + w.vi }),
+      h("p", { class: "en wotd-ex", lang: "en", text: w.ex }),
+      h("div", { class: "row" },
+        has ? h("span", { class: "pill known", text: "Đã có trong lịch ôn" })
+          : h("button", { class: "btn sm", type: "button", text: "+ Thêm vào lịch ôn", onclick: () => { addCard(w.id, false); todayLog().n++; commit(); sfx.good(); RENDER.today(); renderChrome(); } }))));
+
+    // Huy hiệu
+    const got = state.badges || {};
+    $("#badges").replaceChildren(
+      h("div", { class: "spread" }, h("h3", { text: "Huy hiệu" }), h("span", { class: "small muted", text: Object.keys(got).length + "/" + BADGES.length })),
+      h("div", { class: "badges" }, BADGES.map((b) => h("div", { class: "badge-item" + (got[b.id] ? " got" : ""), title: b.desc },
+        h("span", { class: "badge-medal", text: b.icon }), h("span", { class: "badge-name", text: b.name }), h("span", { class: "badge-desc", text: b.desc })))));
+
+    // Hành trình
+    const root = $("#topics");
+    root.className = "journey";
+    root.replaceChildren();
+    let done = 0;
+    TOPICS.forEach((t, i) => {
+      const total = t.words.length;
+      const learned = t.words.filter(([ww]) => state.cards[ww]).length;
+      const pct = total ? learned / total : 0;
+      if (learned === total) done++;
+      const sel = t.id === state.topic;
+      const offset = Math.round(Math.sin(i * 0.9) * 80);
+      const node = h("div", { class: "j-step" + (sel ? " sel" : "") + (learned === total ? " done" : "") + (learned > 0 && learned < total ? " going" : ""), style: "--x:" + offset + "px" },
+        h("button", { class: "j-node", type: "button", "aria-pressed": String(sel), "aria-label": t.name + ", " + learned + "/" + total + " từ", style: "--p:" + pct * 360 + "deg",
+          onclick: () => { state.topic = t.id; commit(); sfx.flip(); RENDER.today(); $(".j-step.sel")?.scrollIntoView({ block: "center", behavior: "smooth" }); } },
+          h("span", { class: "j-core", text: learned === total ? "✓" : String(i + 1) })),
+        h("span", { class: "j-label", text: t.name }));
+      if (sel) {
+        const left = total - learned;
+        node.append(h("div", { class: "j-card pop" },
+          h("strong", { text: t.name }),
+          h("span", { class: "small muted", text: learned + "/" + total + " từ đã học" + (t.words[0] && t.words[0][1] === "s" ? " · câu giao tiếp" : "") }),
+          h("div", { class: "mini-bar" }, h("i", { style: "width:" + pct * 100 + "%" })),
+          h("button", { class: "btn sm", type: "button", disabled: !left, text: left ? "Học " + Math.min(5, left) + " từ" : "Đã học hết", onclick: startLearn })));
+      }
+      root.append(node);
+    });
+    $("#journey-sum").textContent = done + "/" + TOPICS.length + " chặng hoàn thành";
+  };
+}
+
+// Thẻ ôn tập: lật 3D và vuốt để chấm
+{
+  const _review = RENDER.review;
+  RENDER.review = () => {
+    _review();
+    const sheet = $("#view-review .sheet");
+    if (!review || !review.queue.length || !sheet) return;
+    if (review.flipped) {
+      if (review.justFlipped) { sheet.classList.add("flip-in"); review.justFlipped = false; }
+      sheet.classList.add("swipeable");
+      sheet.append(h("div", { class: "swipe-hint small muted", text: "← vuốt trái: Quên · vuốt phải: Nhớ →" }));
+      let x0 = null, dx = 0;
+      sheet.addEventListener("pointerdown", (e) => { if (e.target.closest("button")) return; x0 = e.clientX; dx = 0; sheet.setPointerCapture(e.pointerId); sheet.style.transition = "none"; });
+      sheet.addEventListener("pointermove", (e) => {
+        if (x0 == null) return;
+        dx = e.clientX - x0;
+        sheet.style.transform = "translateX(" + dx + "px) rotate(" + dx / 18 + "deg)";
+        sheet.dataset.dir = dx > 40 ? "good" : dx < -40 ? "again" : "";
+      });
+      const end = () => {
+        if (x0 == null) return;
+        x0 = null; sheet.style.transition = "";
+        if (Math.abs(dx) > 90) {
+          const g = dx > 0 ? "good" : "again";
+          sheet.style.transform = "translateX(" + (dx > 0 ? 600 : -600) + "px) rotate(" + (dx > 0 ? 25 : -25) + "deg)";
+          g === "good" ? sfx.good() : sfx.bad();
+          setTimeout(() => rate(g), 180);
+        } else { sheet.style.transform = ""; sheet.dataset.dir = ""; }
+      };
+      sheet.addEventListener("pointerup", end);
+      sheet.addEventListener("pointercancel", end);
+    } else {
+      sheet.addEventListener("click", (e) => { if (e.target.closest(".hidden-side")) { review.justFlipped = true; sfx.flip(); } }, { capture: true });
+    }
+  };
+}
+
 // ---------- AI: chấm câu & điền từ tự động ----------
 let ai = { fn: null, ready: "pending", ctl: null };
 let aiWordId = null;
@@ -3167,6 +3394,7 @@ function aiOff(msg) {
   off.hidden = false;
   $("#ai-check").disabled = true;
   $("#f-ai").hidden = true;
+  if (current === "ai" && typeof renderChat === "function") renderChat();
 }
 
 function aiErrorText(e) {
@@ -3341,6 +3569,133 @@ const startView = ["today", "review", "practice", "words", "ai"].includes(locati
 show(startView);
 initCloud();
 initAI();
+
+// ---------- Trò chuyện nhập vai với AI ----------
+const SCENARIOS = [
+  { id: "cafe", title: "Gọi đồ ở quán cà phê", vi: "Bạn là khách, AI là nhân viên pha chế", role: "a friendly barista at a coffee shop", open: "Hi there! What can I get for you today?", sugg: ["Can I have an iced latte, please?", "What do you recommend?"] },
+  { id: "friend", title: "Làm quen bạn mới", vi: "AI là Sam, bạn mới chuyển đến từ Canada", role: "Sam, a friendly Canadian who just moved to Vietnam", open: "Hey! I'm Sam. I just moved here from Canada. Are you from around here?", sugg: ["Yes, I grew up here. Nice to meet you!", "No, I'm from Da Nang. How do you like it here?"] },
+  { id: "directions", title: "Hỏi đường", vi: "Bạn bị lạc ở London, AI là người dân địa phương", role: "a helpful local in London", open: "Excuse me, you look a bit lost. Can I help you?", sugg: ["Yes, please. How do I get to the station?", "I'm looking for the British Museum."] },
+  { id: "hotel", title: "Nhận phòng khách sạn", vi: "AI là lễ tân khách sạn", role: "a hotel receptionist", open: "Good evening, and welcome to the Riverside Hotel. Do you have a reservation?", sugg: ["Yes, I booked a double room for two nights.", "No, do you have any rooms available?"] },
+  { id: "interview", title: "Phỏng vấn xin việc", vi: "AI là người phỏng vấn, hỏi bằng tiếng Anh", role: "a kind job interviewer at a tech company", open: "Thanks for coming in today. Could you tell me a little about yourself?", sugg: ["Sure. I'm a marketing graduate with two years of experience.", "Of course. I'm a software developer from Hanoi."] },
+  { id: "doctor", title: "Đi khám bệnh", vi: "AI là bác sĩ, bạn kể triệu chứng", role: "a caring doctor", open: "Hello, please have a seat. What seems to be the problem today?", sugg: ["I've had a bad headache for two days.", "I have a sore throat and a fever."] },
+  { id: "shop", title: "Mua quần áo", vi: "AI là nhân viên cửa hàng thời trang", role: "a shop assistant in a clothing store", open: "Hi! Are you looking for anything in particular today?", sugg: ["I'm looking for a jacket.", "Just looking, thanks."] },
+  { id: "free", title: "Nói chuyện tự do", vi: "Chủ đề gì cũng được, AI là bạn nói chuyện", role: "a friendly English conversation partner", open: "Hi! What would you like to talk about today?", sugg: ["Let's talk about travel.", "Can we talk about movies?"] },
+];
+let aiMode = "chat";
+let chat = null;
+
+function startChat(id) {
+  const sc = SCENARIOS.find((s) => s.id === id);
+  chat = { sc, msgs: [{ role: "ai", en: sc.open, sugg: sc.sugg }], busy: false, ctl: null };
+  renderChat();
+  if (state.auto) speak(sc.open);
+}
+
+function renderChat() {
+  const root = $("#chat");
+  if (!chat) {
+    root.replaceChildren(
+      h("p", { class: "muted", text: "Chọn một tình huống. AI sẽ nhập vai, trả lời bằng giọng nói, sửa lỗi câu của bạn và gợi ý cách đáp." }),
+      h("div", { class: "scenarios" }, SCENARIOS.map((s) => h("button", { class: "scenario", type: "button", onclick: () => startChat(s.id) },
+        h("strong", { text: s.title }), h("span", { class: "small muted", text: s.vi }), h("span", { class: "en scenario-open", lang: "en", text: "“" + s.open + "”" })))));
+    return;
+  }
+  const list = h("div", { class: "chat-list", id: "chat-list" });
+  for (const m of chat.msgs) {
+    if (m.role === "ai") {
+      const vi = h("p", { class: "bubble-vi", text: m.vi || "", hidden: true });
+      list.append(h("div", { class: "msg ai pop" },
+        h("div", { class: "avatar", "aria-hidden": "true", text: "AI" }),
+        h("div", { class: "bubble" },
+          h("p", { class: "en", lang: "en", text: m.en }),
+          vi,
+          h("div", { class: "bubble-tools" }, speakBtn(m.en, "Nghe câu này"),
+            m.vi ? h("button", { class: "link-btn", type: "button", text: "Dịch", onclick: (e) => { vi.hidden = !vi.hidden; e.currentTarget.textContent = vi.hidden ? "Dịch" : "Ẩn dịch"; } }) : null))));
+    } else {
+      list.append(h("div", { class: "msg me pop" },
+        h("div", { class: "bubble" }, h("p", { class: "en", lang: "en", text: m.en })),
+        m.check ? h("div", { class: "fixbox " + (m.check.correct ? "ok" : "no") },
+          m.check.correct ? h("span", { text: "✓ Câu của bạn ổn rồi" + (m.check.tip ? ". " + m.check.tip : "") })
+            : [h("span", { class: "small", text: "Nên nói:" }), h("p", { class: "en", lang: "en", text: m.check.fixed }), m.check.tip ? h("p", { class: "small", text: m.check.tip }) : null]) : null));
+    }
+  }
+  if (chat.busy) list.append(h("div", { class: "msg ai" }, h("div", { class: "avatar", text: "AI" }), h("div", { class: "bubble" }, h("span", { class: "thinking" }, h("i"), h("i"), h("i")))));
+  const last = chat.msgs[chat.msgs.length - 1];
+  const input = h("textarea", { class: "textarea en chat-input", id: "chat-input", rows: "2", maxlength: "300", placeholder: "Gõ câu trả lời bằng tiếng Anh…", disabled: chat.busy || ai.ready === "no" });
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendChat(input.value); } });
+  root.replaceChildren(
+    h("div", { class: "spread" }, h("div", null, h("p", { class: "eyebrow", text: "Tình huống" }), h("h3", { text: chat.sc.title })),
+      h("button", { class: "btn sm ghost", type: "button", text: "Đổi tình huống", onclick: () => { if (chat.ctl) chat.ctl.abort(); chat = null; renderChat(); } })),
+    list,
+    last.role === "ai" && last.sugg && last.sugg.length && !chat.busy ? h("div", { class: "sugg" }, h("span", { class: "small muted", text: "Gợi ý:" }),
+      last.sugg.slice(0, 3).map((s) => h("button", { class: "chip en", type: "button", lang: "en", text: s, onclick: () => { $("#chat-input").value = s; $("#chat-input").focus(); } }))) : null,
+    h("div", { class: "chat-compose" }, input,
+      chat.busy ? h("button", { class: "btn ghost", type: "button", text: "Dừng", onclick: () => chat.ctl && chat.ctl.abort() })
+        : h("button", { class: "btn", type: "button", text: "Gửi", disabled: ai.ready === "no", onclick: () => sendChat($("#chat-input").value) })));
+  list.scrollTop = list.scrollHeight;
+}
+
+async function sendChat(text) {
+  text = String(text || "").trim();
+  if (!text || chat.busy) return;
+  if (ai.ready === "pending") { toast("AI đang khởi động, thử lại sau vài giây nhé."); return; }
+  if (ai.ready !== "yes") return;
+  const mine = { role: "me", en: text.slice(0, 300) };
+  chat.msgs.push(mine);
+  chat.busy = true;
+  chat.ctl = new AbortController();
+  renderChat();
+  const history = chat.msgs.slice(-12).map((m) => (m.role === "ai" ? "You: " : "Learner: ") + m.en).join("\n");
+  const prompt = [
+    "You are role-playing as " + chat.sc.role + " in a conversation with a Vietnamese learner of English (A2-B1).",
+    "Stay in character. Reply naturally in simple English, 1-2 short sentences, and usually end with a question to keep the conversation going.",
+    "Also check the learner's LAST message for grammar, word choice and naturalness.",
+    "Conversation so far:", history,
+    "Reply with only one JSON object:",
+    "{\"reply\": \"your next line in English\", \"reply_vi\": \"Vietnamese translation of reply\", \"correct\": true or false, \"fixed\": \"a corrected, natural version of the learner's last message (same text if already fine)\", \"tip_vi\": \"one short tip in simple Vietnamese about the learner's mistake, or empty string\", \"suggestions\": [\"two short possible learner replies to your reply\"]}",
+  ].join("\n");
+  try {
+    const r = await ai.fn.json(prompt, { modelTier: "quick", cache: false, signal: chat.ctl.signal });
+    const s = (x) => (typeof x === "string" ? x.trim() : "");
+    mine.check = { correct: r && r.correct !== false, fixed: s(r && r.fixed) || text, tip: s(r && r.tip_vi) };
+    if (!mine.check.correct && mine.check.fixed.toLowerCase() === text.toLowerCase()) mine.check.correct = true;
+    const reply = s(r && r.reply) || "Sorry, could you say that again?";
+    chat.msgs.push({ role: "ai", en: reply, vi: s(r && r.reply_vi), sugg: Array.isArray(r && r.suggestions) ? r.suggestions.filter((x) => typeof x === "string").slice(0, 3) : [] });
+    state.chats = (state.chats || 0) + 1;
+    todayLog().s++;
+    gainXP(mine.check.correct ? 10 : 6);
+    commit();
+    mine.check.correct ? sfx.good() : sfx.flip();
+    if (state.auto) speak(reply);
+  } catch (err) {
+    if (!(err && err.code === "cancelled")) toast(aiErrorText(err));
+    if (!mine.check) chat.msgs.pop();
+    if (err && err.code === "cancelled") { chat.busy = false; chat.ctl = null; renderChat(); $("#chat-input").value = text; return; }
+  }
+  chat.busy = false;
+  chat.ctl = null;
+  renderChat();
+  renderChrome();
+}
+
+function applyAiMode() {
+  const chatMode = aiMode === "chat";
+  for (const b of $$("#ai-seg button")) b.setAttribute("aria-selected", String(b.dataset.mode === aiMode));
+  $("#chat").hidden = !chatMode;
+  $("#ai-form").hidden = chatMode;
+  $("#ai-result").hidden = chatMode;
+  const head = $("#view-ai > .stack");
+  $(".eyebrow", head).textContent = chatMode ? "Nói với AI" : "Luyện viết cùng AI";
+  $("h2", head).textContent = chatMode ? "Trò chuyện nhập vai bằng tiếng Anh" : "Tự đặt câu, AI sửa và giải thích";
+  $("p.muted", head).hidden = chatMode;
+  if (chatMode) renderChat();
+}
+{
+  const _ai = RENDER.ai;
+  RENDER.ai = () => { _ai(); applyAiMode(); };
+  for (const b of $$("#ai-seg button")) b.addEventListener("click", () => { aiMode = b.dataset.mode; applyAiMode(); });
+}
+if (current === "ai") applyAiMode();
 </script>
 </body>
 </html>

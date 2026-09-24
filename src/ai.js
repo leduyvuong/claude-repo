@@ -17,6 +17,7 @@ function aiOff(msg) {
   off.hidden = false;
   $("#ai-check").disabled = true;
   $("#f-ai").hidden = true;
+  if (current === "ai" && typeof renderChat === "function") renderChat();
 }
 
 function aiErrorText(e) {
