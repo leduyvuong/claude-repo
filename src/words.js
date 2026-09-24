@@ -1,6 +1,6 @@
 // Bộ từ vựng khởi đầu: 10 chủ đề x 12 từ, phiên âm Anh-Mỹ.
 // Mỗi từ: [từ, loại từ, phiên âm, nghĩa, câu ví dụ, dịch câu ví dụ]
-const POS_VI = { n: "danh từ", v: "động từ", adj: "tính từ", adv: "trạng từ", phr: "cụm từ" };
+const POS_VI = { n: "danh từ", v: "động từ", adj: "tính từ", adv: "trạng từ", phr: "cụm từ", s: "câu giao tiếp", prep: "giới từ", conj: "liên từ", pron: "đại từ" };
 
 const TOPICS = [
   { id: "people", name: "Gia đình & mọi người", words: [
@@ -144,3 +144,10 @@ const TOPICS = [
     ["season", "n", "ˈsiːzən", "mùa", "My favorite season is autumn.", "Mùa tôi thích nhất là mùa thu."],
   ]},
 ];
+
+// Các file words-*.js gọi hàm này để thêm từ vào chủ đề có sẵn hoặc tạo chủ đề mới.
+function extendTopic(id, name, words) {
+  let t = TOPICS.find((x) => x.id === id);
+  if (!t) { t = { id, name, words: [] }; TOPICS.push(t); }
+  t.words.push(...words);
+}

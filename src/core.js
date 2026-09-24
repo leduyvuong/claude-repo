@@ -275,7 +275,7 @@ function wordSheet(word, opts = {}) {
   const { reveal = true, meta = "", onReveal } = opts;
   const sheet = h("article", { class: "sheet stack pop" },
     h("div", { class: "sheet-meta" }, h("span", { text: topicName(word.topic) }), h("span", { text: meta })),
-    h("div", { class: "headword en", lang: "en", text: word.w }),
+    h("div", { class: "headword en" + (word.w.length > 16 ? " long" : ""), lang: "en", text: word.w }),
     h("div", { class: "pron" },
       word.ipa ? h("span", { class: "ipa", lang: "en", text: "/" + word.ipa + "/" }) : null,
       h("span", { class: "pos", text: POS_VI[word.p] || word.p }),
