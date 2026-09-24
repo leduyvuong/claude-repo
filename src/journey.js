@@ -22,6 +22,7 @@ const BADGES = [
   { id: "games", name: "Game thủ", desc: "Có kỷ lục ở 7 trò chơi", icon: "🎮", test: (s) => s.games >= 7 },
   { id: "topic", name: "Về đích", desc: "Học hết một chặng", icon: "⚑", test: (s) => s.topicsDone >= 1 },
   { id: "chat", name: "Mạnh dạn", desc: "Trò chuyện với AI 10 lượt", icon: "💬", test: (s) => s.chats >= 10 },
+  { id: "boss", name: "Diệt trùm", desc: "Hạ gục Quái Thú Quên Từ", icon: "⚔", test: (s) => s.bossBest >= 450 },
 ];
 function badgeStats() {
   return {
@@ -32,6 +33,7 @@ function badgeStats() {
     games: Object.keys(state.best).length,
     topicsDone: TOPICS.filter((t) => t.words.every(([w]) => state.cards[w])).length,
     chats: state.chats || 0,
+    bossBest: state.best.boss || 0,
   };
 }
 function checkBadges() {

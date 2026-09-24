@@ -479,6 +479,30 @@ main > section:not([hidden]) { animation: viewIn .32s cubic-bezier(.2, .8, .2, 1
 .badges { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 6px; scroll-snap-type: x proximity; }
 .badge-item { flex: 0 0 96px; scroll-snap-align: start; }
 @media (max-width: 420px) { .j-step { transform: translateX(calc(var(--x) * .7)); } }
+
+/* ---------- Đấu trùm ---------- */
+.boss-arena { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px; border-radius: 20px; overflow: hidden; color: #fff;
+  background: radial-gradient(120% 90% at 50% 0%, #4a2a8f 0%, #241448 55%, #140b2c 100%); box-shadow: inset 0 0 60px rgba(0,0,0,.4), var(--shadow); }
+.boss-arena::before, .boss-arena::after { content: "✦"; position: absolute; color: rgba(255,255,255,.35); animation: twinkle 2.6s ease-in-out infinite; }
+.boss-arena::before { top: 16px; left: 12%; font-size: 13px; }
+.boss-arena::after { top: 40px; right: 14%; font-size: 10px; animation-delay: 1.2s; }
+@keyframes twinkle { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
+.boss-hpbar { width: 100%; height: 20px; border-radius: 10px; background: rgba(255,255,255,.14); position: relative; overflow: hidden; }
+.boss-hpbar i { position: absolute; inset: 0 auto 0 0; border-radius: 10px; background: linear-gradient(90deg, #ff9f43, #ff5470, #d33b4d); transition: width .45s cubic-bezier(.2,.8,.2,1); }
+.boss-hpbar span { position: relative; display: block; text-align: center; font-size: 11.5px; font-weight: 700; line-height: 20px; text-shadow: 0 1px 2px rgba(0,0,0,.4); }
+.boss-fig { width: 150px; filter: drop-shadow(0 10px 18px rgba(0,0,0,.45)); animation: bossIdle 2.4s ease-in-out infinite; }
+@keyframes bossIdle { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-8px) rotate(1.5deg); } }
+.boss-fig.hit { animation: bossHit .4s ease; }
+@keyframes bossHit { 20% { transform: translateX(10px) rotate(4deg); filter: brightness(2.4) saturate(0) drop-shadow(0 10px 18px rgba(0,0,0,.45)); } 60% { transform: translateX(-6px); } }
+.boss-fig.angry .boss-pupil { fill: #ff3b3b; }
+.boss-fig.angry .boss-brow { stroke: #ff5a5a; }
+.boss-fig.angry { animation-duration: 1.1s; }
+.boss-row { display: flex; justify-content: space-between; width: 100%; align-items: center; }
+.boss-hearts { color: #ff5470; font-size: 20px; letter-spacing: 3px; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
+.boss-combo { font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: rgba(255,255,255,.14); }
+.boss-combo.hot { background: #ff9f43; color: #4a2400; animation: pulseHot .8s ease-in-out infinite; }
+@keyframes pulseHot { 50% { transform: scale(1.12); } }
+.float-pts.dmg { font-size: 26px; color: #ffd166; text-shadow: 0 2px 6px rgba(0,0,0,.6); }
 </style>
 </head>
 <body>
@@ -3233,6 +3257,134 @@ function nextBuilder() {
   setupBuilder(); renderCurrent();
 }
 
+// ---------- 8. Đấu trùm ----------
+const BOSS_SVG = `
+<svg viewBox="0 0 140 120" aria-hidden="true">
+  <defs>
+    <radialGradient id="bossG" cx="35%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#9d6bff"/><stop offset="55%" stop-color="#6a3bd8"/><stop offset="100%" stop-color="#3c1e8f"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="70" cy="112" rx="42" ry="7" fill="rgba(0,0,0,.35)"/>
+  <path d="M38 22 L50 4 L58 24 Z" fill="#3c1e8f"/>
+  <path d="M102 22 L90 4 L82 24 Z" fill="#3c1e8f"/>
+  <path d="M70 10 C102 10 118 34 118 62 C118 92 98 108 70 108 C42 108 22 92 22 62 C22 34 38 10 70 10 Z" fill="url(#bossG)"/>
+  <path d="M34 70 q6 10 0 20 M106 70 q-6 10 0 20" stroke="#2c1470" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <g class="boss-eyes">
+    <ellipse cx="52" cy="52" rx="11" ry="13" fill="#fff"/>
+    <ellipse cx="88" cy="52" rx="11" ry="13" fill="#fff"/>
+    <circle class="boss-pupil" cx="54" cy="55" r="5.5" fill="#1c0d4d"/>
+    <circle class="boss-pupil" cx="86" cy="55" r="5.5" fill="#1c0d4d"/>
+    <path class="boss-brow" d="M40 40 l20 6 M100 40 l-20 6" stroke="#2c1470" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <path class="boss-mouth" d="M52 78 q18 14 36 0" stroke="#2c1470" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M56 78 l5 8 5-8 M74 78 l5 8 5-8" fill="#fff"/>
+</svg>`;
+
+let boss = null;
+GAMES.push({
+  id: "boss", name: "Đấu trùm", desc: "Hạ gục Quái Thú Quên Từ bằng câu trả lời đúng", color: "#d33b4d",
+  icon: ICON('<path d="M5 16 L16 5 l3 3 L8 19 l-4 1 z"/><path d="M14 7l3 3M3 21l2-2M16 16l3 3M19 16l-3 3"/>'),
+  start() {
+    boss = { pool: shuffle(gamePool(10, isWord)), i: 0, hp: 100, max: 100, hearts: 3, combo: 0, best: 0, dmg: 0,
+      q: null, total: 12, end: 0, timer: null, over: false, locked: false, missed: [], fx: "" };
+    nextBossQ();
+    clearInterval(boss.timer);
+    boss.timer = setInterval(() => {
+      if (!boss || boss.over || boss.locked) return;
+      if (current !== "practice" || game !== "boss") return;
+      const left = (boss.end - Date.now()) / 1000;
+      if (left <= 0) { bossWrong(null); return; }
+      const t = $(".timer", $("#quiz"));
+      if (t) t.replaceWith(timerBar(boss.total, left));
+      if (left < 4) sfx.tick();
+    }, 300);
+  },
+  stop() { if (boss) { boss.over = true; clearInterval(boss.timer); } },
+  render(root) {
+    const q = boss.q;
+    root.replaceChildren(
+      timerBar(boss.total, Math.max(0, (boss.end - Date.now()) / 1000)),
+      h("div", { class: "boss-arena" + (boss.fx === "shake" ? " shake" : "") },
+        h("div", { class: "boss-hpbar" }, h("i", { style: "width:" + (boss.hp / boss.max) * 100 + "%" }),
+          h("span", { text: "Quái Thú Quên Từ · " + boss.hp + "/" + boss.max })),
+        h("div", { class: "boss-fig" + (boss.hp <= 35 ? " angry" : "") + (boss.fx === "hit" ? " hit" : ""), html: BOSS_SVG }),
+        h("div", { class: "boss-row" },
+          h("span", { class: "boss-hearts", "aria-label": boss.hearts + " mạng", text: "♥".repeat(boss.hearts) + "♡".repeat(3 - boss.hearts) }),
+          h("span", { class: "boss-combo" + (boss.combo >= 3 ? " hot" : ""), text: "Combo x" + Math.max(1, boss.combo) }))),
+      h("div", { class: "panel stack" },
+        q.type === "vi2en"
+          ? h("p", { class: "muted", text: "Chém quái bằng từ tiếng Anh có nghĩa:" })
+          : h("p", { class: "muted", text: "Chém quái bằng nghĩa đúng của từ:" }),
+        q.type === "vi2en"
+          ? h("p", { class: "meaning", text: q.w.vi })
+          : h("div", { class: "row" }, h("span", { class: "headword en", lang: "en", style: "font-size:30px", text: q.w.w }), speakBtn(q.w.w)),
+        h("div", { class: "options" }, q.options.map((opt) => h("button", {
+          class: "option" + (q.type === "vi2en" ? " en" : ""), type: "button", lang: q.type === "vi2en" ? "en" : null,
+          text: opt, onclick: (e) => answerBoss(opt, e.currentTarget),
+        })))));
+  },
+});
+
+function nextBossQ() {
+  const w = boss.pool[boss.i++ % boss.pool.length];
+  const type = Math.random() < 0.5 ? "vi2en" : "en2vi";
+  boss.q = { w, type, answer: type === "vi2en" ? w.w : w.vi, options: type === "vi2en" ? wordOptions(w) : meaningOptions(w) };
+  boss.end = Date.now() + boss.total * 1000;
+  boss.locked = false;
+  boss.fx = "";
+}
+
+function answerBoss(opt, el) {
+  if (!boss || boss.over || boss.locked) return;
+  if (opt === boss.q.answer) {
+    boss.locked = true;
+    boss.combo++; boss.best = Math.max(boss.best, boss.combo);
+    const dmg = 10 + Math.min(boss.combo, 5) * 2;
+    boss.hp = Math.max(0, boss.hp - dmg); boss.dmg += dmg;
+    boss.fx = "hit";
+    sfx.good(boss.combo); speak(boss.q.w.w);
+    el.classList.add("correct");
+    renderCurrent();
+    const fig = $(".boss-fig"); if (fig) floatText(fig, "−" + dmg, "dmg");
+    if (boss.hp <= 0) {
+      boss.over = true; clearInterval(boss.timer);
+      const score = 300 + boss.hearts * 150 + boss.best * 25;
+      setTimeout(() => {
+        confetti(); setTimeout(confetti, 500);
+        finishGame("boss", score, ["Bạn hạ trùm với " + boss.hearts + " tim còn lại, combo dài nhất x" + boss.best + "."]);
+        const m = missedList(boss.missed); if (m) $(".result").insertBefore(m, $(".result .grid-2"));
+      }, 700);
+      return;
+    }
+    setTimeout(() => { if (boss && !boss.over) { nextBossQ(); renderCurrent(); } }, 650);
+  } else {
+    bossWrong(el);
+  }
+}
+
+function bossWrong(el) {
+  if (!boss || boss.over || boss.locked) return;
+  boss.locked = true;
+  boss.combo = 0; boss.hearts--;
+  boss.fx = "shake";
+  if (!boss.missed.includes(boss.q.w)) boss.missed.push(boss.q.w);
+  sfx.bad(); buzz(120);
+  renderCurrent();
+  if (el) { /* đánh dấu đáp án đúng cho người chơi thấy */ }
+  for (const b of $$(".option", $("#quiz"))) { b.disabled = true; if (b.textContent === boss.q.answer) b.classList.add("correct"); }
+  const fig = $(".boss-fig"); if (fig) floatText(fig, "Grrr!", "bad");
+  if (boss.hearts <= 0) {
+    boss.over = true; clearInterval(boss.timer);
+    setTimeout(() => {
+      finishGame("boss", boss.dmg, ["Quái thú còn " + boss.hp + " máu. Ôn lại các từ dưới đây rồi phục thù nhé!"]);
+      const m = missedList(boss.missed); if (m) $(".result").insertBefore(m, $(".result .grid-2"));
+    }, 900);
+    return;
+  }
+  setTimeout(() => { if (boss && !boss.over) { nextBossQ(); renderCurrent(); } }, 1100);
+}
+
 // ---------- Hành trình, từ của ngày, huy hiệu, thẻ vuốt ----------
 
 // Từ của ngày: cố định theo ngày
@@ -3257,6 +3409,7 @@ const BADGES = [
   { id: "games", name: "Game thủ", desc: "Có kỷ lục ở 7 trò chơi", icon: "🎮", test: (s) => s.games >= 7 },
   { id: "topic", name: "Về đích", desc: "Học hết một chặng", icon: "⚑", test: (s) => s.topicsDone >= 1 },
   { id: "chat", name: "Mạnh dạn", desc: "Trò chuyện với AI 10 lượt", icon: "💬", test: (s) => s.chats >= 10 },
+  { id: "boss", name: "Diệt trùm", desc: "Hạ gục Quái Thú Quên Từ", icon: "⚔", test: (s) => s.bossBest >= 450 },
 ];
 function badgeStats() {
   return {
@@ -3267,6 +3420,7 @@ function badgeStats() {
     games: Object.keys(state.best).length,
     topicsDone: TOPICS.filter((t) => t.words.every(([w]) => state.cards[w])).length,
     chats: state.chats || 0,
+    bossBest: state.best.boss || 0,
   };
 }
 function checkBadges() {
