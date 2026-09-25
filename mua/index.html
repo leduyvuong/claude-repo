@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MÙA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#FBFAF4; --paper-2:#F3F1E8; --ink:#16150F; --line:#D9D5C6; --line-ink:#16150F;
+  --muted:#716C5C; --sun:#E8481C; --rain:#3A56B4; --ok:#2F6B3A;
+  --serif:"Fraunces",Georgia,serif; --sans:"Archivo","Be Vietnam Pro",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --gut:clamp(16px,4vw,56px);
+}
+*{box-sizing:border-box}
+::selection{background:var(--ink);color:var(--paper)}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;font-weight:inherit}
+p{margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+img,svg{display:block;max-width:100%}
+input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--sun);outline-offset:3px}
+[hidden]{display:none!important}
+.mono{font-family:var(--mono);font-size:12.5px;letter-spacing:.01em}
+.mono.sm{font-size:11px}
+.sun{color:var(--sun)}
+.x{border-top:1px solid var(--line)}
+.serif{font-family:var(--serif)}
+
+/* ---------- Khung ---------- */
+.wrap{padding-inline:var(--gut)}
+header.site{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:1px solid var(--line-ink)}
+.bar{display:flex;align-items:center;gap:28px;height:58px}
+.wordmark{font-family:var(--serif);font-weight:900;font-style:italic;font-size:27px;letter-spacing:-.02em;line-height:1}
+.wordmark .dot{color:var(--sun);font-style:normal}
+nav.main{display:flex;gap:22px;margin-left:8px}
+nav.main a{font-size:13.5px;font-weight:500;text-decoration:none;padding:4px 0;border-bottom:2px solid transparent}
+nav.main a[aria-current="page"]{border-bottom-color:var(--ink)}
+nav.main a:hover{border-bottom-color:var(--line)}
+.bar .grow{flex:1}
+.bar-act{display:flex;gap:18px;align-items:center}
+.bar-act button, .bar-act a{font-family:var(--mono);font-size:12.5px;text-decoration:none;display:flex;gap:6px;align-items:center}
+.bar-act .n{display:inline-grid;place-items:center;min-width:20px;height:20px;border:1px solid var(--ink);border-radius:50%;font-size:11px;transition:transform .2s}
+.bar-act .n.tick{transform:scale(1.35);background:var(--sun);color:#fff;border-color:var(--sun)}
+/* Ticker thời tiết */
+.ticker{overflow:hidden;border-bottom:1px solid var(--line);background:var(--paper)}
+.ticker-in{display:flex;gap:0;width:max-content;animation:tick 46s linear infinite}
+.ticker button{font-family:var(--mono);font-size:11.5px;padding:6px 18px;border-right:1px solid var(--line);white-space:nowrap;color:var(--muted)}
+.ticker button b{color:var(--ink);font-weight:500}
+.ticker button:hover{color:var(--ink);background:var(--paper-2)}
+@keyframes tick{to{transform:translateX(-50%)}}
+.ticker:hover .ticker-in,.ticker:focus-within .ticker-in{animation-play-state:paused}
+@media (prefers-reduced-motion: reduce){.ticker-in{animation:none;flex-wrap:wrap;width:auto}}
+
+/* ---------- 01 Bìa ---------- */
+.cover{position:relative;border-bottom:1px solid var(--line-ink);overflow:hidden}
+.cover-grid{display:grid;grid-template-columns:1fr auto;align-items:end;gap:0 24px;padding-top:clamp(24px,5vh,64px)}
+.cover-kicker{display:flex;justify-content:space-between;gap:16px;padding-bottom:10px}
+.giant{font-family:var(--serif);font-weight:600;font-size:clamp(72px,17.5vw,290px);line-height:.86;letter-spacing:-.035em;font-variation-settings:"opsz" 144}
+.giant em{font-style:italic;font-weight:400}
+.cover-flat{width:clamp(150px,24vw,380px);margin-bottom:clamp(8px,2vw,28px);transform:rotate(4deg)}
+.cover-sub{display:grid;grid-template-columns:minmax(200px,560px) 1fr auto;gap:24px;align-items:start;padding:22px 0 30px;border-top:1px solid var(--line-ink);margin-top:clamp(18px,3vw,36px)}
+.cover-sub .lede{font-size:clamp(16px,1.6vw,21px);line-height:1.45;font-weight:500;text-wrap:balance}
+.cta{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--ink);padding:13px 22px;font-weight:600;font-size:14px;text-decoration:none;background:var(--ink);color:var(--paper);transition:gap .2s}
+.cta:hover{gap:16px}
+.cta.ghost{background:transparent;color:var(--ink)}
+.cta.sun{background:var(--sun);border-color:var(--sun);color:#fff}
+.today-chip{font-family:var(--mono);font-size:12.5px;border:1px dashed var(--muted);padding:12px 16px;max-width:230px}
+.today-chip b{font-size:26px;font-weight:500;display:block;line-height:1.1}
+.today-chip a{color:var(--sun)}
+
+/* Mùa index trên bìa */
+.seasons{border-bottom:1px solid var(--line-ink)}
+.season-row{display:grid;grid-template-columns:70px 1fr auto auto;align-items:baseline;gap:18px;padding:clamp(14px,2.4vw,26px) var(--gut);border-top:1px solid var(--line);text-decoration:none;position:relative;transition:background .2s,color .2s}
+.season-row:first-child{border-top:0}
+.season-row .no{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.season-row .nm{font-family:var(--serif);font-size:clamp(26px,4.6vw,54px);font-weight:500;letter-spacing:-.02em;line-height:1.05}
+.season-row .meta{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right}
+.season-row .sw{display:flex;gap:5px}
+.season-row .sw i{width:20px;height:26px;border:1px solid rgba(0,0,0,.25)}
+.season-row:hover{background:var(--ink);color:var(--paper)}
+.season-row:hover .no,.season-row:hover .meta{color:var(--paper-2)}
+.marq{border-bottom:1px solid var(--line-ink);overflow:hidden;background:var(--sun);color:#fff}
+.marq-in{display:flex;width:max-content;animation:tick 30s linear infinite;font-family:var(--serif);font-style:italic;font-size:clamp(18px,2.6vw,30px);padding:10px 0;font-weight:500}
+.marq-in span{padding:0 34px;white-space:nowrap}
+@media (prefers-reduced-motion: reduce){.marq-in{animation:none}}
+
+/* ---------- 03/04 Catalogue ---------- */
+.plp-head{display:grid;grid-template-columns:1fr minmax(300px,540px);gap:32px;align-items:end;padding-block:clamp(20px,4vw,46px)}
+.plp-title{font-family:var(--serif);font-size:clamp(44px,7vw,110px);font-weight:600;letter-spacing:-.03em;line-height:.95}
+.plp-sub{max-width:400px;color:var(--muted);margin-top:10px}
+/* Nhiệt kế */
+.dial{border:1px solid var(--ink);padding:16px 18px 20px;background:var(--paper)}
+.dial-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.dial-top .t{font-family:var(--mono);font-size:34px;font-weight:500}
+.dial-top .t small{font-size:14px;color:var(--muted)}
+.dial input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:44px;background:transparent;cursor:ew-resize}
+.dial input::-webkit-slider-runnable-track{height:14px;background:
+  linear-gradient(90deg,var(--rain),#C8B98A 45%,var(--sun));border:1px solid var(--ink)}
+.dial input::-moz-range-track{height:14px;background:linear-gradient(90deg,var(--rain),#C8B98A 45%,var(--sun));border:1px solid var(--ink)}
+.dial input::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:34px;margin-top:-11px;background:var(--paper);border:2px solid var(--ink);box-shadow:0 2px 0 var(--ink);cursor:ew-resize}
+.dial input::-moz-range-thumb{width:18px;height:32px;border-radius:0;background:var(--paper);border:2px solid var(--ink);box-shadow:0 2px 0 var(--ink);cursor:ew-resize}
+.dial-scale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:4px}
+.dial-note{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:10px}
+.dial-note b{color:var(--sun);font-weight:500}
+/* Thanh công cụ */
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:12px 0;border-top:1px solid var(--line-ink);position:sticky;top:58px;background:var(--paper);z-index:30}
+.tool{font-family:var(--mono);font-size:12px;border:1px solid var(--line);padding:7px 13px;background:var(--paper);transition:border-color .15s}
+.tool:hover{border-color:var(--ink)}
+.tool[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tools .sep{flex:1}
+select.tool{appearance:none;padding-right:26px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='6'%3E%3Cpath d='M0 0l4.5 6L9 0z' fill='%2316150F'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.count-line{font-family:var(--mono);font-size:12px;color:var(--muted);padding:14px 0 4px}
+/* Bảng niên giám sản phẩm */
+.ledger{border-top:1px solid var(--line-ink)}
+.row{display:grid;grid-template-columns:56px 92px minmax(200px,1.4fr) 1fr auto;gap:20px;align-items:center;padding:14px var(--gut);border-bottom:1px solid var(--line);text-decoration:none;position:relative;transition:background .18s,color .18s,opacity .3s}
+.row .no{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.row .th{width:92px;height:86px;display:grid;place-items:center}
+.row .th svg{width:78px;height:82px}
+.row .nm{font-family:var(--serif);font-size:clamp(20px,2.2vw,30px);font-weight:500;letter-spacing:-.01em;line-height:1.1}
+.row .nm small{display:block;font-family:var(--sans);font-size:12.5px;color:var(--muted);letter-spacing:0;margin-top:3px}
+.row .dt{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.9}
+.row .dt .fit{color:var(--sun)}
+.row .pr{font-family:var(--mono);font-size:14.5px;text-align:right;white-space:nowrap}
+.row .pr small{display:block;font-size:11px;color:var(--muted)}
+.row:hover{background:var(--ink);color:var(--paper)}
+.row:hover .no,.row:hover .dt,.row:hover .nm small,.row:hover .pr small{color:#B9B4A4}
+.row.far{opacity:.34}
+.row.far:hover{opacity:1}
+.row .sold{position:absolute;right:var(--gut);top:8px;font-family:var(--mono);font-size:10.5px;color:var(--sun)}
+/* Hàng phá lưới */
+.feature{display:grid;grid-template-columns:1.1fr 1fr;border-bottom:1px solid var(--line-ink);background:var(--paper-2);text-decoration:none}
+.feature .fa{padding:clamp(24px,4vw,60px) var(--gut);display:flex;flex-direction:column;justify-content:space-between;gap:26px;border-right:1px solid var(--line)}
+.feature .fa .q{font-family:var(--serif);font-style:italic;font-size:clamp(24px,3.4vw,44px);font-weight:400;line-height:1.15;letter-spacing:-.015em;text-wrap:balance}
+.feature .fb{display:grid;place-items:center;padding:26px}
+.feature .fb svg{width:min(300px,70%);height:auto;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.feature:hover .fb svg{transform:rotate(-3deg) scale(1.04)}
+.feature .mono-line{display:flex;justify-content:space-between;gap:14px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+/* Lưới thay thế */
+.grid-v{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));border-left:1px solid var(--line)}
+.cell{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 18px 18px;text-decoration:none;display:flex;flex-direction:column;gap:14px;transition:background .18s,color .18s}
+.cell svg{width:72%;margin:6px auto;height:auto}
+.cell .nm{font-family:var(--serif);font-size:21px;font-weight:500;line-height:1.1}
+.cell .mono{color:var(--muted)}
+.cell:hover{background:var(--ink);color:var(--paper)}
+.cell:hover .mono{color:#B9B4A4}
+
+/* ---------- 07 PDP ---------- */
+.pdp-top{display:grid;grid-template-columns:1.25fr minmax(320px,430px);border-bottom:1px solid var(--line-ink)}
+.pdp-stage{border-right:1px solid var(--line-ink);position:relative;display:grid;place-items:center;padding:clamp(24px,4vw,70px);min-height:min(66vh,640px);background:
+  radial-gradient(90% 70% at 50% 42%, var(--paper) 55%, var(--paper-2))}
+.pdp-stage svg{width:min(430px,78%);height:auto;filter:drop-shadow(0 18px 24px rgba(22,21,15,.12))}
+.pdp-idx{position:absolute;top:18px;left:var(--gut);font-family:var(--mono);font-size:12px;color:var(--muted)}
+.pdp-temp{position:absolute;bottom:18px;left:var(--gut);font-family:var(--mono);font-size:12px}
+.pdp-temp b{color:var(--sun);font-weight:500}
+.callout{position:absolute;font-family:var(--mono);font-size:11px;color:var(--muted);max-width:150px}
+.callout::before{content:"";display:block;width:44px;border-top:1px dashed var(--muted);margin-bottom:5px}
+.callout.c1{top:26%;right:8%}
+.callout.c2{bottom:24%;left:7%;text-align:left}
+.buy{padding:clamp(22px,3vw,38px) clamp(20px,2.6vw,38px);display:flex;flex-direction:column;gap:22px;position:sticky;top:59px;align-self:start}
+.buy .bc{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.buy .bc a{color:var(--muted)}
+.pdp-name{font-family:var(--serif);font-size:clamp(34px,3.6vw,52px);font-weight:600;letter-spacing:-.025em;line-height:1}
+.pdp-price{font-family:var(--mono);font-size:20px}
+.pdp-price small{color:var(--muted);font-size:12px;display:block;margin-top:3px}
+.opt h4{font-family:var(--mono);font-size:11.5px;font-weight:400;color:var(--muted);margin-bottom:9px}
+.opt h4 b{color:var(--ink);font-weight:500}
+.swatches{display:flex;gap:10px}
+.swatch{width:38px;height:46px;border:1px solid rgba(0,0,0,.3);position:relative;transition:transform .15s}
+.swatch:hover{transform:translateY(-2px)}
+.swatch[aria-pressed="true"]::after{content:"";position:absolute;inset:-5px;border:1.5px solid var(--ink)}
+.sizes{display:flex;flex-wrap:wrap;gap:8px}
+.size{min-width:46px;padding:9px 6px;border:1px solid var(--line);font-family:var(--mono);font-size:13px;text-align:center;transition:border-color .15s}
+.size:hover{border-color:var(--ink)}
+.size[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.size[disabled]{color:var(--line);text-decoration:line-through;cursor:not-allowed}
+.buy .cta{justify-content:center;padding:16px}
+.buy-note{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.8}
+/* PDP kể chuyện */
+.pdp-sec{display:grid;grid-template-columns:minmax(160px,320px) 1fr;gap:32px;padding:clamp(28px,4.5vw,64px) var(--gut);border-bottom:1px solid var(--line)}
+.pdp-sec h3{font-family:var(--mono);font-size:12px;font-weight:400;color:var(--muted);letter-spacing:.05em}
+.pdp-sec .body{max-width:640px;font-size:16.5px;line-height:1.65}
+.spec-list{display:grid;gap:0;max-width:640px}
+.spec-list div{display:grid;grid-template-columns:150px 1fr;gap:16px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.spec-list div dt{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.fab-swatch{width:min(300px,100%);aspect-ratio:4/3;border:1px solid var(--ink);margin-bottom:14px}
+.temp-mini{max-width:640px}
+.temp-mini .bar{position:relative;height:12px;border:1px solid var(--ink);background:linear-gradient(90deg,var(--rain),#C8B98A 45%,var(--sun));margin:10px 0 6px}
+.temp-mini .win{position:absolute;top:-5px;bottom:-5px;background:rgba(251,250,244,.25);border:2px solid var(--ink)}
+.temp-mini .lab{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+.rel-strip{display:flex;overflow-x:auto;border-top:1px solid var(--line-ink);scroll-snap-type:x proximity}
+.rel-strip a{flex:0 0 240px;scroll-snap-align:start;border-right:1px solid var(--line);padding:20px 18px;text-decoration:none;display:flex;flex-direction:column;gap:10px;transition:background .18s,color .18s}
+.rel-strip a:hover{background:var(--ink);color:var(--paper)}
+.rel-strip svg{width:60%;margin:4px auto}
+.rel-strip .nm{font-family:var(--serif);font-size:19px}
+.rel-strip .mono{color:var(--muted)}
+/* ---------- Giỏ hàng ---------- */
+.scrim{position:fixed;inset:0;background:rgba(22,21,15,.45);z-index:60;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,94vw);background:var(--paper);border-left:1px solid var(--ink);z-index:61;transform:translateX(102%);transition:transform .32s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column}
+.drawer.on{transform:none}
+.drawer-h{display:flex;justify-content:space-between;align-items:center;padding:16px 22px;border-bottom:1px solid var(--line-ink)}
+.drawer-h h2{font-family:var(--serif);font-size:24px;font-weight:600}
+.drawer-h .mono{color:var(--muted)}
+.drawer-list{flex:1;overflow-y:auto}
+.citem{display:grid;grid-template-columns:74px 1fr auto;gap:16px;padding:16px 22px;border-bottom:1px solid var(--line)}
+.citem svg{width:64px;height:66px}
+.citem .nm{font-family:var(--serif);font-size:18px;line-height:1.15}
+.citem .mono{color:var(--muted);margin-top:3px}
+.qty{display:inline-flex;border:1px solid var(--line);margin-top:9px}
+.qty button{width:26px;height:26px;font-family:var(--mono)}
+.qty button:hover{background:var(--paper-2)}
+.qty span{width:30px;display:grid;place-items:center;font-family:var(--mono);font-size:12.5px;border-inline:1px solid var(--line)}
+.citem .pr{font-family:var(--mono);font-size:13.5px;text-align:right}
+.citem .rm{font-family:var(--mono);font-size:11px;color:var(--muted);text-decoration:underline;margin-top:10px}
+.citem .rm:hover{color:var(--sun)}
+.drawer-f{border-top:1px solid var(--line-ink);padding:18px 22px;display:flex;flex-direction:column;gap:12px;background:var(--paper)}
+.trow{display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px}
+.trow.total{font-size:16px;border-top:1px solid var(--line);padding-top:10px}
+.cart-empty{padding:44px 22px;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
+.cart-empty .serif{font-size:24px;font-style:italic}
+.cover-note{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.fly{position:fixed;z-index:70;pointer-events:none;transition:transform .55s cubic-bezier(.4,0,.2,1),opacity .55s;width:70px}
+
+/* ---------- Tìm kiếm ---------- */
+.search-ov{position:fixed;inset:0;background:var(--paper);z-index:65;display:flex;flex-direction:column;transform:translateY(-102%);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.search-ov.on{transform:none}
+.search-ov .wrap{border-bottom:1px solid var(--line-ink);display:flex;align-items:center;gap:18px}
+#q{flex:1;border:0;background:transparent;font-family:var(--serif);font-size:clamp(28px,5vw,58px);font-weight:500;padding:22px 0;letter-spacing:-.02em;outline:none}
+#q::placeholder{color:var(--line)}
+.search-hint{font-family:var(--mono);font-size:12px;color:var(--muted);padding:12px var(--gut)}
+.search-res{overflow-y:auto;flex:1}
+
+/* ---------- Thanh toán ---------- */
+.co{max-width:660px;margin-inline:auto;padding:clamp(26px,5vw,60px) var(--gut) 80px}
+.co h1{font-family:var(--serif);font-size:clamp(34px,5vw,54px);font-weight:600;letter-spacing:-.02em;margin-bottom:6px}
+.co .mono{color:var(--muted)}
+.steps{display:flex;gap:0;margin:26px 0 8px;border:1px solid var(--line)}
+.steps span{flex:1;text-align:center;font-family:var(--mono);font-size:11.5px;padding:9px 4px;color:var(--muted);border-right:1px solid var(--line)}
+.steps span:last-child{border-right:0}
+.steps span.on{background:var(--ink);color:var(--paper)}
+fieldset{border:0;padding:26px 0 6px;margin:0}
+legend{font-family:var(--mono);font-size:12px;color:var(--muted);padding:0;margin-bottom:14px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fld{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.fld label{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.fld input,.fld select{border:1px solid var(--line);background:var(--paper);padding:13px 14px;font-size:15px}
+.fld input:focus{border-color:var(--ink);outline:none}
+.radio{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);padding:15px 16px;margin-bottom:10px;cursor:pointer}
+.radio input{accent-color:var(--ink);margin-top:3px}
+.radio b{font-weight:600;font-size:14.5px}
+.radio .mono{display:block;color:var(--muted);margin-top:3px}
+.radio:has(input:checked){border-color:var(--ink);background:var(--paper-2)}
+.co-sum{border:1px solid var(--line);padding:16px 18px;margin:18px 0}
+.co-sum .trow{padding:3px 0}
+.err{font-family:var(--mono);font-size:12px;color:var(--sun);min-height:1.4em}
+
+/* ---------- 12 Hoàn tất ---------- */
+.done{min-height:70vh;display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,70px);align-items:center;padding:clamp(40px,7vw,90px) var(--gut)}
+.stamp{width:clamp(170px,22vw,250px);animation:spin 28s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.stamp{animation:none}}
+.done h1{font-family:var(--serif);font-size:clamp(40px,6.4vw,90px);font-weight:600;letter-spacing:-.03em;line-height:.98;text-wrap:balance}
+.done .ord{font-family:var(--mono);font-size:13px;margin:18px 0 4px}
+.done .ord b{color:var(--sun);font-weight:500}
+.done-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,max-content));gap:34px;margin-top:26px}
+.done-meta div b{display:block;font-family:var(--mono);font-size:12px;color:var(--muted);font-weight:400;margin-bottom:4px}
+
+/* ---------- Chân trang ---------- */
+footer.site{border-top:1px solid var(--line-ink);margin-top:0;background:var(--paper-2)}
+.foot{display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px;padding:clamp(28px,4vw,54px) var(--gut)}
+.foot .big{font-family:var(--serif);font-weight:900;font-style:italic;font-size:clamp(56px,9vw,120px);line-height:.9;letter-spacing:-.03em}
+.foot ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:13.5px}
+.foot a{text-decoration:none;color:var(--muted)}
+.foot a:hover{color:var(--ink);text-decoration:underline}
+.colophon{border-top:1px solid var(--line);padding:12px var(--gut);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+/* Chuyển cảnh giữa các view */
+.view{animation:vin .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes vin{from{opacity:0;transform:translateY(14px)}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.view,.feature .fb svg{animation:none;transition:none}}
+
+/* ---------- Mobile ---------- */
+@media (max-width:920px){
+  .cover-grid{grid-template-columns:1fr}
+  .cover-flat{position:absolute;right:4%;top:10%;opacity:.9;width:32vw;min-width:130px}
+  .cover-sub{grid-template-columns:1fr;gap:18px}
+  .plp-head{grid-template-columns:1fr}
+  .pdp-top{grid-template-columns:1fr}
+  .pdp-stage{border-right:0;border-bottom:1px solid var(--line-ink);min-height:52vh}
+  .buy{position:static}
+  .pdp-sec{grid-template-columns:1fr;gap:14px}
+  .feature{grid-template-columns:1fr}
+  .feature .fa{border-right:0;border-bottom:1px solid var(--line)}
+  .done{grid-template-columns:1fr;justify-items:start;gap:30px}
+  .foot{grid-template-columns:1fr;gap:22px}
+  nav.main{display:none}
+  .row{grid-template-columns:44px 64px 1fr auto;gap:12px}
+  .row .dt{display:none}
+  .row .th{width:64px;height:62px}.row .th svg{width:56px;height:58px}
+  .f2{grid-template-columns:1fr}
+  .mobile-buy{position:fixed;left:0;right:0;bottom:0;z-index:35;background:var(--paper);border-top:1px solid var(--ink);padding:10px var(--gut) calc(10px + env(safe-area-inset-bottom,0px));display:flex;gap:14px;align-items:center;justify-content:space-between}
+}
+@media (min-width:921px){.mobile-buy{display:none}}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap bar">
+    <a class="wordmark" href="#home" data-nav="home" aria-label="MÙA — trang chính">MÙA<span class="dot">.</span></a>
+    <nav class="main" aria-label="Chính">
+      <a href="#shop" data-nav="shop" id="nav-shop">Catalogue</a>
+      <a href="#home" data-nav="seasons">Bộ sưu tập</a>
+    </nav>
+    <div class="grow"></div>
+    <div class="bar-act">
+      <button id="btn-search" aria-label="Tìm kiếm">Tìm ⌕</button>
+      <button id="btn-cart" aria-label="Mở giỏ hàng">Giỏ <span class="n" id="cart-n">0</span></button>
+    </div>
+  </div>
+  <div class="ticker" aria-label="Thời tiết hôm nay — bấm một thành phố để xem đồ hợp trời"><div class="ticker-in" id="ticker"></div></div>
+</header>
+
+<main id="app">
+  <!-- 01 BÌA -->
+  <section class="view" id="view-home">
+    <div class="cover">
+      <div class="wrap cover-grid">
+        <div>
+          <div class="cover-kicker mono sm">
+            <span>Niên giám quần áo — số 04, 09/2026</span>
+            <span>may tại Sài Gòn</span>
+          </div>
+          <h1 class="giant">Mặc<br>theo <em>trời.</em></h1>
+        </div>
+        <div class="cover-flat" id="cover-flat" aria-hidden="true"></div>
+      </div>
+      <div class="wrap cover-sub">
+        <p class="lede">MÙA may đồ cho khí hậu ở đây: lanh thoáng cho tháng nắng, khaki chống gió cho tháng chướng, sợi khô nhanh cho mùa mưa. Mỗi món ghi rõ khoảng nhiệt độ mặc dễ chịu.</p>
+        <div></div>
+        <div style="display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+          <div class="today-chip" id="today-chip"></div>
+          <a class="cta" href="#shop" data-nav="shop">Mở catalogue <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="marq" aria-hidden="true"><div class="marq-in" id="marq"></div></div>
+    <div class="seasons" id="seasons"></div>
+  </section>
+
+  <!-- 03/04 CATALOGUE -->
+  <section class="view" id="view-shop" hidden>
+    <div class="wrap plp-head">
+      <div>
+        <h1 class="plp-title" id="plp-title">Catalogue</h1>
+        <p class="plp-sub" id="plp-sub">Toàn bộ quần áo đang may, xếp theo độ hợp với nhiệt độ bạn chọn.</p>
+      </div>
+      <div class="dial">
+        <div class="dial-top">
+          <span class="t"><span id="dial-v">32</span>°<small>C</small></span>
+          <span class="mono sm" id="dial-city">Sài Gòn, hôm nay</span>
+        </div>
+        <input type="range" id="dial" min="18" max="38" step="1" value="32" aria-label="Chọn nhiệt độ ngoài trời">
+        <div class="dial-scale"><span>18°</span><span>23°</span><span>28°</span><span>33°</span><span>38°</span></div>
+        <p class="dial-note">Kéo nhiệt kế — catalogue tự xếp lại. <b id="dial-fit"></b></p>
+      </div>
+    </div>
+    <div class="wrap tools" id="tools"></div>
+    <p class="wrap count-line" id="count-line"></p>
+    <div class="ledger" id="ledger"></div>
+  </section>
+
+  <!-- 07 PDP -->
+  <section class="view" id="view-pdp" hidden></section>
+
+  <!-- 11 THANH TOÁN -->
+  <section class="view" id="view-co" hidden></section>
+
+  <!-- 12 HOÀN TẤT -->
+  <section class="view" id="view-done" hidden></section>
+</main>
+
+<footer class="site">
+  <div class="foot">
+    <div>
+      <div class="big">MÙA<span class="sun">.</span></div>
+      <p class="mono sm" style="color:var(--muted);margin-top:14px;max-width:340px">Quần áo may theo thời tiết Việt Nam.<br>Xưởng: Q. Tân Bình, Sài Gòn — vải dệt Nam Định &amp; Bảo Lộc.</p>
+    </div>
+    <ul>
+      <li><a href="#shop" data-nav="shop">Catalogue</a></li>
+      <li><a href="#home" data-nav="seasons">Bộ sưu tập</a></li>
+      <li><a href="#home" data-nav="home">Trang bìa</a></li>
+    </ul>
+    <ul class="mono sm">
+      <li>Đổi trả trong 30 ngày</li>
+      <li>Giao toàn quốc 2–4 ngày</li>
+      <li>Sửa đồ trọn đời tại xưởng</li>
+    </ul>
+  </div>
+  <div class="colophon">
+    <span>© 2026 MÙA — bản dựng ý tưởng thiết kế, không phải cửa hàng thật.</span>
+    <span>Chữ: Fraunces · Archivo · IBM Plex Mono</span>
+  </div>
+</footer>
+
+<!-- GIỎ -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Giỏ hàng">
+  <div class="drawer-h">
+    <h2>Giỏ hàng</h2>
+    <button class="mono" id="cart-close">Đóng ✕</button>
+  </div>
+  <div class="drawer-list" id="cart-list"></div>
+  <div class="drawer-f" id="cart-foot"></div>
+</aside>
+
+<!-- TÌM -->
+<div class="search-ov" id="search-ov" role="dialog" aria-modal="true" aria-label="Tìm kiếm">
+  <div class="wrap">
+    <input id="q" type="search" placeholder="sơ mi, lanh, 32°, mưa…" autocomplete="off">
+    <button class="mono" id="search-close">Đóng ✕</button>
+  </div>
+  <p class="search-hint">Gõ tên món, chất vải, hoặc một nhiệt độ — ví dụ “24” sẽ lọc đồ mặc được lúc 24°C.</p>
+  <div class="search-res ledger" id="search-res"></div>
+</div>
+
+<script>
+"use strict";
+/* ---------- Dữ liệu ---------- */
+const VND = n => n.toLocaleString("vi-VN") + "₫";
+const INK = "#16150F";
+const COLORS = {
+  ecru:["Mộc",'#E4DCC6'], gao:["Trắng gạo",'#F1EDE0'], indigo:["Chàm",'#33427A'],
+  than:["Than",'#3A3833'], la:["Lá",'#5C6B45'], reu:["Rêu",'#6B6F4E'],
+  dat:["Đất",'#8A5A38'], gach:["Gạch",'#B4552F'], mua:["Xanh mưa",'#4A66B0'], troi:["Xanh trời nhạt",'#C6D2DE']
+};
+const SEASONS = [
+  {id:"s1", no:"01", name:"Nắng tháng Tư", range:[27,38], desc:"Lanh và cotton thưa sợi cho những tuần trên 30 độ.", sw:["ecru","gao","gach"]},
+  {id:"s2", no:"02", name:"Mưa đầu mùa", range:[22,32], desc:"Sợi khô nhanh, khoác mỏng xếp gọn vào túi.", sw:["mua","reu","than"]},
+  {id:"s3", no:"03", name:"Gió chướng", range:[16,26], desc:"Kaki dày, len cotton cho cuối năm trở gió.", sw:["dat","than","ecru"]},
+  {id:"s4", no:"04", name:"Nồm ẩm", range:[19,29], desc:"Kate mỏng, dệt thoáng cho tuần trời ẩm phía Bắc.", sw:["gao","troi","la"]},
+];
+const P = [
+ {id:"m01",type:"shirt",col:"s1",name:"Sơ mi lanh hai túi",sub:"lanh Ninh Thuận, dáng rộng",fabric:"lanh",gsm:185,t:[27,37],price:890000,colors:["ecru","indigo","gao"],sizes:{S:1,M:1,L:1,XL:1},
+  det:[["Cổ","cổ bẻ một khuy, dựng mềm"],["Túi","hai túi ngực đắp, đáy vuông"],["Khuy","dừa nhuộm trùng màu vải"],["Đường may","cuốn kín 8 mũi/cm"]],
+  wear:"Nắng 32° đứng chợ giữa trưa vẫn thở được — lanh hút mồ hôi rồi khô ngay trên người.",
+  story:"Món đầu tiên MÙA may, sửa qua bốn bản rập. Vai buông 2cm so với sơ mi thường để gió luồn dọc sống lưng.",
+  quote:"Bản rập thứ tư mới chịu đứng vai — ba bản đầu đem phát cho thợ mặc thử cả mùa."},
+ {id:"m02",type:"tee",col:"s1",name:"Áo phông cotton hạt",sub:"cotton chải kỹ, cổ ríp dày",fabric:"cotton",gsm:160,t:[26,38],price:420000,colors:["gao","than","la"],sizes:{S:1,M:1,L:1,XL:0},
+  det:[["Cổ","ríp bo 2×2, không giãn sau giặt"],["Gấu","may bằng hai kim, không lộn mép"]],
+  wear:"Mặc trong áo khoác hay mặc trơn đều được; 38° vẫn không dính lưng.",story:"Cotton cùng một lô kéo sợi ở Nam Định, dệt chậm cho mặt vải nổi hạt."},
+ {id:"m03",type:"trouser",col:"s1",name:"Quần ống rộng Tân Bình",sub:"lanh pha cotton, cạp rút",fabric:"lanh",gsm:210,t:[26,36],price:960000,colors:["ecru","than"],sizes:{S:1,M:0,L:1,XL:1},
+  det:[["Cạp","rút dây kín, đỉa rời"],["Ống","rộng 26cm, dài chớm mắt cá"]],
+  wear:"Ống rộng lấy gió khi chạy xe; vải đủ đứng để không bay phần phật.",story:"Đặt tên theo con hẻm cạnh xưởng — nơi bản rập được sửa cho vừa dáng ngồi xe máy."},
+ {id:"m04",type:"dress",col:"s1",name:"Đầm lanh dáng suông",sub:"một lớp, không lót",fabric:"lanh",gsm:180,t:[27,37],price:1250000,colors:["gach","ecru"],sizes:{S:1,M:1,L:1,XL:1},
+  det:[["Dáng","suông chữ A, dài qua gối"],["Túi","hai túi chéo giấu trong sườn"]],
+  wear:"Một lớp lanh duy nhất — món mát nhất catalogue, cho ngày 36–37°.",story:"Nhuộm gạch non theo mẻ nhỏ nên mỗi đợt lệch tông nhẹ, chúng tôi coi đó là đặc điểm chứ không phải lỗi."},
+ {id:"m05",type:"shirt",col:"s1",name:"Sơ mi cộc tay kẻ gió",sub:"kate mỏng, kẻ chìm",fabric:"kate",gsm:150,t:[28,38],price:740000,colors:["troi","gao"],sizes:{S:1,M:1,L:0,XL:1},
+  det:[["Tay","cộc, lơ vê một gập"],["Kẻ","sọc chìm cùng tông, nhìn nghiêng mới thấy"]],
+  wear:"Đủ chỉn chu để họp, đủ mát để họp xong đi ăn trưa ngoài trời.",story:"Vải kate đặt dệt riêng khổ hẹp, sọc chìm lấy từ ghi chú sổ tay của thợ cả."},
+ {id:"m06",type:"overshirt",col:"s2",name:"Khoác sơ mi khô nhanh",sub:"nylon pha cotton, hai lớp vai",fabric:"khô nhanh",gsm:140,t:[23,31],price:1150000,colors:["reu","than"],sizes:{S:1,M:1,L:1,XL:1},
+  det:[["Vai","hai lớp chống thấm hắt"],["Túi","bốn túi nắp, khuy bấm ẩn"],["Khô","ướt mưa rào, 40 phút ráo"]],
+  wear:"Mưa Sài Gòn ập rồi tạnh — áo ướt trên xe, khô trước khi vào quán.",story:"May kiểu sơ mi để không phải cầm thêm áo mưa mỏng; mặc cả ngày như một lớp thứ hai.",
+  quote:"Mưa đầu mùa không cần áo phao. Cần một lớp vải biết khô trước bạn."},
+ {id:"m07",type:"jacket",col:"s2",name:"Áo mưa xếp túi",sub:"90 gram, gói bằng nắm tay",fabric:"khô nhanh",gsm:90,t:[22,30],price:1390000,colors:["mua","than"],sizes:{S:1,M:1,L:1,XL:1},
+  det:[["Gấp","xếp vào túi ngực của chính nó"],["Mũ","mũ cuộn trong cổ, dây rút một tay"],["Đường may","ép seam kín nước"]],
+  wear:"Nằm im trong cốp xe cả mùa khô, đến tháng Năm mới có việc.",story:"Chúng tôi cân từng chi tiết: bỏ lót, bỏ khuy thừa, còn đúng 90 gram."},
+ {id:"m08",type:"trouser",col:"s2",name:"Quần khô nhanh ống đứng",sub:"co giãn nhẹ, gấu thu",fabric:"khô nhanh",gsm:170,t:[23,33],price:890000,colors:["than","reu"],sizes:{S:1,M:1,L:1,XL:0},
+  det:[["Gấu","dây thu gấu tránh xích xe"],["Giãn","co giãn dọc 8% cho dáng ngồi"]],
+  wear:"Lội qua vũng nước, tới nơi quần đã ráo — không ai biết bạn vừa đi mưa.",story:"Bản rập chung với quần Tân Bình nhưng ống thu 4cm cho gọn gió."},
+ {id:"m09",type:"tote",col:"s2",name:"Túi bạt chống ẩm",sub:"bạt dày 500D, đáy rộng",fabric:"bạt",gsm:500,t:[18,38],price:360000,colors:["ecru","than","gach"],sizes:{U:1},
+  det:[["Đáy","rộng 12cm, đứng được trên sàn"],["Quai","dài đeo vai, ngắn xách tay"]],
+  wear:"Đựng laptop lẫn rau chợ; lớp phủ trong chống ẩm ngược.",story:"May từ vải bạt thừa của lô áo mưa — mỗi mùa một màu, hết là thôi."},
+ {id:"m10",type:"knit",col:"s3",name:"Len cotton gân",sub:"đan gân 5, cổ tròn",fabric:"len cotton",gsm:320,t:[17,24],price:1190000,colors:["than","ecru","dat"],sizes:{S:1,M:1,L:1,XL:1},
+  det:[["Sợi","cotton 100%, không ngứa gáy"],["Gân","đan gân 5 giữ dáng, không bai gấu"]],
+  wear:"Đủ ấm cho 18° Đà Lạt, đủ thoáng để trưa hửng không phải cởi.",story:"Miền nhiệt đới không cần lông cừu; cần len biết thở."},
+ {id:"m11",type:"jacket",col:"s3",name:"Khoác kaki gió chướng",sub:"kaki dày 300g, bốn túi",fabric:"kaki",gsm:300,t:[16,24],price:1850000,colors:["dat","than"],sizes:{S:1,M:1,L:1,XL:1},
+  det:[["Vải","kaki chéo dày, càng mặc càng mềm"],["Túi","bốn túi hộp, nắp cài khuy sừng"],["Lót","nửa lót vai lụa vụn"]],
+  wear:"Chắn đứng gió chướng tháng Chạp trên cầu Sài Gòn.",story:"Món nặng nhất chúng tôi may. Mặc ba mùa gió là vải ngả màu đẹp hơn lúc mới.",
+  quote:"Kaki dày lên màu theo người mặc — cái áo năm thứ ba mới là bản hoàn chỉnh."},
+ {id:"m12",type:"scarf",col:"s3",name:"Khăn đũi Bảo Lộc",sub:"đũi tơ tằm, viền tua",fabric:"đũi",gsm:120,t:[16,25],price:320000,colors:["gach","reu","gao"],sizes:{U:1},
+  det:[["Sợi","đũi kéo tay, mặt vải gợn tự nhiên"],["Khổ","65×180cm, quấn hai vòng"]],
+  wear:"Sáng se lạnh quấn hai vòng, trưa nóng gấp bỏ túi tote.",story:"Dệt tại một nhà xưởng bốn người ở Bảo Lộc, mỗi tuần được mười tấm."},
+ {id:"m13",type:"trouser",col:"s3",name:"Kaki đứng gió",sub:"kaki 280g, li chết",fabric:"kaki",gsm:280,t:[17,26],price:1050000,colors:["dat","than"],sizes:{S:0,M:1,L:1,XL:1},
+  det:[["Li","li chết ủi sẵn, đứng dáng"],["Cạp","cạp cao hơn 2cm chắn gió thắt lưng"]],
+  wear:"Trời 20° chạy xe sớm không buốt đùi — kaki dày làm thay việc của quần giữ nhiệt.",story:"Cùng lô vải với áo khoác gió chướng để mặc thành bộ mà không cần cố."},
+ {id:"m14",type:"shirt",col:"s4",name:"Sơ mi kate chống nồm",sub:"kate 130g, dệt thưa",fabric:"kate",gsm:130,t:[20,29],price:820000,colors:["gao","troi"],sizes:{S:1,M:1,L:1,XL:1},
+  det:[["Dệt","mật độ thưa 20% so với kate thường"],["Khô","phơi hiên trời nồm vẫn khô qua đêm"]],
+  wear:"Tuần trời nồm Hà Nội, tường ướt mà lưng áo vẫn ráo.",story:"Bài toán khó nhất: khô trong không khí không chịu khô. Vải này là câu trả lời sau hai mùa thử."},
+ {id:"m15",type:"knit",col:"s4",name:"Cardigan dệt thoáng",sub:"đan hổng mắt, khuy dừa",fabric:"len cotton",gsm:240,t:[19,27],price:1290000,colors:["ecru","la"],sizes:{S:1,M:1,L:0,XL:1},
+  det:[["Đan","mắt hổng cho gió xuyên"],["Khuy","năm khuy dừa, cài lệch được"]],
+  wear:"Lớp giữa cho 22° ẩm: ấm vai mà không hầm ngực.",story:"Đan hổng mắt là cách người miền biển giữ ấm — chắn gió chứ không giữ hơi."},
+ {id:"m16",type:"tee",col:"s4",name:"Áo dài tay cotton khô",sub:"cotton xử lý khô nhanh",fabric:"cotton",gsm:180,t:[19,28],price:560000,colors:["than","gao","reu"],sizes:{S:1,M:1,L:1,XL:1},
+  det:[["Tay","dài tay, bo cổ tay mảnh"],["Xử lý","hoàn tất khô nhanh, không mùi ẩm"]],
+  wear:"Món nền cho cả mùa nồm: giặt tối, sáng mặc.",story:"Bán chạy nhất mùa trước — năm nay thêm màu rêu theo phiếu yêu cầu của khách."},
+];
+const CITIES = [["Sài Gòn",32,"nắng gắt"],["Hà Nội",24,"mưa phùn"],["Đà Nẵng",30,"hửng nắng"],["Đà Lạt",19,"se lạnh"],["Cần Thơ",33,"oi"],["Huế",27,"âm u"],["Hải Phòng",25,"gió nhẹ"]];
+
+/* ---------- Bản vẽ kỹ thuật (SVG flats) ---------- */
+const FLAT = {
+shirt:c=>`<path fill="${c}" d="M78 26 L60 34 38 46 20 128 48 137 58 104 58 208 142 208 142 104 152 137 180 128 162 46 140 34 122 26 100 44 Z"/>
+<path d="M78 26 C84 40 92 46 100 47 C108 46 116 40 122 26"/><path d="M78 26 L88 18 100 30 112 18 122 26 114 40 100 47 86 40 Z" fill="${c}"/>
+<path d="M100 47 V208" stroke-dasharray="1 6"/><rect x="66" y="92" width="24" height="27" fill="${c}"/><rect x="110" y="92" width="24" height="27" fill="${c}"/>
+<path d="M58 104 L48 137 M142 104 L152 137"/><circle cx="100" cy="62" r="1.6"/><circle cx="100" cy="92" r="1.6"/><circle cx="100" cy="122" r="1.6"/><circle cx="100" cy="152" r="1.6"/><circle cx="100" cy="182" r="1.6"/>`,
+tee:c=>`<path fill="${c}" d="M76 30 L48 42 30 96 56 106 62 88 62 206 138 206 138 88 144 106 170 96 152 42 124 30 112 26 100 38 88 26 Z"/>
+<path d="M88 26 C92 36 96 40 100 40 C104 40 108 36 112 26"/><path d="M62 88 L56 106 M138 88 L144 106"/><path d="M64 196 H136" stroke-dasharray="2 4"/>`,
+trouser:c=>`<path fill="${c}" d="M62 26 H138 V44 L146 208 H112 L101 92 H99 L88 208 H54 L62 44 Z"/>
+<path d="M62 44 H138"/><path d="M80 26 V44 M120 26 V44"/><path d="M79 60 L72 200 M121 60 L128 200" stroke-dasharray="1 6"/><rect x="94" y="30" width="12" height="8"/>`,
+jacket:c=>`<path fill="${c}" d="M76 24 L52 34 32 50 18 132 46 140 56 106 56 210 96 210 96 52 82 38 Z"/>
+<path fill="${c}" d="M124 24 L148 34 168 50 182 132 154 140 144 106 144 210 104 210 104 52 118 38 Z"/>
+<path d="M96 52 L82 38 76 24 96 30 Z M104 52 L118 38 124 24 104 30 Z" fill="${c}"/>
+<path d="M56 106 L46 140 M144 106 L154 140"/><rect x="60" y="120" width="28" height="30" fill="${c}"/><rect x="112" y="120" width="28" height="30" fill="${c}"/>
+<rect x="62" y="66" width="22" height="18" fill="${c}"/><rect x="116" y="66" width="22" height="18" fill="${c}"/>
+<circle cx="100" cy="76" r="1.8"/><circle cx="100" cy="110" r="1.8"/><circle cx="100" cy="144" r="1.8"/><circle cx="100" cy="178" r="1.8"/>`,
+overshirt:c=>`<path fill="${c}" d="M78 26 L58 34 36 48 22 126 48 134 58 102 58 210 142 210 142 102 152 134 178 126 164 48 142 34 122 26 100 42 Z"/>
+<path d="M78 26 C86 38 93 43 100 44 C107 43 114 38 122 26"/><path d="M78 26 L88 16 100 28 112 16 122 26 113 38 100 44 87 38 Z" fill="${c}"/>
+<path d="M100 44 V210" stroke-dasharray="1 6"/><rect x="64" y="84" width="28" height="30" fill="${c}"/><rect x="108" y="84" width="28" height="30" fill="${c}"/>
+<rect x="64" y="146" width="28" height="34" fill="${c}"/><rect x="108" y="146" width="28" height="34" fill="${c}"/><path d="M64 92 H92 M108 92 H136"/>`,
+dress:c=>`<path fill="${c}" d="M80 24 L60 34 48 78 64 86 70 70 56 210 144 210 130 70 136 86 152 78 140 34 120 24 112 22 100 34 88 22 Z"/>
+<path d="M88 22 C92 32 96 36 100 36 C104 36 108 32 112 22"/><path d="M70 70 L64 86 M130 70 L136 86"/><path d="M74 110 L70 200 M126 110 L130 200" stroke-dasharray="1 6"/>`,
+knit:c=>`<path fill="${c}" d="M76 30 L50 42 30 104 56 112 62 92 62 204 138 204 138 92 144 112 170 104 150 42 124 30 112 26 100 40 88 26 Z"/>
+<path d="M88 26 C92 36 96 40 100 41 C104 40 108 36 112 26"/><path d="M62 190 H138 M62 196 H138"/>
+<path d="M72 60 V186 M82 56 V190 M92 54 V192 M100 54 V192 M110 54 V192 M120 56 V190 M130 60 V186" stroke-opacity=".35"/>`,
+scarf:c=>`<path fill="${c}" d="M56 28 H144 L132 196 H68 Z"/><path d="M68 196 L64 216 M84 196 L82 216 M100 196 V216 M116 196 L118 216 M132 196 L136 216"/>
+<path d="M60 56 H140 M62 86 H138 M64 116 H136 M66 146 H134" stroke-opacity=".35"/><path d="M56 28 L84 52 M144 28 L116 52" stroke-opacity=".5"/>`,
+tote:c=>`<path fill="${c}" d="M52 84 H148 L140 204 H60 Z"/><path d="M74 84 C74 48 126 48 126 84" fill="none"/>
+<path d="M52 104 H148" stroke-dasharray="2 5"/><path d="M60 190 H140" stroke-opacity=".4"/><rect x="86" y="126" width="28" height="20" fill="none"/>`
+};
+function flatSVG(p, hex, cls){
+  return `<svg class="${cls||""}" viewBox="0 0 200 230" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">${FLAT[p.type](hex)}</svg>`;
+}
+/* ---------- Trạng thái ---------- */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const state = { temp:32, city:"Sài Gòn, hôm nay", col:"", fabric:"", sort:"fit", layout:"table", cart:[], view:"home", pdp:null };
+try{ const c=JSON.parse(localStorage.getItem("mua-cart")||"[]"); if(Array.isArray(c)) state.cart=c; }catch{}
+const saveCart=()=>{ try{ localStorage.setItem("mua-cart", JSON.stringify(state.cart)); }catch{} };
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const byId = id => P.find(p=>p.id===id);
+const cHex = k => COLORS[k][1], cName = k => COLORS[k][0];
+const seasonOf = p => SEASONS.find(s=>s.id===p.col);
+const fitScore = p => state.temp < p.t[0] ? p.t[0]-state.temp : state.temp > p.t[1] ? state.temp-p.t[1] : 0;
+const fitText = p => { const d=fitScore(p); return d===0?"hợp trời "+state.temp+"°" : d<=3 ? "chênh "+d+"°" : "để dành mùa khác"; };
+
+/* ---------- Router ---------- */
+function show(view, opts={}){
+  state.view=view;
+  for(const s of $$("main > section")) s.hidden = s.id!=="view-"+view;
+  const sec=$("#view-"+view); sec.classList.remove("view"); void sec.offsetWidth; sec.classList.add("view");
+  $$('nav.main a').forEach(a=>a.removeAttribute("aria-current"));
+  if(view==="shop") $("#nav-shop").setAttribute("aria-current","page");
+  if(!opts.keepScroll) window.scrollTo(0,0);
+  if(location.hash.slice(1)!==opts.hash&&opts.hash!==undefined){ try{ history.replaceState(null,"","#"+(opts.hash||view)); }catch{} }
+  if(view==="shop") renderShop();
+  if(view==="pdp") renderPDP();
+}
+addEventListener("hashchange", route);
+function route(){
+  const h=location.hash.slice(1);
+  if(/^p-/.test(h) && byId("m"+h.slice(2))){ state.pdp={id:"m"+h.slice(2), color:null, size:null}; show("pdp",{hash:h}); }
+  else if(h==="shop") show("shop",{hash:h});
+  else if(h==="checkout") openCheckout(false);
+  else show("home",{hash:"home"});
+}
+document.addEventListener("click", e=>{
+  const a=e.target.closest("[data-nav]"); if(!a) return;
+  e.preventDefault();
+  const t=a.dataset.nav;
+  if(t==="seasons"){ show("home",{hash:"home"}); setTimeout(()=>$("#seasons").scrollIntoView({behavior:reduced?"auto":"smooth"}),40); }
+  else if(t==="shop") show("shop",{hash:"shop"});
+  else show("home",{hash:"home"});
+});
+function openPDP(id){ state.pdp={id, color:null, size:null}; show("pdp",{hash:"p-"+id.slice(1)}); }
+
+/* ---------- Bìa ---------- */
+function renderHome(){
+  $("#cover-flat").innerHTML = flatSVG(P[0], cHex("indigo"));
+  const chip=$("#today-chip");
+  chip.innerHTML = `Hôm nay · ${state.city.split(",")[0]}<b>${state.temp}°C</b><a href="#shop" data-nav="shop">xem đồ cho ${state.temp}° →</a>`;
+  $("#marq").innerHTML = "<span>"+["Lanh 185g cho tháng nắng","Khô nhanh cho mưa rào","Kaki 300g cho gió chướng","Kate thưa cho tuần nồm"].join("</span><span>·</span><span>")+"</span>".repeat(1) + "<span>·</span>" + "<span>"+["Lanh 185g cho tháng nắng","Khô nhanh cho mưa rào","Kaki 300g cho gió chướng","Kate thưa cho tuần nồm"].join("</span><span>·</span><span>")+"</span>";
+  $("#seasons").innerHTML = SEASONS.map(s=>{
+    const n=P.filter(p=>p.col===s.id).length;
+    return `<a class="season-row" href="#shop" data-season="${s.id}">
+      <span class="no">${s.no}</span>
+      <span class="nm">${s.name}</span>
+      <span class="sw">${s.sw.map(k=>`<i style="background:${cHex(k)}"></i>`).join("")}</span>
+      <span class="meta">${s.range[0]}–${s.range[1]}°C · ${n} món</span></a>`;
+  }).join("");
+  $$("#seasons .season-row").forEach(a=>a.addEventListener("click",e=>{
+    e.preventDefault(); state.col=a.dataset.season; state.temp=clamp(Math.round((seasonOf({col:a.dataset.season}).range[0]+seasonOf({col:a.dataset.season}).range[1])/2)); state.city="theo mùa đã chọn"; show("shop",{hash:"shop"});
+  }));
+}
+const clamp=v=>Math.min(38,Math.max(18,v));
+
+/* ---------- Ticker ---------- */
+function renderTicker(){
+  const items = CITIES.map(([n,t,w])=>`<button data-city="${n}" data-t="${t}">${n} <b>${t}°</b> ${w}</button>`).join("");
+  $("#ticker").innerHTML = items + items;
+  $$("#ticker button").forEach(b=>b.addEventListener("click",()=>{
+    state.temp=+b.dataset.t; state.city=b.dataset.city+", hôm nay";
+    show("shop",{hash:"shop"});
+  }));
+}
+
+/* ---------- Catalogue ---------- */
+function rowHTML(p, i){
+  const sold = Object.entries(p.sizes).filter(([,v])=>!v).map(([k])=>k);
+  return `<a class="row ${fitScore(p)>4?"far":""}" href="#p-${p.id.slice(1)}" data-p="${p.id}">
+    <span class="no">№ ${String(i+1).padStart(2,"0")}</span>
+    <span class="th">${flatSVG(p, cHex(p.colors[0]))}</span>
+    <span class="nm">${p.name}<small>${p.sub} — ${seasonOf(p).name}</small></span>
+    <span class="dt">${p.fabric} · ${p.gsm}g/m² · ${p.t[0]}–${p.t[1]}°C<br><span class="fit">${fitText(p)}</span></span>
+    <span class="pr">${VND(p.price)}<small>${Object.keys(p.sizes).join(" · ")}</small></span>
+    ${sold.length?`<span class="sold">hết cỡ ${sold.join(", ")}</span>`:""}</a>`;
+}
+function featureHTML(p){
+  return `<a class="feature" href="#p-${p.id.slice(1)}" data-p="${p.id}">
+    <div class="fa"><p class="q">“${p.quote}”</p>
+      <div class="mono-line"><span>${seasonOf(p).name} · ${p.fabric} ${p.gsm}g/m²</span><span>${VND(p.price)} — xem món này →</span></div></div>
+    <div class="fb">${flatSVG(p, cHex(p.colors[0]))}</div></a>`;
+}
+function listProducts(){
+  let list = P.filter(p=>(!state.col||p.col===state.col)&&(!state.fabric||p.fabric===state.fabric));
+  if(state.sort==="fit") list.sort((a,b)=>fitScore(a)-fitScore(b)||a.price-b.price);
+  if(state.sort==="asc") list.sort((a,b)=>a.price-b.price);
+  if(state.sort==="desc") list.sort((a,b)=>b.price-a.price);
+  return list;
+}
+function renderShop(){
+  const s = SEASONS.find(x=>x.id===state.col);
+  $("#plp-title").textContent = s? s.name : "Catalogue";
+  $("#plp-sub").textContent = s? s.desc : "Toàn bộ quần áo đang may, xếp theo độ hợp với nhiệt độ bạn chọn.";
+  $("#dial").value=state.temp; $("#dial-v").textContent=state.temp; $("#dial-city").textContent=state.city;
+  const tools = [
+    `<button class="tool" data-f="col" data-v="" aria-pressed="${!state.col}">Tất cả mùa</button>`,
+    ...SEASONS.map(x=>`<button class="tool" data-f="col" data-v="${x.id}" aria-pressed="${state.col===x.id}">${x.name}</button>`),
+    `<span class="sep"></span>`,
+    ...["lanh","cotton","kate","kaki","khô nhanh","len cotton"].map(f=>`<button class="tool" data-f="fabric" data-v="${f}" aria-pressed="${state.fabric===f}">${f}</button>`),
+    `<select class="tool" id="sort" aria-label="Sắp xếp">
+       <option value="fit" ${state.sort==="fit"?"selected":""}>Hợp trời nhất</option>
+       <option value="asc" ${state.sort==="asc"?"selected":""}>Giá thấp → cao</option>
+       <option value="desc" ${state.sort==="desc"?"selected":""}>Giá cao → thấp</option></select>`,
+    `<button class="tool" id="layout-t">${state.layout==="table"?"Xem lưới":"Xem bảng"}</button>`
+  ].join("");
+  $("#tools").innerHTML=tools;
+  $$("#tools .tool[data-f]").forEach(b=>b.addEventListener("click",()=>{
+    const f=b.dataset.f, v=b.dataset.v;
+    state[f] = state[f]===v? "": v; renderShop();
+  }));
+  $("#sort").addEventListener("change",e=>{state.sort=e.target.value;renderShop();});
+  $("#layout-t").addEventListener("click",()=>{state.layout=state.layout==="table"?"grid":"table";renderShop();});
+  const list=listProducts();
+  $("#count-line").textContent = list.length+" món · nhiệt độ đang chọn "+state.temp+"°C · giá đã gồm VAT";
+  const led=$("#ledger");
+  if(state.layout==="grid"){
+    led.innerHTML = `<div class="grid-v">`+list.map(p=>`<a class="cell ${fitScore(p)>4?"far":""}" href="#p-${p.id.slice(1)}" data-p="${p.id}">
+      ${flatSVG(p,cHex(p.colors[0]))}<span class="nm">${p.name}</span>
+      <span class="mono sm">${p.fabric} · ${p.t[0]}–${p.t[1]}° · <span class="fit sun">${fitText(p)}</span></span>
+      <span class="mono">${VND(p.price)}</span></a>`).join("")+`</div>`;
+  }else{
+    let html="", i=0;
+    for(const p of list){ html+=rowHTML(p,i); i++; if(p.quote && fitScore(p)<=4) html+=featureHTML(p); }
+    led.innerHTML=html;
+  }
+  $$("#ledger a[data-p]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();openPDP(a.dataset.p);}));
+  $("#dial-fit").textContent = list.filter(p=>fitScore(p)===0).length+" món hợp "+state.temp+"°.";
+}
+let dialT=null;
+document.addEventListener("input",e=>{
+  if(e.target.id!=="dial") return;
+  state.temp=+e.target.value; state.city="bạn tự chọn";
+  $("#dial-v").textContent=state.temp;
+  clearTimeout(dialT); dialT=setTimeout(()=>{ renderShop(); }, 140);
+});
+
+/* ---------- PDP ---------- */
+function renderPDP(){
+  const p=byId(state.pdp.id); if(!p){show("shop",{hash:"shop"});return;}
+  const sel=state.pdp; sel.color=sel.color||p.colors[0];
+  const idx=P.indexOf(p)+1, s=seasonOf(p);
+  const sizes=Object.entries(p.sizes);
+  const rel=P.filter(x=>x.id!==p.id && fitScore(x)<=2).slice(0,6);
+  $("#view-pdp").innerHTML = `
+  <div class="pdp-top">
+    <div class="pdp-stage">
+      <span class="pdp-idx">№ ${String(idx).padStart(2,"0")} — ${s.name} · bản vẽ kỹ thuật, mặt trước</span>
+      <div id="pdp-flat">${flatSVG(p, cHex(sel.color))}</div>
+      ${p.det[0]?`<span class="callout c1">${p.det[0][1]}</span>`:""}
+      ${p.det[1]?`<span class="callout c2">${p.det[1][1]}</span>`:""}
+      <span class="pdp-temp">mặc dễ chịu <b>${p.t[0]}–${p.t[1]}°C</b> · hôm nay ${state.temp}° — ${fitText(p)}</span>
+    </div>
+    <div class="buy">
+      <p class="bc"><a href="#shop" data-nav="shop">Catalogue</a> / ${s.name}</p>
+      <h1 class="pdp-name">${p.name}</h1>
+      <p style="color:var(--muted)">${p.sub}</p>
+      <p class="pdp-price">${VND(p.price)}<small>đã gồm VAT · đổi trả 30 ngày</small></p>
+      <div class="opt"><h4>Màu — <b id="c-name">${cName(sel.color)}</b></h4>
+        <div class="swatches">${p.colors.map(k=>`<button class="swatch" data-c="${k}" aria-pressed="${k===sel.color}" aria-label="Màu ${cName(k)}" style="background:${cHex(k)}"></button>`).join("")}</div></div>
+      <div class="opt"><h4>Cỡ ${sizes.length===1?"— một cỡ":""}</h4>
+        <div class="sizes">${sizes.map(([k,v])=>`<button class="size" data-s="${k}" ${v?"":"disabled"} aria-pressed="false">${k}</button>`).join("")}</div>
+        <p class="err" id="size-err"></p></div>
+      <button class="cta sun" id="add" type="button">Cho vào giỏ — ${VND(p.price)}</button>
+      <p class="buy-note">Giao 2–4 ngày toàn quốc · thanh toán khi nhận<br>May tại xưởng Tân Bình, Sài Gòn</p>
+    </div>
+  </div>
+  <div class="pdp-sec"><h3>Thông số</h3>
+    <dl class="spec-list">${[["Chất liệu",p.fabric+" · "+p.gsm+"g/m²"],["Khoảng nhiệt", p.t[0]+"–"+p.t[1]+"°C"],...p.det].map(([k,v])=>`<div><dt>${k}</dt><dd style="margin:0">${v}</dd></div>`).join("")}</dl></div>
+  <div class="pdp-sec"><h3>Vải &amp; nhiệt độ</h3>
+    <div><div class="fab-swatch" id="fab-swatch"></div>
+      <div class="temp-mini"><div class="bar"><span class="win" style="left:${(Math.max(18,p.t[0])-18)/20*100}%;width:${(Math.min(38,p.t[1])-Math.max(18,p.t[0]))/20*100}%"></span></div>
+      <div class="lab"><span>18°</span><span>28°</span><span>38°</span></div></div></div></div>
+  <div class="pdp-sec"><h3>Mặc lúc nào</h3><p class="body">${p.wear}</p></div>
+  <div class="pdp-sec"><h3>Chuyện của món này</h3><p class="body serif" style="font-style:italic;font-size:19px">${p.story}</p></div>
+  <div class="pdp-sec" style="border-bottom:0"><h3>Giặt &amp; giữ</h3><p class="body mono" style="font-size:12.5px;line-height:2">giặt máy nước lạnh, chế độ nhẹ · không sấy · phơi bóng râm · ủi mặt trái nhiệt thấp</p></div>
+  <div class="rel-strip">${rel.map(x=>`<a href="#p-${x.id.slice(2-1)}" data-rel="${x.id}">${flatSVG(x,cHex(x.colors[0]))}
+     <span class="nm">${x.name}</span><span class="mono sm">cùng mặc được lúc ${state.temp}° · ${VND(x.price)}</span></a>`).join("")||""}</div>
+  <div class="mobile-buy"><span class="mono">${VND(p.price)}</span><button class="cta sun" id="add-m" type="button">Cho vào giỏ</button></div>`;
+  const paintFab=()=>{ const h=cHex(state.pdp.color);
+    $("#fab-swatch").style.background = `repeating-linear-gradient(0deg, rgba(22,21,15,.10) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, rgba(22,21,15,.12) 0 1px, transparent 1px 4px), ${h}`; };
+  paintFab();
+  $$("#view-pdp .swatch").forEach(b=>b.addEventListener("click",()=>{
+    state.pdp.color=b.dataset.c;
+    $$("#view-pdp .swatch").forEach(x=>x.setAttribute("aria-pressed", String(x===b)));
+    $("#c-name").textContent=cName(b.dataset.c);
+    $("#pdp-flat").innerHTML=flatSVG(p,cHex(b.dataset.c)); paintFab();
+  }));
+  $$("#view-pdp .size").forEach(b=>b.addEventListener("click",()=>{
+    state.pdp.size=b.dataset.s;
+    $$("#view-pdp .size").forEach(x=>x.setAttribute("aria-pressed", String(x===b)));
+    $("#size-err").textContent="";
+  }));
+  if(sizes.length===1){ state.pdp.size=sizes[0][0]; }
+  const add=(btn)=>{
+    if(!state.pdp.size){ $("#size-err").textContent="Chọn cỡ trước đã."; $("#view-pdp .sizes").scrollIntoView({block:"center",behavior:reduced?"auto":"smooth"}); return; }
+    addToCart(p.id, state.pdp.color, state.pdp.size, btn);
+  };
+  $("#add").addEventListener("click",e=>add(e.currentTarget));
+  $("#add-m").addEventListener("click",e=>add(e.currentTarget));
+  $$("#view-pdp [data-rel]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();openPDP(a.dataset.rel);}));
+}
+
+/* ---------- Giỏ ---------- */
+const keyOf=i=>i.id+"/"+i.color+"/"+i.size;
+function addToCart(id,color,size,fromEl){
+  const found=state.cart.find(i=>i.id===id&&i.color===color&&i.size===size);
+  if(found) found.q++; else state.cart.push({id,color,size,q:1});
+  saveCart(); renderCartBadge(true);
+  if(fromEl && !reduced) fly(fromEl);
+  setTimeout(()=>openCart(), reduced?0:520);
+}
+function fly(fromEl){
+  const p=byId(state.pdp.id); const r=fromEl.getBoundingClientRect(), t=$("#cart-n").getBoundingClientRect();
+  const el=document.createElement("div"); el.className="fly"; el.innerHTML=flatSVG(p,cHex(state.pdp.color));
+  el.style.left=r.left+r.width/2-35+"px"; el.style.top=r.top-20+"px";
+  document.body.append(el);
+  requestAnimationFrame(()=>{ el.style.transform=`translate(${t.left-r.left-r.width/2+35}px, ${t.top-r.top+10}px) scale(.15) rotate(20deg)`; el.style.opacity=".2"; });
+  setTimeout(()=>el.remove(),600);
+}
+function cartCount(){ return state.cart.reduce((a,i)=>a+i.q,0); }
+function cartTotal(){ return state.cart.reduce((a,i)=>a+byId(i.id).price*i.q,0); }
+function renderCartBadge(tick){
+  const n=$("#cart-n"); n.textContent=cartCount();
+  if(tick){ n.classList.remove("tick"); void n.offsetWidth; n.classList.add("tick"); setTimeout(()=>n.classList.remove("tick"),300); }
+}
+function renderCart(){
+  const list=$("#cart-list"), foot=$("#cart-foot");
+  if(!state.cart.length){
+    list.innerHTML=`<div class="cart-empty"><p class="serif">Giỏ đang trống — như tủ đồ đầu mùa.</p>
+      <a class="cta ghost" href="#shop" data-nav="shop" id="empty-go">Mở catalogue</a></div>`;
+    $("#empty-go").addEventListener("click",()=>closeCart());
+    foot.innerHTML=""; return;
+  }
+  list.innerHTML=state.cart.map(i=>{const p=byId(i.id);return `<div class="citem" data-k="${keyOf(i)}">
+    ${flatSVG(p,cHex(i.color))}
+    <div><p class="nm">${p.name}</p><p class="mono sm">${cName(i.color)} · cỡ ${i.size}</p>
+      <div class="qty"><button data-d="-1" aria-label="Bớt một">−</button><span>${i.q}</span><button data-d="1" aria-label="Thêm một">+</button></div></div>
+    <div><p class="pr">${VND(p.price*i.q)}</p><button class="rm">bỏ ra</button></div></div>`;}).join("");
+  const total=cartTotal(), ship= total>=1500000?0:30000;
+  foot.innerHTML=`<div class="trow"><span>Tạm tính (${cartCount()} món)</span><span>${VND(total)}</span></div>
+    <div class="trow"><span>Giao hàng</span><span>${ship?VND(ship):"miễn phí"}</span></div>
+    ${ship?`<div class="trow mono sm" style="color:var(--muted)"><span>Thêm ${VND(1500000-total)} để miễn phí giao</span><span></span></div>`:""}
+    <div class="trow total"><span>Tổng</span><span>${VND(total+ship)}</span></div>
+    <button class="cta sun" style="justify-content:center" id="to-co">Đặt hàng →</button>
+    <p class="mono sm" style="color:var(--muted);text-align:center">Thanh toán khi nhận hàng — không cần thẻ.</p>`;
+  $$(".citem").forEach(row=>{
+    const k=row.dataset.k, item=state.cart.find(i=>keyOf(i)===k);
+    $$("button[data-d]",row).forEach(b=>b.addEventListener("click",()=>{
+      item.q+=+b.dataset.d; if(item.q<=0) state.cart=state.cart.filter(i=>i!==item);
+      saveCart(); renderCart(); renderCartBadge();
+    }));
+    $(".rm",row).addEventListener("click",()=>{ state.cart=state.cart.filter(i=>i!==item); saveCart(); renderCart(); renderCartBadge(); });
+  });
+  $("#to-co").addEventListener("click",()=>{ closeCart(); openCheckout(true); });
+}
+function openCart(){ renderCart(); $("#drawer").classList.add("on"); $("#scrim").classList.add("on"); }
+function closeCart(){ $("#drawer").classList.remove("on"); $("#scrim").classList.remove("on"); }
+$("#btn-cart").addEventListener("click",openCart);
+$("#cart-close").addEventListener("click",closeCart);
+$("#scrim").addEventListener("click",closeCart);
+/* ---------- Tìm kiếm ---------- */
+const strip=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d");
+function openSearch(){ $("#search-ov").classList.add("on"); setTimeout(()=>$("#q").focus(),80); doSearch(); }
+function closeSearch(){ $("#search-ov").classList.remove("on"); }
+$("#btn-search").addEventListener("click",openSearch);
+$("#search-close").addEventListener("click",closeSearch);
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeSearch(); closeCart(); } });
+$("#q").addEventListener("input",doSearch);
+function doSearch(){
+  const q=strip($("#q").value.trim());
+  let list=P;
+  if(q){
+    const t=parseInt(q,10);
+    list = (!isNaN(t)&&String(t)===q) ? P.filter(p=>t>=p.t[0]&&t<=p.t[1])
+      : P.filter(p=>[p.name,p.sub,p.fabric,seasonOf(p).name].some(x=>strip(x).includes(q)));
+  }
+  $("#search-res").innerHTML = list.length? list.map((p,i)=>rowHTML(p,i)).join("")
+    : `<p class="wrap" style="padding-block:40px;color:var(--muted)">Không thấy gì cho “${$("#q").value}”. Thử “lanh”, “khoác”, hoặc một nhiệt độ như “24”.</p>`;
+  $$("#search-res a[data-p]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();closeSearch();openPDP(a.dataset.p);}));
+}
+
+/* ---------- Thanh toán ---------- */
+function openCheckout(push){
+  if(!state.cart.length){ show("shop",{hash:"shop"}); return; }
+  const total=cartTotal(), ship= total>=1500000?0:30000;
+  $("#view-co").innerHTML=`<div class="co">
+    <p class="mono"><a href="#shop" data-nav="shop" style="color:var(--muted)">← Quay lại catalogue</a></p>
+    <h1>Đặt hàng</h1>
+    <p class="mono">MÙA giao 2–4 ngày, kiểm hàng trước khi trả tiền.</p>
+    <div class="steps"><span class="on">1 · Người nhận</span><span class="on">2 · Giao hàng</span><span class="on">3 · Xem lại</span></div>
+    <form id="co-form" novalidate>
+      <fieldset><legend>Người nhận</legend>
+        <div class="f2">
+          <div class="fld"><label for="f-name">Họ tên</label><input id="f-name" autocomplete="name" required></div>
+          <div class="fld"><label for="f-phone">Số điện thoại</label><input id="f-phone" inputmode="tel" autocomplete="tel" required></div>
+        </div>
+        <div class="fld"><label for="f-addr">Địa chỉ nhận hàng</label><input id="f-addr" autocomplete="street-address" placeholder="số nhà, đường, phường/xã" required></div>
+        <div class="f2">
+          <div class="fld"><label for="f-city">Tỉnh / thành</label>
+            <select id="f-city">${["TP. Hồ Chí Minh","Hà Nội","Đà Nẵng","Cần Thơ","Lâm Đồng","Huế","Hải Phòng","Tỉnh khác"].map(c=>`<option>${c}</option>`).join("")}</select></div>
+          <div class="fld"><label for="f-note">Ghi chú cho shipper (không bắt buộc)</label><input id="f-note" placeholder="giờ nhận, chỗ gửi đồ…"></div>
+        </div>
+      </fieldset>
+      <fieldset><legend>Khung giờ nhận</legend>
+        <div class="f2">
+          ${["Trong giờ hành chính","Tối 18–21h"].map((w,i)=>`<label class="radio"><input type="radio" name="win" ${i===0?"checked":""}><span><b>${w}</b></span></label>`).join("")}
+        </div>
+      </fieldset>
+      <fieldset><legend>Thanh toán</legend>
+        <label class="radio"><input type="radio" name="pay" checked><span><b>Khi nhận hàng (COD)</b><span class="mono sm">Kiểm tra món đồ, ưng rồi mới trả tiền.</span></span></label>
+        <label class="radio"><input type="radio" name="pay"><span><b>Chuyển khoản khi nhận</b><span class="mono sm">Shipper đưa mã QR của MÙA lúc giao.</span></span></label>
+      </fieldset>
+      <div class="co-sum">
+        ${state.cart.map(i=>{const p=byId(i.id);return `<div class="trow"><span>${p.name} · ${cName(i.color)} / ${i.size} × ${i.q}</span><span>${VND(p.price*i.q)}</span></div>`;}).join("")}
+        <div class="trow"><span>Giao hàng</span><span>${ship?VND(ship):"miễn phí"}</span></div>
+        <div class="trow total"><span>Tổng phải trả</span><span>${VND(total+ship)}</span></div>
+      </div>
+      <p class="err" id="co-err"></p>
+      <button class="cta sun" style="width:100%;justify-content:center;padding:17px" type="submit">Xác nhận đặt hàng — ${VND(total+ship)}</button>
+      <p class="mono sm" style="color:var(--muted);margin-top:12px;text-align:center">Trang dựng ý tưởng — đơn hàng không có thật, không thu tiền.</p>
+    </form></div>`;
+  show("co",{hash:"checkout"});
+  $("#co-form").addEventListener("submit",e=>{
+    e.preventDefault();
+    const miss=["f-name","f-phone","f-addr"].filter(id=>!$("#"+id).value.trim());
+    if(miss.length){ $("#co-err").textContent="Điền giúp MÙA họ tên, số điện thoại và địa chỉ nhé."; $("#"+miss[0]).focus(); return; }
+    finishOrder();
+  });
+}
+function finishOrder(){
+  const d=new Date(), code="MÙA-"+String(d.getDate()).padStart(2,"0")+String(d.getMonth()+1).padStart(2,"0")+"-"+String(Math.floor(Math.random()*90)+10);
+  const total=cartTotal()+(cartTotal()>=1500000?0:30000), n=cartCount();
+  const name=$("#f-name").value.trim().split(" ").slice(-1)[0];
+  const rec=P.filter(p=>fitScore(p)===0 && !state.cart.some(i=>i.id===p.id))[0];
+  state.cart=[]; saveCart(); renderCartBadge();
+  $("#view-done").innerHTML=`<div class="done">
+    <svg class="stamp" viewBox="0 0 200 200" aria-hidden="true">
+      <defs><path id="cir" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/></defs>
+      <circle cx="100" cy="100" r="96" fill="none" stroke="var(--sun)" stroke-width="2"/>
+      <circle cx="100" cy="100" r="58" fill="none" stroke="var(--sun)" stroke-width="1.5"/>
+      <text style="font:500 13px var(--mono);letter-spacing:.3em;fill:var(--sun)"><textPath href="#cir" startOffset="0">ĐÃ VÀO MÙA · MAY TẠI SÀI GÒN ·</textPath></text>
+      <g stroke="var(--sun)" stroke-width="2.5"><circle cx="100" cy="100" r="17" fill="none"/>
+      ${[0,45,90,135,180,225,270,315].map(a=>`<line x1="100" y1="70" x2="100" y2="60" transform="rotate(${a} 100 100)"/>`).join("")}</g></svg>
+    <div>
+      <h1>Cảm ơn ${name||"bạn"}, đơn đã vào mùa.</h1>
+      <p class="ord">Mã đơn <b>${code}</b> · ${n} món · ${VND(total)}</p>
+      <p style="max-width:520px;color:var(--muted)">Xưởng cắt vải trong hôm nay. Tin nhắn báo số vận đơn sẽ đến trong 24 giờ, hàng đến tay trong 2–4 ngày.</p>
+      <div class="done-meta">
+        <div><b>Theo dõi đơn</b><span class="mono">tin nhắn gửi về ${$("#f-phone")?"số của bạn":""}</span></div>
+        <div><b>Đổi trả</b><span class="mono">30 ngày, xưởng chịu phí gửi</span></div>
+        ${rec?`<div><b>Trời ${state.temp}° tuần này</b><a class="mono sun" href="#p-${rec.id.slice(1)}" id="rec-a" style="text-decoration:underline">thêm ${rec.name.toLowerCase()}? →</a></div>`:""}
+      </div>
+      <div style="display:flex;gap:14px;margin-top:34px;flex-wrap:wrap">
+        <a class="cta" href="#shop" data-nav="shop">Xem tiếp catalogue</a>
+        <a class="cta ghost" href="#home" data-nav="home">Về trang bìa</a>
+      </div>
+    </div></div>`;
+  show("done",{hash:"done"});
+  const ra=$("#rec-a"); if(ra) ra.addEventListener("click",e=>{e.preventDefault();openPDP("m"+ra.getAttribute("href").split("p-")[1]);});
+}
+
+/* ---------- Khởi động ---------- */
+renderTicker(); renderHome(); renderCartBadge();
+route();
+</script>
+</body>
+</html>

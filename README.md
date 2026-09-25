@@ -37,3 +37,7 @@ python3 build.py
 | `src/chat.js` | Trò chuyện nhập vai với AI |
 | `src/ai.js` | Chấm câu bằng AI, điền từ tự động, khởi động |
 | `src/style.css`, `src/body.html` | Giao diện |
+
+## MÙA — trang thương mại concept
+
+Thư mục `mua/` là một website riêng: cửa hàng thời trang hư cấu **MÙA**, concept "mua đồ theo nhiệt độ ngoài trời". Một file `mua/index.html` duy nhất, mở trực tiếp là chạy. Flow đủ: bìa → catalogue (nhiệt kế 18–38°C) → trang sản phẩm → giỏ → đặt hàng COD → xác nhận.
