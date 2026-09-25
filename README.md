@@ -41,3 +41,7 @@ python3 build.py
 ## MÙA — trang thương mại concept
 
 Thư mục `mua/` là một website riêng: cửa hàng thời trang hư cấu **MÙA**, concept "mua đồ theo nhiệt độ ngoài trời". Một file `mua/index.html` duy nhất, mở trực tiếp là chạy. Flow đủ: bìa → catalogue (nhiệt kế 18–38°C) → trang sản phẩm → giỏ → đặt hàng COD → xác nhận.
+
+## Tiệm Bà Tư — tạp hóa online concept
+
+Thư mục `taphoa/` là website thứ hai cùng dạng: tạp hóa hư cấu **Tiệm Bà Tư**. Mặt tiền tiệm vẽ bằng SVG làm điều hướng, giỏ hàng là cuốn sổ ghi viết tay, và ô "Cô ơi, cho con…" hiểu nguyên câu nói để tự nhặt món. Một file `taphoa/index.html`, mở trực tiếp là chạy.

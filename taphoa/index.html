@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tiệm Bà Tư</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Itim&family=Pattaya&family=Be+Vietnam+Pro:wght@400;500;600&display=swap">
+<style>
+:root{
+  --wall:#F7EFDA; --wall-2:#F1E5C8; --sign:#1C4E9E; --sign-d:#153B79; --gold:#FFC93C;
+  --red:#D6412B; --wood:#B4783C; --wood-d:#8A5A2B; --ink:#2A241B; --muted:#7A705D;
+  --paper:#FFFDF4; --bic:#2B4FA3; --mint:#3E7C6B; --line:#E2D7BC;
+  --disp:"Baloo 2",system-ui,sans-serif; --hand:"Itim",cursive; --brush:"Pattaya",cursive; --ui:"Be Vietnam Pro",system-ui,sans-serif;
+  --gut:clamp(14px,4vw,48px);
+}
+*{box-sizing:border-box}
+::selection{background:var(--sign);color:#fff}
+body{margin:0;background:var(--wall);color:var(--ink);font-family:var(--ui);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,p{margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+input,select,textarea{font:inherit;color:inherit}
+img,svg{display:block;max-width:100%}
+:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+[hidden]{display:none!important}
+.wrap{padding-inline:var(--gut)}
+.hand{font-family:var(--hand)}
+.disp{font-family:var(--disp)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+
+/* ---------- Đầu trang: bảng hiệu ---------- */
+header.site{position:sticky;top:0;z-index:40;background:var(--sign);color:#fff;border-bottom:4px solid var(--gold);box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.bar{display:flex;align-items:center;gap:20px;height:60px}
+.wordmark{font-family:var(--disp);font-weight:800;font-size:24px;line-height:1;color:var(--gold);text-decoration:none;text-shadow:2px 2px 0 var(--sign-d);letter-spacing:.01em;white-space:nowrap}
+nav.main{display:flex;gap:18px}
+nav.main a{font-family:var(--disp);font-weight:600;font-size:14.5px;color:#fff;text-decoration:none;opacity:.9;padding:4px 0;border-bottom:3px solid transparent}
+nav.main a:hover{opacity:1;border-bottom-color:var(--gold)}
+nav.main a[aria-current="page"]{opacity:1;border-bottom-color:var(--gold)}
+.grow{flex:1}
+.open-chip{font-family:var(--hand);font-size:13px;color:#DCE7FF;white-space:nowrap}
+.open-chip i{display:inline-block;width:9px;height:9px;border-radius:50%;background:#6FE08B;margin-right:6px}
+#btn-so{font-family:var(--disp);font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;background:var(--gold);color:var(--sign-d);padding:8px 14px;border-radius:10px;box-shadow:0 3px 0 rgba(0,0,0,.25);transition:transform .12s}
+#btn-so:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+#so-n{display:inline-grid;place-items:center;min-width:22px;height:22px;background:var(--red);color:#fff;border-radius:50%;font-size:12.5px;transition:transform .2s}
+#so-n.tick{transform:scale(1.4)}
+
+/* ---------- Mặt tiền tiệm ---------- */
+.front{position:relative;border-bottom:5px solid var(--wood-d);
+  background:
+    radial-gradient(circle at 25% 30%, rgba(62,124,107,.16) 0 22%, transparent 23%),
+    radial-gradient(circle at 75% 70%, rgba(214,65,43,.10) 0 22%, transparent 23%),
+    repeating-linear-gradient(0deg, transparent 0 55px, rgba(42,36,27,.07) 55px 56px),
+    repeating-linear-gradient(90deg, transparent 0 55px, rgba(42,36,27,.07) 55px 56px),
+    var(--wall-2)}
+.front-in{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(18px,3vw,44px);align-items:center;padding-block:clamp(20px,4vw,52px)}
+.front svg.store{width:100%;height:auto;filter:drop-shadow(0 14px 22px rgba(42,36,27,.22))}
+.front h1{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.6vw,58px);line-height:1.06;letter-spacing:-.01em;text-wrap:balance}
+.front h1 .brush{font-family:var(--brush);font-weight:400;color:var(--red);font-size:1.18em}
+.front .lede{margin-top:14px;max-width:460px;font-size:clamp(15px,1.35vw,17.5px)}
+.hotspot{cursor:pointer}
+.hotspot:hover .hl{stroke:var(--red);stroke-width:5}
+/* Ô "Cô ơi" */
+.coioi{margin-top:22px;background:var(--paper);border:2.5px solid var(--ink);border-radius:14px;padding:14px 16px;box-shadow:5px 6px 0 rgba(42,36,27,.9);max-width:520px}
+.coioi label{font-family:var(--brush);font-size:22px;color:var(--sign);display:block;margin-bottom:6px}
+.coioi .row{display:flex;gap:10px}
+#say{flex:1;border:0;background:transparent;font-family:var(--hand);font-size:18px;color:var(--bic);outline:none;min-width:0}
+#say::placeholder{color:#A9B7D8}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--disp);font-weight:700;font-size:15px;background:var(--red);color:#fff;padding:10px 18px;border-radius:10px;box-shadow:0 3px 0 #93291A;transition:transform .12s;text-decoration:none}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #93291A}
+.btn.blue{background:var(--sign);box-shadow:0 3px 0 var(--sign-d)}
+.btn.wood{background:var(--wood);box-shadow:0 3px 0 var(--wood-d)}
+.coioi .hint{font-size:12px;color:var(--muted);margin-top:8px}
+.say-reply{margin-top:10px;font-family:var(--hand);font-size:15.5px;color:var(--mint);min-height:1.4em}
+.say-reply .no{color:var(--red)}
+
+/* ---------- Khu kệ (index) ---------- */
+.zones{padding-block:clamp(22px,4vw,44px)}
+.zones h2, .sec-h{font-family:var(--disp);font-weight:800;font-size:clamp(22px,3vw,32px)}
+.sec-sub{color:var(--muted);margin-top:2px}
+.zone-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:18px}
+.zone{background:var(--paper);border:2.5px solid var(--ink);border-radius:14px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px;box-shadow:4px 5px 0 rgba(42,36,27,.85);transition:transform .15s;text-align:left}
+.zone:hover{transform:translateY(-3px) rotate(-.6deg)}
+.zone svg{height:52px;width:auto;margin-inline:auto}
+.zone b{font-family:var(--disp);font-weight:700;font-size:15.5px;line-height:1.2}
+.zone span{font-family:var(--hand);font-size:12.5px;color:var(--muted)}
+/* ---------- Kệ hàng (PLP) ---------- */
+.shop-head{display:flex;align-items:end;justify-content:space-between;gap:18px;flex-wrap:wrap;padding-block:clamp(18px,3vw,34px) 12px}
+.shop-head h1{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.4vw,52px);line-height:1}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding-block:10px 4px;position:sticky;top:60px;background:var(--wall);z-index:30}
+.tool{font-family:var(--disp);font-weight:600;font-size:13.5px;border:2px solid var(--ink);border-radius:999px;padding:7px 14px;background:var(--paper);transition:transform .12s}
+.tool:hover{transform:translateY(-1px)}
+.tool[aria-pressed="true"]{background:var(--sign);border-color:var(--sign);color:#fff}
+select.tool{appearance:none;padding-right:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M0 0l5 7 5-7z' fill='%232A241B'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center}
+.tools .sep{flex:1}
+.count-line{font-family:var(--hand);font-size:13.5px;color:var(--muted);padding-block:8px 2px}
+/* mỗi khu = một kệ gỗ */
+.shelf-sec{padding-top:18px}
+.shelf-tag{display:inline-block;font-family:var(--brush);font-size:clamp(20px,2.6vw,27px);color:var(--paper);background:var(--mint);padding:5px 18px 7px;border-radius:8px;transform:rotate(-1.2deg);box-shadow:3px 4px 0 rgba(42,36,27,.5)}
+.shelf-tag.alt{background:var(--red)}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:0 14px;align-items:end;margin-top:6px;padding:18px 10px 0;position:relative}
+.shelf::after{content:"";grid-column:1/-1;height:16px;background:linear-gradient(var(--wood),var(--wood-d));border-radius:3px;box-shadow:0 5px 0 rgba(42,36,27,.25);margin-top:-2px}
+.item{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 8px 14px;text-decoration:none;text-align:center;border-radius:12px 12px 0 0;transition:background .15s;position:relative}
+.item:hover{background:rgba(255,255,255,.65)}
+.item svg{height:110px;width:auto;transition:transform .18s}
+.item:hover svg{transform:translateY(-6px) rotate(-2deg)}
+.item .nm{font-family:var(--disp);font-weight:600;font-size:14.5px;line-height:1.2}
+.item .why{font-family:var(--hand);font-size:12px;color:var(--muted);line-height:1.35}
+.tagp{font-family:var(--hand);font-size:15px;color:var(--red);background:var(--paper);border:1.5px dashed var(--red);border-radius:6px;padding:1px 9px;transform:rotate(-1.5deg)}
+.item .out{position:absolute;top:6px;right:6px;font-family:var(--hand);font-size:11px;background:var(--ink);color:var(--gold);padding:2px 8px;border-radius:6px;transform:rotate(3deg)}
+/* món bà Tư dặn (phá lưới) */
+.dặn{display:grid;grid-template-columns:auto 1fr auto;gap:clamp(14px,3vw,36px);align-items:center;background:var(--sign);color:#fff;border-radius:18px;margin-block:26px;padding:clamp(16px,3vw,30px);box-shadow:6px 7px 0 rgba(42,36,27,.85);position:relative;overflow:hidden}
+.dặn::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent 0 26px,rgba(255,255,255,.05) 26px 52px)}
+.dặn svg{height:130px;width:auto;position:relative}
+.dặn .q{font-family:var(--hand);font-size:clamp(17px,2.2vw,23px);line-height:1.45;max-width:560px;position:relative}
+.dặn .q b{color:var(--gold);font-family:var(--brush);font-weight:400;font-size:1.15em}
+.dặn .btn{position:relative}
+
+/* ---------- Trang món (PDP) ---------- */
+.pdp{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(18px,4vw,54px);padding-block:clamp(20px,4vw,46px)}
+.pdp-stage{background:
+  radial-gradient(circle at 24% 26%, rgba(62,124,107,.14) 0 20%, transparent 21%),
+  radial-gradient(circle at 78% 72%, rgba(214,65,43,.10) 0 20%, transparent 21%),
+  repeating-linear-gradient(0deg, transparent 0 48px, rgba(42,36,27,.06) 48px 49px),
+  repeating-linear-gradient(90deg, transparent 0 48px, rgba(42,36,27,.06) 48px 49px),
+  var(--paper);
+  border:2.5px solid var(--ink);border-radius:18px;box-shadow:6px 7px 0 rgba(42,36,27,.85);
+  display:grid;place-items:end center;padding:clamp(20px,3.5vw,46px);position:relative;min-height:380px}
+.pdp-stage>svg{margin-bottom:calc(clamp(14px,2.5vw,30px) + 8px)}
+.pdp-stage svg{height:clamp(200px,26vw,300px);width:auto;filter:drop-shadow(0 12px 14px rgba(42,36,27,.2))}
+.pdp-stage::after{content:"";position:absolute;left:8%;right:8%;bottom:clamp(14px,2.5vw,30px);height:13px;background:linear-gradient(var(--wood),var(--wood-d));border-radius:3px}
+.pdp-zone{position:absolute;top:14px;left:16px;font-family:var(--hand);font-size:13px;color:var(--muted)}
+.pdp-price-tag{position:absolute;right:clamp(10px,2vw,26px);top:clamp(10px,2vw,26px);font-family:var(--hand);background:var(--gold);color:var(--ink);border:2px solid var(--ink);border-radius:10px;padding:8px 14px;font-size:22px;transform:rotate(4deg);box-shadow:3px 4px 0 rgba(42,36,27,.6)}
+.pdp-price-tag small{display:block;font-size:11.5px;line-height:1.1}
+.pdp-info h1{font-family:var(--disp);font-weight:800;font-size:clamp(28px,3.6vw,44px);line-height:1.06}
+.pdp-info .sub{color:var(--muted);margin-top:6px}
+.opt{margin-top:20px}
+.opt h4{font-family:var(--hand);font-size:14px;color:var(--muted);font-weight:400;margin-bottom:8px}
+.units{display:flex;gap:10px;flex-wrap:wrap}
+.unit{font-family:var(--hand);font-size:15.5px;border:2px solid var(--ink);border-radius:10px;padding:9px 14px;background:var(--paper);box-shadow:3px 3px 0 rgba(42,36,27,.5);transition:transform .12s}
+.unit:hover{transform:translateY(-2px)}
+.unit[aria-pressed="true"]{background:var(--sign);color:#fff;border-color:var(--sign)}
+.unit small{display:block;font-size:12px;opacity:.8}
+.qty-row{display:flex;align-items:center;gap:14px;margin-top:20px}
+.qty{display:inline-flex;border:2px solid var(--ink);border-radius:10px;overflow:hidden;background:var(--paper)}
+.qty button{width:38px;height:40px;font-family:var(--disp);font-weight:700;font-size:18px}
+.qty button:hover{background:var(--wall-2)}
+.qty span{width:44px;display:grid;place-items:center;font-family:var(--hand);font-size:17px;border-inline:2px solid var(--ink)}
+#add{font-size:16.5px;padding:13px 22px}
+.pdp-note{font-family:var(--hand);font-size:13.5px;color:var(--muted);margin-top:12px;line-height:1.7}
+.co-ke{margin-top:24px;background:var(--paper);border:2px dashed var(--mint);border-radius:14px;padding:14px 16px}
+.co-ke h4{font-family:var(--brush);font-size:19px;color:var(--mint);font-weight:400;margin-bottom:4px}
+.co-ke p{font-family:var(--hand);font-size:15px;line-height:1.6}
+.kèm{margin-top:22px}
+.kèm-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.kèm-item{display:flex;align-items:center;gap:9px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);padding:8px 12px;font-family:var(--hand);font-size:14px;box-shadow:3px 3px 0 rgba(42,36,27,.5);transition:transform .12s;text-decoration:none}
+.kèm-item:hover{transform:translateY(-2px)}
+.kèm-item svg{height:36px;width:auto}
+/* ---------- Sổ ghi (giỏ hàng) ---------- */
+.scrim{position:fixed;inset:0;background:rgba(42,36,27,.5);z-index:60;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.so{position:fixed;top:0;right:0;bottom:0;width:min(440px,94vw);z-index:61;transform:translateX(103%);transition:transform .3s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;
+  background:repeating-linear-gradient(0deg,var(--paper) 0 27px,#DCE7F5 27px 28px);border-left:3px solid var(--ink);box-shadow:-8px 0 24px rgba(42,36,27,.25)}
+.so::before{content:"";position:absolute;top:0;bottom:0;left:34px;width:1.5px;background:rgba(214,65,43,.55)}
+.so.on{transform:none}
+.so-h{display:flex;justify-content:space-between;align-items:center;padding:14px 18px 10px 48px;border-bottom:2px solid var(--ink);background:var(--gold)}
+.so-h h2{font-family:var(--brush);font-weight:400;font-size:26px;color:var(--ink)}
+.so-h button{font-family:var(--hand);font-size:14px}
+.so-list{flex:1;overflow-y:auto;padding:6px 18px 6px 48px;font-family:var(--hand);color:var(--bic)}
+.so-item{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding-block:7px;font-size:16.5px;line-height:27px}
+.so-item .dots{overflow:hidden;white-space:nowrap}
+.so-item .dots::after{content:" ...................................................."}
+.so-item .pr{text-align:right}
+.so-item .ctl{display:flex;gap:12px;font-size:13px;color:var(--muted)}
+.so-item .ctl button{font-family:var(--hand);text-decoration:underline;color:inherit}
+.so-item .ctl button:hover{color:var(--red)}
+.so-empty{padding:40px 8px;text-align:center;font-family:var(--hand);font-size:17px;color:var(--muted)}
+.so-f{border-top:2px solid var(--ink);padding:12px 18px 14px 48px;font-family:var(--hand);background:rgba(255,253,244,.9)}
+.so-f .trow{display:flex;justify-content:space-between;font-size:16px;color:var(--bic);line-height:1.9}
+.so-f .trow.total{font-size:20px;color:var(--ink);border-top:1.5px solid var(--bic);margin-top:4px;padding-top:6px}
+.so-f .trow.total b{background:linear-gradient(transparent 62%, rgba(255,201,60,.9) 62%)}
+.so-f .btn{width:100%;justify-content:center;margin-top:10px}
+.so-f .mẹo{font-size:12.5px;color:var(--muted);text-align:center;margin-top:8px}
+.fly{position:fixed;z-index:70;pointer-events:none;transition:transform .55s cubic-bezier(.4,0,.2,1),opacity .55s;width:64px}
+
+/* ---------- Tính tiền ---------- */
+.co{max-width:640px;margin-inline:auto;padding:clamp(24px,4vw,50px) var(--gut) 90px}
+.co h1{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.6vw,46px)}
+.co .sub{font-family:var(--hand);color:var(--muted);margin-top:4px}
+fieldset{border:0;margin:0;padding:24px 0 0}
+legend{font-family:var(--brush);font-size:21px;color:var(--sign);padding:0;margin-bottom:12px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fld{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.fld label{font-family:var(--hand);font-size:13.5px;color:var(--muted)}
+.fld input,.fld select{border:2px solid var(--ink);border-radius:10px;background:var(--paper);padding:12px 13px;font-size:15px}
+.fld input:focus{border-color:var(--sign);outline:none}
+.radio{display:flex;gap:12px;align-items:flex-start;border:2px solid var(--ink);border-radius:12px;background:var(--paper);padding:13px 15px;margin-bottom:10px;cursor:pointer;box-shadow:3px 3px 0 rgba(42,36,27,.4)}
+.radio input{accent-color:var(--sign);margin-top:3px}
+.radio b{font-family:var(--disp);font-weight:700;font-size:14.5px}
+.radio span span{display:block;font-family:var(--hand);font-size:13px;color:var(--muted);margin-top:2px}
+.radio:has(input:checked){border-color:var(--sign);background:#EEF3FF}
+.co-sum{background:repeating-linear-gradient(0deg,var(--paper) 0 26px,#DCE7F5 26px 27px);border:2px solid var(--ink);border-radius:12px;padding:12px 16px;margin-block:18px;font-family:var(--hand);color:var(--bic)}
+.co-sum .trow{display:flex;justify-content:space-between;font-size:15.5px;line-height:26px}
+.co-sum .trow.total{color:var(--ink);font-size:19px;border-top:1.5px solid var(--bic);margin-top:4px;padding-top:5px}
+.err{font-family:var(--hand);font-size:14px;color:var(--red);min-height:1.5em;margin-top:4px}
+.demo-note{font-family:var(--hand);font-size:12.5px;color:var(--muted);text-align:center;margin-top:12px}
+
+/* ---------- Xong đơn ---------- */
+.done{max-width:900px;margin-inline:auto;display:grid;grid-template-columns:auto 1fr;gap:clamp(22px,5vw,60px);align-items:center;padding:clamp(36px,6vw,80px) var(--gut)}
+.bill{width:min(270px,72vw);background:repeating-linear-gradient(0deg,var(--paper) 0 25px,#DCE7F5 25px 26px);border:2px solid var(--ink);border-radius:4px 4px 12px 12px;padding:18px 18px 20px 34px;font-family:var(--hand);color:var(--bic);position:relative;transform:rotate(-2.5deg);box-shadow:7px 8px 0 rgba(42,36,27,.55)}
+.bill::before{content:"";position:absolute;top:0;bottom:0;left:22px;width:1.5px;background:rgba(214,65,43,.55)}
+.bill::after{content:"";position:absolute;top:-12px;left:50%;width:88px;height:24px;transform:translateX(-50%) rotate(1.5deg);background:rgba(255,222,120,.75);border:1px solid rgba(42,36,27,.15)}
+.bill h3{font-family:var(--brush);color:var(--ink);font-weight:400;font-size:22px;margin-bottom:8px}
+.bill .trow{display:flex;justify-content:space-between;font-size:14.5px;line-height:24px}
+.bill .total{color:var(--ink);border-top:1.5px solid var(--bic);margin-top:6px;padding-top:5px;font-size:17px}
+.bill .stamp{position:absolute;right:-14px;bottom:-16px;width:110px;transform:rotate(-14deg)}
+.done h1{font-family:var(--disp);font-weight:800;font-size:clamp(30px,5vw,58px);line-height:1.05;text-wrap:balance}
+.done h1 b{font-family:var(--brush);font-weight:400;color:var(--red)}
+.done .ord{font-family:var(--hand);font-size:16px;margin-top:12px}
+.done .keo{display:flex;align-items:center;gap:12px;margin-top:18px;background:var(--paper);border:2px dashed var(--mint);border-radius:12px;padding:10px 14px;font-family:var(--hand);font-size:15px;max-width:430px}
+.done .keo svg{height:38px;width:auto;flex:none}
+.done-meta{display:flex;gap:34px;flex-wrap:wrap;margin-top:22px;font-family:var(--hand)}
+.done-meta b{display:block;font-size:13px;color:var(--muted);font-weight:400}
+
+/* ---------- Chân trang ---------- */
+footer.site{background:var(--sign);color:#DCE7FF;border-top:4px solid var(--gold);margin-top:46px}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:26px;padding:clamp(26px,4vw,46px) var(--gut)}
+.foot .big{font-family:var(--disp);font-weight:800;font-size:clamp(30px,4vw,44px);color:var(--gold);text-shadow:2px 2px 0 var(--sign-d);line-height:1.1}
+.foot p,.foot li{font-family:var(--hand);font-size:14px}
+.foot ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.foot a{color:#fff;text-decoration:none}
+.foot a:hover{color:var(--gold);text-decoration:underline}
+.colophon{border-top:1px solid rgba(255,255,255,.25);padding:10px var(--gut);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-family:var(--hand);font-size:12px;color:#B9CCF2}
+
+.view{animation:vin .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes vin{from{opacity:0;transform:translateY(12px)}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.view{animation:none}.item svg,.zone,.unit,.btn{transition:none}}
+@media (max-width:880px){
+  .front-in{grid-template-columns:1fr}
+  .front svg.store{max-width:520px;margin-inline:auto}
+  nav.main{display:none}
+  .pdp{grid-template-columns:1fr}
+  .dặn{grid-template-columns:1fr;text-align:center;justify-items:center}
+  .done{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .done .keo{text-align:left}
+  .foot{grid-template-columns:1fr}
+  .f2{grid-template-columns:1fr}
+  .open-chip{display:none}
+}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap bar">
+    <a class="wordmark" href="#home" data-nav="home">TẠP HÓA BÀ TƯ</a>
+    <nav class="main" aria-label="Chính">
+      <a href="#shop" data-nav="shop" id="nav-shop">Kệ hàng</a>
+      <a href="#home" data-nav="zones">Các khu</a>
+    </nav>
+    <div class="grow"></div>
+    <span class="open-chip"><i aria-hidden="true"></i>đang mở — 5g sáng tới 10g tối</span>
+    <button id="btn-so" aria-label="Mở sổ ghi">Sổ ghi <span id="so-n">0</span></button>
+  </div>
+</header>
+
+<main id="app">
+  <!-- 01 MẶT TIỀN -->
+  <section class="view" id="view-home">
+    <div class="front">
+      <div class="wrap front-in">
+        <div id="storefront"></div>
+        <div>
+          <h1>Thiếu gì cứ chạy ra <span class="brush">tiệm Bà Tư.</span></h1>
+          <p class="lede">Tiệm đầu hẻm bán đủ thứ trong nhà cần: mì gói, nước mắm, cục xà bông, cây nhang muỗi. Giờ cô ghi sổ trên mạng — đặt buổi sáng, thằng Tí giao trước bữa cơm chiều.</p>
+          <div class="coioi">
+            <label for="say">Cô ơi, cho con…</label>
+            <div class="row">
+              <input id="say" placeholder="2 gói mì tôm, 1 chai nước mắm, kẹo me" autocomplete="off">
+              <button class="btn" id="say-go" type="button">Lấy liền</button>
+            </div>
+            <p class="say-reply" id="say-reply" role="status"></p>
+            <p class="hint">Gõ nguyên câu như nói ở tiệm — cô tự nhặt món bỏ vào sổ. Hoặc <a href="#shop" data-nav="shop">tự ra kệ lựa</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap zones" id="zones-wrap">
+      <h2>Trong tiệm có mấy khu</h2>
+      <p class="sec-sub">Bấm vô khu nào là ra ngay kệ đó.</p>
+      <div class="zone-grid" id="zones"></div>
+    </div>
+  </section>
+
+  <!-- 03/04 KỆ HÀNG -->
+  <section class="view" id="view-shop" hidden>
+    <div class="wrap shop-head">
+      <div>
+        <h1 id="shop-title">Kệ hàng</h1>
+        <p class="sec-sub" id="shop-sub">Hàng cô lấy mối quen, giá ghi tay trên từng món.</p>
+      </div>
+      <a class="btn wood" href="#home" data-nav="home">← Về mặt tiền</a>
+    </div>
+    <div class="wrap tools" id="tools"></div>
+    <p class="wrap count-line" id="count-line"></p>
+    <div class="wrap" id="shelves"></div>
+  </section>
+
+  <!-- 07 TRANG MÓN -->
+  <section class="view" id="view-pdp" hidden></section>
+
+  <!-- 11 TÍNH TIỀN -->
+  <section class="view" id="view-co" hidden></section>
+
+  <!-- 12 XONG -->
+  <section class="view" id="view-done" hidden></section>
+</main>
+
+<footer class="site">
+  <div class="foot">
+    <div>
+      <p class="big">TẠP HÓA BÀ TƯ</p>
+      <p style="margin-top:10px;max-width:330px">Số 7 hẻm 112 Bàn Cờ, Quận 3. Mở từ 5 giờ sáng tới 10 giờ tối, trưa cô chợp mắt 30 phút — bấm chuông cho con Mực sủa là cô dậy.</p>
+    </div>
+    <ul>
+      <li><a href="#shop" data-nav="shop">Kệ hàng</a></li>
+      <li><a href="#home" data-nav="zones">Các khu trong tiệm</a></li>
+      <li><a href="#home" data-nav="home">Mặt tiền</a></li>
+    </ul>
+    <ul>
+      <li>Giao trong xóm: thằng Tí chạy 15 phút</li>
+      <li>Nội thành: trước bữa cơm chiều</li>
+      <li>Mua nhiều cô bớt, khỏi trả giá</li>
+    </ul>
+  </div>
+  <div class="colophon">
+    <span>© 2026 Tiệm Bà Tư — trang dựng ý tưởng, tiệm không có thật (tiếc ghê).</span>
+    <span>Chữ: Baloo 2 · Pattaya · Itim</span>
+  </div>
+</footer>
+
+<!-- SỔ GHI -->
+<div class="scrim" id="scrim"></div>
+<aside class="so" id="so" role="dialog" aria-modal="true" aria-label="Sổ ghi">
+  <div class="so-h">
+    <h2>Sổ ghi của con</h2>
+    <button id="so-close">gấp sổ ✕</button>
+  </div>
+  <div class="so-list" id="so-list"></div>
+  <div class="so-f" id="so-f"></div>
+</aside>
+
+<script>
+"use strict";
+/* ---------- Dữ liệu ---------- */
+const VND=n=>n.toLocaleString("vi-VN")+"đ";
+const ZONES=[
+ {id:"day",name:"Dây treo",hand:"dầu gội, cà phê gói",icon:"strip"},
+ {id:"mi",name:"Kệ mì & đồ khô",hand:"mì, gạo, đường, muối",icon:"pack"},
+ {id:"bep",name:"Góc đồ bếp",hand:"mắm, dầu, xà bông",icon:"bottle"},
+ {id:"keo",name:"Tủ kính bánh kẹo",hand:"hũ kẹo, bánh thiếc",icon:"jar"},
+ {id:"da",name:"Thùng đá",hand:"nước ngọt ướp lạnh",icon:"soda"},
+];
+const P=[
+ {id:"g01",z:"mi",type:"pack",c:"#E0453A",c2:"#F5C33B",name:"Mì tôm chua cay Hai Con Tôm",why:"nửa đêm đói là nhớ nó",alias:["mì","mi","mì tôm","mi tom","hai con tôm"],
+  units:[["gói lẻ",4000],["lốc 5 gói",18000],["thùng 30 gói",99000]],ke:"Đập thêm trứng, bỏ nắm rau là thành bữa. Mua thùng để dành, cô bớt hai chục."},
+ {id:"g02",z:"mi",type:"pack",c:"#2F7A4B",c2:"#F1E9D2",name:"Mì chay nấm hương",why:"cho bữa rằm, mùng một",alias:["mì chay","mi chay","chay"],
+  units:[["gói lẻ",5000],["lốc 5 gói",23000]],ke:"Rằm nào bán cũng hết sớm, con ăn chay tháng nào nhớ dặn cô trước."},
+ {id:"g03",z:"mi",type:"bag",c:"#EFE6CD",c2:"#3E7C6B",name:"Gạo thơm quê bao 5kg",why:"gạo mới, cô đong tận tay",alias:["gạo","gao"],
+  units:[["bao 5kg",95000],["bao 10kg",185000]],ke:"Gạo dưới quê gửi lên mỗi tuần một chuyến, nấu nồi cơm thơm cả nhà."},
+ {id:"g04",z:"mi",type:"bag",c:"#F7F3EA",c2:"#D6412B",name:"Đường cát trắng bịch 1kg",why:"pha nước chanh, kho cá",alias:["đường","duong"],
+  units:[["bịch 1kg",22000]],ke:"Kho cá nhớ thắng đường cho tới màu cánh gián rồi hãy bỏ cá nghe con."},
+ {id:"g05",z:"mi",type:"bag",c:"#EDF2F5",c2:"#4A76C9",name:"Muối hột bịch nửa ký",why:"ngâm rau, súc miệng",alias:["muối","muoi"],
+  units:[["bịch 500g",8000]],ke:"Muối hột pha nước ấm súc miệng buổi tối, đỡ tốn tiền thuốc."},
+ {id:"g06",z:"bep",type:"bottle",c:"#8A4A22",c2:"#F5C33B",name:"Nước mắm cá cơm nhĩ",why:"đạm 30, dằm ớt là bá cháy",alias:["nước mắm","nuoc mam","mắm"],
+  units:[["chai 500ml",42000],["chai 1 lít",76000]],ke:"Mắm nhĩ mối quen ngoài Phan Thiết, cô bán hai chục năm chưa ai chê."},
+ {id:"g07",z:"bep",type:"bottle",c:"#E8B93B",c2:"#2F7A4B",name:"Dầu ăn chai 1 lít",why:"chiên xào đủ tháng",alias:["dầu ăn","dau an","dầu"],
+  units:[["chai 1 lít",48000]],ke:"Chiên đi chiên lại dầu ngả màu là đổ nghe con, đừng tiếc."},
+ {id:"g08",z:"bep",type:"soap",c:"#7BAF9E",c2:"#F7F3EA",name:"Xà bông cục thơm lài",why:"tắm giặt gì cũng được",alias:["xà bông","xa bong","xà phòng"],
+  units:[["cục",9000],["lốc 3 cục",25000]],ke:"Mùi lài y như hồi xưa má con hay xài, để trong tủ đồ thơm cả ngăn."},
+ {id:"g09",z:"bep",type:"box",c:"#3E7C6B",c2:"#F5C33B",name:"Nhang muỗi hộp 10 khoanh",why:"tối ngồi hiên khỏi đập đùi",alias:["nhang muỗi","nhang","muỗi"],
+  units:[["hộp 10 khoanh",16000]],ke:"Đốt nửa khoanh là đủ một tối, bẻ đôi ra cho đỡ hao."},
+ {id:"g10",z:"day",type:"strip",c:"#274C8F",c2:"#F7F3EA",name:"Dầu gội bồ kết dây 10 gói",why:"xé một gói gội một lần",alias:["dầu gội","dau goi","bồ kết"],
+  units:[["dây 10 gói",22000],["gói lẻ",2500]],ke:"Đi đâu xa xé vài gói bỏ giỏ, khỏi vác nguyên chai."},
+ {id:"g11",z:"day",type:"strip",c:"#6B4A2F",c2:"#E8B93B",name:"Cà phê đen dây 10 gói",why:"sáng chế một ly tỉnh liền",alias:["cà phê","ca phe","cafe"],
+  units:[["dây 10 gói",28000]],ke:"Pha với nước sôi già, thêm cục đá to — khỏi ra quán."},
+ {id:"g12",z:"day",type:"can",c:"#EAF0F6",c2:"#4A76C9",name:"Sữa đặc lon Ông Sao",why:"pha cà phê, chấm bánh mì",alias:["sữa đặc","sua dac","sữa"],
+  units:[["lon 380g",25000]],ke:"Khui lon rồi úp chén lên cất tủ, đừng để kiến bu nghe con."},
+ {id:"g13",z:"keo",type:"jar",c:"#C9552E",c2:"#F5C33B",name:"Kẹo me hũ thủy tinh",why:"chua chua ngọt ngọt, ăn là ghiền",alias:["kẹo me","keo me","me"],
+  units:[["bịch 20 viên",15000],["nguyên hũ",68000]],ke:"Hũ này cô châm hoài không kịp, tụi nhỏ đi học về là ghé."},
+ {id:"g14",z:"keo",type:"jar",c:"#3E7C6B",c2:"#F7F3EA",name:"Kẹo bạc hà the",why:"ngậm cho thơm miệng",alias:["kẹo bạc hà","bạc hà","bac ha"],
+  units:[["bịch 20 viên",12000]],ke:"Đơn nào cô cũng kèm một viên ăn lấy thảo — mua thêm thì đây."},
+ {id:"g15",z:"keo",type:"tin",c:"#274C8F",c2:"#F5C33B",name:"Bánh quy bơ hộp thiếc",why:"biếu sui gia là đẹp mặt",alias:["bánh quy","banh quy","hộp thiếc","bánh"],
+  units:[["hộp 350g",85000]],ke:"Ăn hết bánh giữ cái hộp lại đựng kim chỉ, nhà nào cũng vậy mà."},
+ {id:"g16",z:"keo",type:"pack",c:"#E8B93B",c2:"#C9552E",name:"Bánh tráng trộn gói sẵn",why:"chiều chiều làm một bịch",alias:["bánh tráng","banh trang"],
+  units:[["bịch",10000],["3 bịch",27000]],ke:"Cô trộn sẵn tắc với muối tôm, cay vừa thôi cho tụi nhỏ ăn được."},
+ {id:"g17",z:"da",type:"soda",c:"#7A3B2E",c2:"#F5C33B",name:"Xá xị chai thủy tinh",why:"ướp đá lạnh sẵn trong thùng",alias:["xá xị","xa xi","nước ngọt"],
+  units:[["chai",10000],["két 24 chai",216000]],ke:"Uống xong trả vỏ chai cho cô nghe con, cô gửi lại hai ngàn."},
+ {id:"g18",z:"da",type:"soda",c:"#2F6B8F",c2:"#F7F3EA",name:"Nước suối chai 500ml",why:"đi đường xa ghé lấy một chai",alias:["nước suối","nuoc suoi","nước lọc"],
+  units:[["chai",5000],["lốc 6 chai",27000]],ke:"Thùng đá cô châm đá cây mỗi sáng, chai nào cũng lạnh tê tay."},
+];
+const DẶN=[
+ {p:"g06",q:"Tháng này mắm nhĩ về đợt mới, thơm hơn đợt trước. Nhà nào ăn cơm nhiều thì lấy <b>chai một lít</b> cho lợi."},
+ {p:"g13",q:"Trời này ăn <b>kẹo me</b> là hết sẩy. Mua nguyên hũ về chia cho sắp nhỏ, khỏi giành nhau."},
+];
+
+/* ---------- Hình minh họa món ---------- */
+const PKG={
+pack:(c,c2)=>`<rect x="20" y="30" width="120" height="100" rx="10" fill="${c}"/><path d="M20 40 Q14 30 22 22 L34 30 Z M140 40 Q146 30 138 22 L126 30 Z M20 120 Q14 130 22 138 L34 130 Z M140 120 Q146 130 138 138 L126 130 Z" fill="${c}"/><rect x="34" y="52" width="92" height="42" rx="8" fill="${c2}"/><ellipse cx="80" cy="73" rx="34" ry="14" fill="#fff" fill-opacity=".85"/><path d="M52 108 q14 8 28 0 t28 0" stroke="${c2}" stroke-width="5" fill="none" stroke-linecap="round"/>`,
+bag:(c,c2)=>`<path d="M35 42 Q80 28 125 42 L132 128 Q80 142 28 128 Z" fill="${c}"/><path d="M35 42 Q80 56 125 42" stroke="${c2}" stroke-width="5" fill="none"/><path d="M44 34 L50 22 M116 34 L110 22" stroke-width="4"/><rect x="52" y="70" width="56" height="34" rx="7" fill="${c2}"/><circle cx="80" cy="87" r="11" fill="#fff" fill-opacity=".85"/>`,
+bottle:(c,c2)=>`<path d="M70 18 h20 v14 q22 10 22 34 v62 q0 12 -12 12 h-40 q-12 0 -12 -12 v-62 q0 -24 22 -34 Z" fill="${c}"/><rect x="66" y="8" width="28" height="14" rx="4" fill="${c2}"/><rect x="52" y="72" width="56" height="38" rx="7" fill="${c2}"/><ellipse cx="80" cy="91" rx="19" ry="12" fill="#fff" fill-opacity=".85"/>`,
+can:(c,c2)=>`<ellipse cx="80" cy="34" rx="42" ry="12" fill="${c2}"/><path d="M38 34 v86 q0 12 42 12 t42 -12 v-86" fill="${c}"/><ellipse cx="80" cy="120" rx="42" ry="12" fill="${c}"/><rect x="46" y="60" width="68" height="38" rx="8" fill="${c2}"/><path d="M60 79 l12 -10 v20 Z M92 69 a12 12 0 1 1 -0.1 0" fill="#fff" fill-opacity=".85"/>`,
+jar:(c,c2)=>`<rect x="52" y="14" width="56" height="16" rx="6" fill="${c2}"/><path d="M46 30 h68 q8 26 8 52 q0 44 -42 44 t-42 -44 q0 -26 8 -52 Z" fill="#DCE9EC" fill-opacity=".75"/><g fill="${c}"><circle cx="66" cy="78" r="9"/><circle cx="92" cy="70" r="9"/><circle cx="80" cy="96" r="9"/><circle cx="102" cy="94" r="9"/><circle cx="60" cy="100" r="8"/></g><rect x="58" y="42" width="44" height="18" rx="6" fill="${c2}" transform="rotate(-4 80 51)"/>`,
+strip:(c,c2)=>`<path d="M78 10 h6 v130 h-6 Z" fill="${c2}"/>${[0,1,2,3].map(i=>`<g transform="translate(0 ${i*32})"><rect x="52" y="18" width="56" height="26" rx="6" fill="${c}"/><rect x="60" y="24" width="28" height="13" rx="4" fill="#fff" fill-opacity=".8"/><circle cx="99" cy="30" r="5" fill="${c2}"/></g>`).join("")}`,
+soap:(c,c2)=>`<rect x="34" y="52" width="92" height="56" rx="16" fill="${c}"/><rect x="46" y="66" width="68" height="28" rx="10" fill="${c2}"/><path d="M58 80 q10 -8 20 0 t24 0" stroke="#fff" stroke-width="4.5" fill="none" stroke-linecap="round"/><circle cx="46" cy="40" r="5" fill="none"/><circle cx="60" cy="30" r="7" fill="none"/><circle cx="78" cy="24" r="4" fill="none"/>`,
+box:(c,c2)=>`<rect x="30" y="56" width="100" height="64" rx="8" fill="${c}"/><rect x="30" y="42" width="100" height="20" rx="6" fill="${c2}"/><circle cx="80" cy="92" r="22" fill="${c2}"/><circle cx="80" cy="92" r="13" fill="${c}"/><circle cx="80" cy="92" r="5" fill="${c2}"/><path d="M42 70 h18 M100 70 h18" stroke-width="4"/>`,
+tin:(c,c2)=>`<ellipse cx="80" cy="52" rx="48" ry="14" fill="${c2}"/><path d="M32 52 v56 q0 14 48 14 t48 -14 v-56" fill="${c}"/><ellipse cx="80" cy="108" rx="48" ry="14" fill="${c}"/><path d="M52 76 q8 12 18 0 q8 12 18 0 q8 12 18 0" stroke="${c2}" stroke-width="5" fill="none" stroke-linecap="round"/><ellipse cx="80" cy="52" rx="30" ry="8" fill="#fff" fill-opacity=".6"/>`,
+soda:(c,c2)=>`<path d="M72 12 h16 v16 l10 14 v76 q0 14 -18 14 t-18 -14 v-76 l10 -14 Z" fill="#CFE4E8" fill-opacity=".85"/><path d="M62 66 v52 q0 14 18 14 t18 -14 v-52 Z" fill="${c}"/><rect x="70" y="8" width="20" height="10" rx="3" fill="${c2}"/><rect x="64" y="80" width="32" height="24" rx="6" fill="${c2}"/><path d="M72 92 q8 -8 16 0" stroke="${c}" stroke-width="4" fill="none"/>`,
+keo:(c,c2)=>`<ellipse cx="80" cy="76" rx="26" ry="20" fill="${c}"/><path d="M54 76 L30 60 L36 76 L30 92 Z M106 76 L130 60 L124 76 L130 92 Z" fill="${c2}"/><path d="M70 70 q10 -6 20 0" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/>`
+};
+function pkgSVG(p,cls){
+  return `<svg class="${cls||""}" viewBox="0 0 160 150" fill="none" stroke="#2A241B" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">${PKG[p.type](p.c,p.c2)}</svg>`;
+}
+/* ---------- Mặt tiền SVG ---------- */
+function mini(p,x,y,s){return `<g transform="translate(${x} ${y}) scale(${s})" stroke-width="${3/s}">${PKG[p.type](p.c,p.c2)}</g>`;}
+function storefrontSVG(){
+  const shelfY=[236,318,400];
+  const shelfItems=[["g01","g02","g03","g06"],["g07","g12","g15","g13"],["g04","g08","g09","g16"]];
+  let inner="";
+  shelfItems.forEach((ids,r)=>{ ids.forEach((id,i)=>{ inner+=mini(P.find(p=>p.id===id),150+i*86,shelfY[r]-64,.52); });
+    inner+=`<rect x="140" y="${shelfY[r]}" width="360" height="12" rx="3" fill="#B4783C" stroke="#2A241B" stroke-width="3"/>`;});
+  const strip=(x)=>`<g class="hotspot" data-zone="day"><path d="M${x} 196 v210" stroke="#2A241B" stroke-width="3"/>${[0,1,2,3,4].map(i=>`<g transform="translate(${x-22} ${204+i*40}) scale(.30)" stroke-width="10"><rect x="10" y="10" width="140" height="90" rx="18" fill="${i%2?"#274C8F":"#6B4A2F"}" stroke="#2A241B"/><rect x="30" y="32" width="70" height="34" rx="10" fill="#fff" fill-opacity=".85" stroke="#2A241B"/></g>`).join("")}<rect class="hl" x="${x-30}" y="192" width="60" height="224" rx="10" fill="transparent" stroke="transparent" stroke-width="4"/></g>`;
+  return `<svg class="store" viewBox="0 0 640 520" fill="none" stroke="#2A241B" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Mặt tiền tiệm tạp hóa Bà Tư">
+  <defs>
+    <pattern id="awn" width="52" height="60" patternUnits="userSpaceOnUse">
+      <rect width="52" height="60" fill="#D6412B"/><rect x="26" width="26" height="60" fill="#F7EFDA"/>
+    </pattern>
+  </defs>
+  <rect x="36" y="150" width="568" height="330" fill="#FBF6E6" stroke-width="4"/>
+  <rect x="20" y="480" width="600" height="18" fill="#7BAF9E" stroke-width="4"/>
+  <rect x="52" y="58" width="536" height="64" rx="8" fill="#1C4E9E" stroke-width="4"/>
+  <text x="320" y="103" text-anchor="middle" style="font:800 44px 'Baloo 2';fill:#FFC93C;letter-spacing:2px" stroke="none">TẠP HÓA BÀ TƯ</text>
+  <path d="M40 122 h560 l-26 52 H66 Z" fill="url(#awn)" stroke-width="4"/>
+  <path d="M66 174 h508" stroke-width="4"/>
+  ${strip(84)}${strip(596-40)}
+  <g class="hotspot" data-zone="mi"><rect class="hl" x="140" y="168" width="360" height="84" fill="transparent" stroke="transparent"/></g>
+  <g class="hotspot" data-zone="bep"><rect class="hl" x="140" y="252" width="360" height="80" fill="transparent" stroke="transparent"/></g>
+  <g class="hotspot" data-zone="keo"><rect class="hl" x="140" y="334" width="360" height="80" fill="transparent" stroke="transparent"/></g>
+  ${inner}
+  <g class="hotspot" data-zone="da">
+    <rect x="452" y="404" width="130" height="76" rx="8" fill="#D6412B" stroke-width="4"/>
+    <rect x="452" y="404" width="130" height="22" rx="8" fill="#F7EFDA"/>
+    <text x="517" y="464" text-anchor="middle" style="font:400 20px Pattaya;fill:#fff" stroke="none">đá lạnh</text>
+    <rect class="hl" x="452" y="404" width="130" height="76" rx="8" fill="transparent" stroke="transparent"/>
+  </g>
+  <g>
+    <rect x="140" y="418" width="250" height="62" fill="#B4783C" stroke-width="4"/>
+    <path d="M150 418 v62 M380 418 v62" stroke-opacity=".4"/>
+    <path d="M250 442 q14 -22 40 -14 q20 -18 34 -2 q16 -4 16 12 q0 10 -12 10 h-66 q-16 0 -12 -6 Z" fill="#3A3833"/>
+    <circle cx="330" cy="436" r="2" fill="#F5C33B" stroke="none"/>
+    <path d="M338 430 l8 -10 M250 448 q-8 6 -4 12" stroke-width="3"/>
+  </g>
+  <g><rect x="62" y="432" width="46" height="14" rx="4" fill="#D6412B"/><path d="M66 446 l-6 34 M104 446 l6 34 M74 446 l-2 34 M96 446 l2 34" stroke-width="4"/></g>
+  <text x="140" y="510" style="font:400 15px Itim;fill:#7A705D" stroke="none">con mèo Mướp ngủ trên quầy — đừng chọc nó nghe</text>
+</svg>`;
+}
+
+/* ---------- Trạng thái & tiện ích ---------- */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const strip=s=>String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d");
+const state={zone:"",sort:"shelf",cart:[],pdp:null,view:"home"};
+try{const c=JSON.parse(localStorage.getItem("batu-so")||"[]");if(Array.isArray(c))state.cart=c;}catch{}
+const save=()=>{try{localStorage.setItem("batu-so",JSON.stringify(state.cart));}catch{}};
+const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const byId=id=>P.find(p=>p.id===id);
+const zoneOf=p=>ZONES.find(z=>z.id===p.z);
+
+function show(view,hash){
+  state.view=view;
+  for(const s of $$("main > section")) s.hidden = s.id!=="view-"+view;
+  const sec=$("#view-"+view); sec.classList.remove("view"); void sec.offsetWidth; sec.classList.add("view");
+  $$("nav.main a").forEach(a=>a.removeAttribute("aria-current"));
+  if(view==="shop") $("#nav-shop").setAttribute("aria-current","page");
+  window.scrollTo(0,0);
+  try{history.replaceState(null,"","#"+(hash||view));}catch{}
+  if(view==="shop") renderShop();
+}
+addEventListener("hashchange",route);
+function route(){
+  const h=location.hash.slice(1);
+  if(/^m-/.test(h)&&byId("g"+h.slice(2))){openPDP("g"+h.slice(2),false);}
+  else if(h==="shop") show("shop","shop");
+  else if(h==="checkout") openCheckout();
+  else show("home","home");
+}
+document.addEventListener("click",e=>{
+  const a=e.target.closest("[data-nav]"); if(!a) return;
+  e.preventDefault();
+  if(a.dataset.nav==="zones"){show("home","home");setTimeout(()=>$("#zones-wrap").scrollIntoView({behavior:reduced?"auto":"smooth"}),40);}
+  else if(a.dataset.nav==="shop"){show("shop","shop");}
+  else show("home","home");
+});
+
+/* ---------- Trang chủ ---------- */
+function iconFor(z){const map={strip:"g10",pack:"g01",bottle:"g06",jar:"g13",soda:"g17"};return pkgSVG(byId(map[z.icon]||"g01"));}
+function renderHome(){
+  $("#storefront").innerHTML=storefrontSVG();
+  $$("#storefront .hotspot").forEach(g=>g.addEventListener("click",()=>{state.zone=g.dataset.zone;show("shop","shop");
+    setTimeout(()=>{const el=$("#z-"+g.dataset.zone); if(el) el.scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"});},60);}));
+  $("#zones").innerHTML=ZONES.map(z=>`<button class="zone" data-zone="${z.id}">${iconFor(z)}<b>${z.name}</b><span>${z.hand} · ${P.filter(p=>p.z===z.id).length} món</span></button>`).join("");
+  $$("#zones .zone").forEach(b=>b.addEventListener("click",()=>{state.zone=b.dataset.zone;show("shop","shop");}));
+}
+/* ---------- Kệ hàng ---------- */
+function itemHTML(p){
+  const u0=p.units[0];
+  return `<a class="item" href="#m-${p.id.slice(1)}" data-p="${p.id}">
+    ${pkgSVG(p)}<span class="tagp">${VND(u0[1])} <small>/ ${u0[0]}</small></span>
+    <span class="nm">${p.name}</span><span class="why">${p.why}</span></a>`;
+}
+function renderShop(){
+  const zsel=ZONES.find(z=>z.id===state.zone);
+  $("#shop-title").textContent = zsel? zsel.name : "Kệ hàng";
+  $("#shop-sub").textContent = zsel? zsel.hand+" — "+P.filter(p=>p.z===zsel.id).length+" món" : "Hàng cô lấy mối quen, giá ghi tay trên từng món.";
+  $("#tools").innerHTML=[
+    `<button class="tool" data-z="" aria-pressed="${!state.zone}">Cả tiệm</button>`,
+    ...ZONES.map(z=>`<button class="tool" data-z="${z.id}" aria-pressed="${state.zone===z.id}">${z.name}</button>`),
+    `<span class="sep"></span>`,
+    `<select class="tool" id="sort" aria-label="Sắp xếp">
+      <option value="shelf" ${state.sort==="shelf"?"selected":""}>Theo kệ</option>
+      <option value="asc" ${state.sort==="asc"?"selected":""}>Rẻ trước</option>
+      <option value="desc" ${state.sort==="desc"?"selected":""}>Mắc trước</option></select>`
+  ].join("");
+  $$("#tools .tool[data-z]").forEach(b=>b.addEventListener("click",()=>{state.zone=b.dataset.z;renderShop();}));
+  $("#sort").addEventListener("change",e=>{state.sort=e.target.value;renderShop();});
+  const zones=zsel?[zsel]:ZONES;
+  let n=0, html="";
+  zones.forEach((z,zi)=>{
+    let list=P.filter(p=>p.z===z.id);
+    if(state.sort!=="shelf") list.sort((a,b)=>(a.units[0][1]-b.units[0][1])*(state.sort==="asc"?1:-1));
+    n+=list.length;
+    html+=`<section class="shelf-sec" id="z-${z.id}"><span class="shelf-tag ${zi%2?"alt":""}">${z.name} — ${z.hand}</span>
+      <div class="shelf">${list.map(itemHTML).join("")}</div></section>`;
+    const d=DẶN[zi]; if(d&&!zsel){const p=byId(d.p);
+      html+=`<div class="dặn">${pkgSVG(p)}<p class="q">${d.q}</p><a class="btn" href="#m-${p.id.slice(1)}" data-p="${p.id}">Xem món này</a></div>`;}
+  });
+  $("#shelves").innerHTML=html;
+  $("#count-line").textContent="cô đếm được "+n+" món trên kệ · giá nào cũng ghi sẵn, khỏi trả giá";
+  $$("#shelves [data-p]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();openPDP(a.dataset.p,true);}));
+}
+
+/* ---------- Trang món ---------- */
+function openPDP(id,scroll){ state.pdp={id,u:0,q:1}; show("pdp","m-"+id.slice(1)); renderPDP(); }
+function renderPDP(){
+  const p=byId(state.pdp.id), sel=state.pdp, z=zoneOf(p);
+  const others=P.filter(x=>x.z===p.z&&x.id!==p.id).slice(0,2).concat(P.filter(x=>x.z!==p.z).slice(0,1));
+  $("#view-pdp").innerHTML=`<div class="wrap pdp">
+    <div class="pdp-stage">
+      <span class="pdp-zone">${z.name} · <a href="#shop" data-nav="shop">về kệ</a></span>
+      <span class="pdp-price-tag" id="tag">${VND(p.units[sel.u][1])}<small>/ ${p.units[sel.u][0]}</small></span>
+      ${pkgSVG(p)}
+    </div>
+    <div class="pdp-info">
+      <h1>${p.name}</h1>
+      <p class="sub">${p.why} — khu ${z.name.toLowerCase()}.</p>
+      <div class="opt"><h4>Lấy theo</h4>
+        <div class="units">${p.units.map((u,i)=>`<button class="unit" data-u="${i}" aria-pressed="${i===sel.u}">${u[0]}<small>${VND(u[1])}</small></button>`).join("")}</div></div>
+      <div class="qty-row">
+        <div class="qty"><button id="q-m" aria-label="Bớt">−</button><span id="q-v">1</span><button id="q-p" aria-label="Thêm">+</button></div>
+        <button class="btn" id="add">Ghi vào sổ — <span id="add-t">${VND(p.units[sel.u][1])}</span></button>
+      </div>
+      <p class="pdp-note">Ghi sổ trước, nhận hàng rồi trả tiền. Trong xóm thằng Tí chạy 15 phút là tới.</p>
+      <div class="co-ke"><h4>Cô kể nè</h4><p>${p.ke}</p></div>
+      <div class="kèm"><h4 class="hand muted" style="font-size:14px">Người ta hay lấy kèm</h4>
+        <div class="kèm-row">${others.map(x=>`<a class="kèm-item" href="#m-${x.id.slice(1)}" data-p="${x.id}">${pkgSVG(x)}<span>${x.name}<br><b style="color:var(--red)">${VND(x.units[0][1])}</b></span></a>`).join("")}</div></div>
+    </div></div>`;
+  const upd=()=>{const u=p.units[sel.u];$("#tag").innerHTML=VND(u[1])+`<small>/ ${u[0]}</small>`;$("#q-v").textContent=sel.q;$("#add-t").textContent=VND(u[1]*sel.q);};
+  $$("#view-pdp .unit").forEach(b=>b.addEventListener("click",()=>{sel.u=+b.dataset.u;$$("#view-pdp .unit").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));upd();}));
+  $("#q-m").addEventListener("click",()=>{sel.q=Math.max(1,sel.q-1);upd();});
+  $("#q-p").addEventListener("click",()=>{sel.q=Math.min(20,sel.q+1);upd();});
+  $("#add").addEventListener("click",e=>{addToSo(p.id,sel.u,sel.q,e.currentTarget);});
+  $$("#view-pdp [data-p]").forEach(a=>a.addEventListener("click",ev=>{ev.preventDefault();openPDP(a.dataset.p,true);}));
+}
+
+/* ---------- Sổ ghi ---------- */
+const soCount=()=>state.cart.reduce((a,i)=>a+i.q,0);
+const lineP=i=>byId(i.id).units[i.u][1]*i.q;
+const soTotal=()=>state.cart.reduce((a,i)=>a+lineP(i),0);
+function addToSo(id,u,q,fromEl){
+  const f=state.cart.find(i=>i.id===id&&i.u===u);
+  if(f) f.q+=q; else state.cart.push({id,u,q});
+  save(); badge(true);
+  if(fromEl&&!reduced) fly(fromEl,byId(id));
+  setTimeout(openSo, reduced?0:480);
+}
+function fly(fromEl,p){
+  const r=fromEl.getBoundingClientRect(), t=$("#so-n").getBoundingClientRect();
+  const el=document.createElement("div");el.className="fly";el.innerHTML=pkgSVG(p);
+  el.style.left=r.left+r.width/2-32+"px";el.style.top=r.top-30+"px";
+  document.body.append(el);
+  requestAnimationFrame(()=>{el.style.transform=`translate(${t.left-r.left-r.width/2+32}px,${t.top-r.top+20}px) scale(.14) rotate(18deg)`;el.style.opacity=".25";});
+  setTimeout(()=>el.remove(),600);
+}
+function badge(tick){const n=$("#so-n");n.textContent=soCount();
+  if(tick){n.classList.remove("tick");void n.offsetWidth;n.classList.add("tick");setTimeout(()=>n.classList.remove("tick"),250);}}
+function renderSo(){
+  const L=$("#so-list"),F=$("#so-f");
+  if(!state.cart.length){L.innerHTML=`<p class="so-empty">Sổ đang trắng trơn.<br>Ra kệ lựa vài món đi con.</p>`;F.innerHTML=`<a class="btn blue" style="width:100%;justify-content:center" href="#shop" data-nav="shop" id="so-go">Ra kệ hàng</a>`;$("#so-go").addEventListener("click",closeSo);return;}
+  L.innerHTML=state.cart.map((i,k)=>{const p=byId(i.id),u=p.units[i.u];
+    return `<div class="so-item"><span class="dots">${i.q} ${u[0]} ${p.name}</span><span class="pr">${VND(lineP(i))}</span>
+      <span class="ctl"><button data-k="${k}" data-d="-1">bớt</button><button data-k="${k}" data-d="1">thêm</button><button data-k="${k}" data-d="x">gạch bỏ</button></span><span></span></div>`;}).join("");
+  const t=soTotal(), ship=t>=100000?0:10000;
+  F.innerHTML=`<div class="trow"><span>Cộng sổ (${soCount()} món)</span><span>${VND(t)}</span></div>
+    <div class="trow"><span>Công thằng Tí chạy</span><span>${ship?VND(ship):"cô miễn"}</span></div>
+    ${ship?`<div class="trow" style="font-size:13px;color:var(--muted)"><span>mua thêm ${VND(100000-t)} là cô miễn công giao</span><span></span></div>`:""}
+    <div class="trow total"><span>Tổng cộng</span><b>${VND(t+ship)}</b></div>
+    <button class="btn" id="to-co">Tính tiền →</button>
+    <p class="mẹo">nhận hàng rồi trả tiền, đơn nào cô cũng kèm viên kẹo bạc hà</p>`;
+  $$("#so-list .ctl button").forEach(b=>b.addEventListener("click",()=>{
+    const i=state.cart[+b.dataset.k];
+    if(b.dataset.d==="x") state.cart=state.cart.filter(x=>x!==i);
+    else {i.q+=+b.dataset.d; if(i.q<=0) state.cart=state.cart.filter(x=>x!==i);}
+    save();renderSo();badge();}));
+  $("#to-co").addEventListener("click",()=>{closeSo();openCheckout();});
+}
+function openSo(){renderSo();$("#so").classList.add("on");$("#scrim").classList.add("on");}
+function closeSo(){$("#so").classList.remove("on");$("#scrim").classList.remove("on");}
+$("#btn-so").addEventListener("click",openSo);
+$("#so-close").addEventListener("click",closeSo);
+$("#scrim").addEventListener("click",closeSo);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSo();});
+/* ---------- "Cô ơi, cho con..." ---------- */
+const NUMWORD={"mot":1,"một":1,"hai":2,"ba":3,"bon":4,"bốn":4,"nam":5,"năm":5,"sau":6,"bay":7,"tam":8,"chin":9,"muoi":10};
+function parseSay(text){
+  const parts=text.split(/,|;| và | voi | với |\n/).map(s=>s.trim()).filter(Boolean);
+  const got=[],miss=[];
+  for(const part of parts){
+    const ps=strip(part);
+    let q=1; const mNum=ps.match(/(\d+)/); 
+    if(mNum) q=Math.min(50,Math.max(1,+mNum[1]));
+    else{ for(const w in NUMWORD){ if(ps.startsWith(strip(w)+" ")){q=NUMWORD[w];break;} } }
+    const prod=P.find(p=>p.alias.some(a=>ps.includes(strip(a))));
+    if(!prod){ miss.push(part); continue; }
+    let u=0;
+    prod.units.forEach((un,ui)=>{const ul=strip(un[0]);
+      for(const kw of ["thung","ket","loc","day ","hu","bao 10","1 lit","lit"]) if(ps.includes(kw)&&ul.includes(kw.trim())) u=ui;});
+    got.push({id:prod.id,u,q,name:prod.name});
+  }
+  return {got,miss};
+}
+$("#say-go").addEventListener("click",doSay);
+$("#say").addEventListener("keydown",e=>{if(e.key==="Enter")doSay();});
+function doSay(){
+  const t=$("#say").value.trim(), out=$("#say-reply");
+  if(!t){$("#say").focus();return;}
+  const {got,miss}=parseSay(t);
+  for(const g of got) addToSoQuiet(g.id,g.u,g.q);
+  let msg="";
+  if(got.length) msg+="Có liền nghe: "+got.map(g=>g.q+" "+byId(g.id).units[g.u][0]+" "+g.name.toLowerCase()).join(", ")+" — cô ghi sổ rồi đó.";
+  if(miss.length) msg+=(msg?" ":"")+`<span class="no">Còn ${miss.map(m=>"“"+m+"”").join(", ")} thì tiệm cô không có, thông cảm nghe con.</span>`;
+  out.innerHTML=msg||"Con nói lại giùm cô, cô nghe chưa rõ.";
+  if(got.length){ badge(true); setTimeout(openSo,700); $("#say").value=""; }
+}
+function addToSoQuiet(id,u,q){const f=state.cart.find(i=>i.id===id&&i.u===u);if(f)f.q+=q;else state.cart.push({id,u,q});save();}
+
+/* ---------- Tính tiền ---------- */
+function openCheckout(){
+  if(!state.cart.length){show("shop","shop");return;}
+  const t=soTotal(), ship=t>=100000?0:10000;
+  $("#view-co").innerHTML=`<div class="co">
+    <p><a class="hand" href="#shop" data-nav="shop" style="color:var(--muted)">← lựa thêm chút nữa</a></p>
+    <h1>Tính tiền</h1>
+    <p class="sub">Cô ghi tên với địa chỉ, chiều thằng Tí ghé giao.</p>
+    <form id="co-form" novalidate>
+      <fieldset><legend>Giao cho ai</legend>
+        <div class="f2">
+          <div class="fld"><label for="f-name">Tên con</label><input id="f-name" autocomplete="name"></div>
+          <div class="fld"><label for="f-phone">Số điện thoại</label><input id="f-phone" inputmode="tel" autocomplete="tel"></div>
+        </div>
+        <div class="fld"><label for="f-addr">Nhà ở đâu</label><input id="f-addr" autocomplete="street-address" placeholder="số nhà, hẻm, phường…"></div>
+        <div class="fld"><label for="f-note">Dặn thêm gì không</label><input id="f-note" placeholder="ví dụ: nhà có chó dữ, kêu cửa sau…"></div>
+      </fieldset>
+      <fieldset><legend>Giao lúc nào</legend>
+        <div class="f2">
+          ${["Trưa nay","Trước bữa cơm chiều"].map((w,i)=>`<label class="radio"><input type="radio" name="win" ${i?"checked":""}><span><b>${w}</b></span></label>`).join("")}
+        </div>
+      </fieldset>
+      <fieldset><legend>Trả tiền kiểu gì</legend>
+        <label class="radio"><input type="radio" name="pay" checked><span><b>Tiền mặt khi nhận</b><span>đưa thằng Tí, nó có sẵn tiền thối</span></span></label>
+        <label class="radio"><input type="radio" name="pay"><span><b>Chuyển khoản khi nhận</b><span>nó chìa mã QR của cô cho con quét</span></span></label>
+      </fieldset>
+      <div class="co-sum">
+        ${state.cart.map(i=>{const p=byId(i.id);return `<div class="trow"><span>${i.q} ${p.units[i.u][0]} ${p.name.toLowerCase()}</span><span>${VND(lineP(i))}</span></div>`;}).join("")}
+        <div class="trow"><span>công giao</span><span>${ship?VND(ship):"cô miễn"}</span></div>
+        <div class="trow total"><span>Tổng cộng</span><span>${VND(t+ship)}</span></div>
+      </div>
+      <p class="err" id="co-err" role="alert"></p>
+      <button class="btn" style="width:100%;justify-content:center;padding:15px" type="submit">Chốt đơn — ${VND(t+ship)}</button>
+      <p class="demo-note">Trang dựng ý tưởng — không có tiệm thật, không thu tiền thật.</p>
+    </form></div>`;
+  show("co","checkout");
+  $("#co-form").addEventListener("submit",e=>{
+    e.preventDefault();
+    const miss=["f-name","f-phone","f-addr"].filter(id=>!$("#"+id).value.trim());
+    if(miss.length){$("#co-err").textContent="Thiếu tên, số điện thoại với địa chỉ là thằng Tí không biết đường giao đó con.";$("#"+miss[0]).focus();return;}
+    finishOrder();
+  });
+}
+function finishOrder(){
+  const d=new Date(), code="SỔ "+String(d.getDate()).padStart(2,"0")+"/"+String(d.getMonth()+1).padStart(2,"0")+" — dòng "+(Math.floor(Math.random()*40)+10);
+  const items=state.cart.map(i=>({txt:i.q+" "+byId(i.id).units[i.u][0]+" "+byId(i.id).name.toLowerCase(),pr:lineP(i)}));
+  const t=soTotal(), ship=t>=100000?0:10000;
+  const name=($("#f-name").value.trim().split(" ").slice(-1)[0])||"con";
+  state.cart=[];save();badge();
+  $("#view-done").innerHTML=`<div class="done">
+    <div class="bill"><h3>Sổ của ${name}</h3>
+      ${items.map(x=>`<div class="trow"><span>${x.txt}</span><span>${VND(x.pr)}</span></div>`).join("")}
+      <div class="trow"><span>công giao</span><span>${ship?VND(ship):"miễn"}</span></div>
+      <div class="trow total"><span>Tổng</span><span>${VND(t+ship)}</span></div>
+      <svg class="stamp" viewBox="0 0 160 90" aria-hidden="true"><rect x="6" y="8" width="148" height="74" rx="12" fill="none" stroke="#D6412B" stroke-width="4"/><text x="80" y="42" text-anchor="middle" style="font:400 24px Pattaya;fill:#D6412B">đã ghi sổ</text><text x="80" y="68" text-anchor="middle" style="font:400 15px Itim;fill:#D6412B">Bà Tư</text></svg></div>
+    <div>
+      <h1>Rồi, cô ghi sổ cho <b>${name}</b> xong rồi đó.</h1>
+      <p class="ord">${code} · ${items.length} món · ${VND(t+ship)}</p>
+      <div class="keo">${PKGKEO()}<span>Cô bỏ sẵn <b>một viên kẹo bạc hà</b> vô bịch — đơn nào cũng có, ăn lấy thảo.</span></div>
+      <div class="done-meta">
+        <div><b>Giao hàng</b>thằng Tí ghé trước bữa cơm chiều</div>
+        <div><b>Trả tiền</b>nhận hàng xong mới đưa</div>
+        <div><b>Thiếu món gì</b>nhắn cô, mai cô dặn mối lấy</div>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:30px;flex-wrap:wrap">
+        <a class="btn blue" href="#shop" data-nav="shop">Lựa thêm món khác</a>
+        <a class="btn wood" href="#home" data-nav="home">Về mặt tiền tiệm</a>
+      </div>
+    </div></div>`;
+  show("done","done");
+}
+const PKGKEO=()=>`<svg viewBox="0 0 160 150" fill="none" stroke="#2A241B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">${PKG.keo("#3E7C6B","#F7F3EA")}</svg>`;
+
+/* ---------- Khởi động ---------- */
+renderHome();badge();route();
+</script>
+</body>
+</html>
