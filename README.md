@@ -49,3 +49,7 @@ Thư mục `taphoa/` là website thứ hai cùng dạng: tạp hóa hư cấu **
 ## Lưng Đồi — đặt phòng homestay concept
 
 Thư mục `homestay/` là website thứ ba: homestay hư cấu **Lưng Đồi** trên đồi Đà Lạt. Kéo mặt trời từ 5h sáng tới nửa đêm là cả trang đổi trời theo (sương, mưa chiều, hoàng hôn, trời sao), mỗi phòng gắn với một khoảnh khắc trong ngày, đặt phòng bằng lịch chọn đêm và nhận thư mời viết tay. Một file `homestay/index.html`.
+
+## GIỌT — order cà phê tại bàn concept
+
+Thư mục `giot/` là website thứ tư: quán cà phê hư cấu **GIỌT**, khách quét QR tại bàn (`#ban-7`) rồi gọi món trên điện thoại. Cái ly là giao diện: chỉnh cữ phin / độ ngọt / đá là ly vẽ đổi lớp theo; gửi quầy xong có phin nhỏ giọt đếm từng giọt tới lúc món ra bàn. Một file `giot/index.html`, mobile-first.
