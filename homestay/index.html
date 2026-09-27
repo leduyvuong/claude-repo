@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lưng Đồi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Charm:wght@400;700&family=Nunito+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  /* bầu trời — JS nội suy theo giờ */
+  --sky-top:#8FBEDB; --sky-mid:#C8DDE2; --sky-low:#EFE3C8; --sun:#FFE9A8;
+  --hill:#3E5F49; --hill-2:#2C463A; --wood:#8A6242; --wood-d:#5E4129; --roof:#4A3826;
+  --glow:#6E6A5E; --star:0; --mist:0; --rain:0; --smoke:0;
+  --ink:#22301F; --cream:#FBF7EC; --cream-2:#F3ECDB; --line:#DCD2B8; --muted:#6E7263;
+  --ember:#D96B2F; --ember-d:#A94E1D; --pine:#2F5D46;
+  --serif:"Lora",Georgia,serif; --script:"Charm",cursive; --ui:"Nunito Sans",system-ui,sans-serif;
+  --gut:clamp(16px,4vw,52px);
+}
+*{box-sizing:border-box}
+::selection{background:var(--pine);color:#fff}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--ui);font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,p{margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+input,select{font:inherit;color:inherit}
+svg{display:block;max-width:100%}
+:focus-visible{outline:3px solid var(--ember);outline-offset:2px}
+[hidden]{display:none!important}
+.wrap{padding-inline:var(--gut)}
+.script{font-family:var(--script)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+
+header.site{position:absolute;top:0;left:0;right:0;z-index:30;color:#fff}
+header.site.solid{position:sticky;background:var(--cream);color:var(--ink);border-bottom:1.5px solid var(--line)}
+.bar{display:flex;align-items:center;gap:22px;height:62px}
+.wordmark{font-family:var(--serif);font-style:italic;font-weight:600;font-size:23px;text-decoration:none;text-shadow:0 1px 8px rgba(0,0,0,.25)}
+header.solid .wordmark{text-shadow:none}
+.wordmark span{color:var(--ember)}
+nav.main{display:flex;gap:18px;margin-left:6px}
+nav.main a{font-size:13.5px;font-weight:600;text-decoration:none;opacity:.92;border-bottom:2px solid transparent;padding:3px 0}
+nav.main a:hover{border-bottom-color:currentColor}
+.grow{flex:1}
+.now-chip{font-size:12.5px;font-weight:600;opacity:.9}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:14.5px;background:var(--ember);color:#fff;padding:12px 20px;border-radius:999px;box-shadow:0 3px 0 var(--ember-d);text-decoration:none;transition:transform .12s}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ember-d)}
+.btn.ghost{background:rgba(255,251,240,.92);color:var(--ink);box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.btn.pine{background:var(--pine);box-shadow:0 3px 0 #1F4030}
+
+/* ---------- Bầu trời & ngọn đồi ---------- */
+.sky{position:relative;overflow:hidden;color:#fff;
+  background:linear-gradient(var(--sky-top) 0%, var(--sky-mid) 46%, var(--sky-low) 78%, var(--sky-low) 100%)}
+.sky-inner{position:relative;padding-top:96px}
+.hero-copy{position:relative;z-index:5;text-align:center;max-width:760px;margin-inline:auto;padding-inline:var(--gut)}
+.hero-copy h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,5vw,58px);line-height:1.12;text-shadow:0 2px 18px rgba(20,30,25,.35);text-wrap:balance}
+.hero-copy h1 em{font-style:italic}
+.hero-copy .sub{margin-top:12px;font-size:clamp(14px,1.5vw,17px);text-shadow:0 1px 10px rgba(20,30,25,.4);opacity:.96}
+.scene{position:relative;margin-top:clamp(-10px,-1vw,0px)}
+.scene svg{width:100%;height:auto}
+.house-glow{fill:var(--glow)}
+.stars{opacity:var(--star);transition:opacity .5s}
+.mist{opacity:var(--mist);transition:opacity .5s}
+.smoke{opacity:var(--smoke);transition:opacity .5s}
+.rain-g{opacity:var(--rain);transition:opacity .5s}
+@media (prefers-reduced-motion: no-preference){
+  .stars circle{animation:tw 2.6s ease-in-out infinite}
+  .stars circle:nth-child(3n){animation-delay:.9s}.stars circle:nth-child(3n+1){animation-delay:1.7s}
+  @keyframes tw{0%,100%{opacity:.35}50%{opacity:1}}
+  .smoke path{animation:puff 5s ease-in-out infinite}
+  @keyframes puff{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+  .rain-g line{animation:rainfall .7s linear infinite}
+  @keyframes rainfall{from{transform:translateY(-26px)}to{transform:translateY(26px)}}
+  .mist ellipse{animation:drift 9s ease-in-out infinite alternate}
+  @keyframes drift{from{transform:translateX(-14px)}to{transform:translateX(14px)}}
+}
+
+/* ---------- Đồng hồ mặt trời ---------- */
+.dial-wrap{position:relative;z-index:6;max-width:680px;margin:clamp(-72px,-6vw,-40px) auto 0;padding-inline:var(--gut)}
+.dial{background:var(--cream);border:2px solid var(--ink);border-radius:18px;padding:16px 20px 18px;box-shadow:0 14px 34px rgba(24,36,28,.28)}
+.dial-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.dial-top .t{font-family:var(--serif);font-size:30px;font-weight:600}
+.dial-top .t small{font-size:14px;color:var(--muted);font-family:var(--ui);font-weight:600}
+.dial-top .moment{font-family:var(--script);font-size:21px;color:var(--ember)}
+.dial input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:46px;background:transparent;cursor:ew-resize;margin-top:2px}
+.dial input::-webkit-slider-runnable-track{height:12px;border-radius:6px;border:2px solid var(--ink);
+  background:linear-gradient(90deg,#9FC4DC 0%,#FFE9A8 22%,#8FD0E8 45%,#7E93B8 62%,#31456B 78%,#141E33 100%)}
+.dial input::-moz-range-track{height:12px;border-radius:6px;border:2px solid var(--ink);background:linear-gradient(90deg,#9FC4DC 0%,#FFE9A8 22%,#8FD0E8 45%,#7E93B8 62%,#31456B 78%,#141E33 100%)}
+.dial input::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;margin-top:-11px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFF3C4,#F5B63A);border:2.5px solid var(--ink);box-shadow:0 2px 0 var(--ink)}
+.dial input::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFF3C4,#F5B63A);border:2.5px solid var(--ink)}
+.moments{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.mo{font-size:12.5px;font-weight:700;border:1.5px solid var(--line);border-radius:999px;padding:6px 12px;background:var(--cream)}
+.mo:hover{border-color:var(--ink)}
+.mo[aria-pressed="true"]{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+/* ---------- Các phòng ---------- */
+.rooms{padding-block:clamp(30px,5vw,60px) clamp(20px,4vw,44px)}
+.sec-kicker{font-family:var(--script);font-size:clamp(20px,2.4vw,26px);color:var(--ember)}
+.sec-h{font-family:var(--serif);font-weight:600;font-size:clamp(26px,3.6vw,40px);line-height:1.15;margin-top:2px;text-wrap:balance}
+.sec-sub{color:var(--muted);margin-top:6px;max-width:560px}
+.room-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px;margin-top:26px}
+.room{background:var(--cream);border:2px solid var(--ink);border-radius:16px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s;position:relative}
+.room:hover{transform:translateY(-4px);box-shadow:0 12px 26px rgba(24,36,28,.18)}
+.room.lit{box-shadow:0 0 0 3px var(--ember), 0 12px 26px rgba(217,107,47,.25)}
+.room.lit::after{content:"đang tới giờ đẹp của phòng này";position:absolute;top:10px;right:10px;font-family:var(--script);font-size:14.5px;background:var(--ember);color:#fff;padding:3px 12px;border-radius:999px;transform:rotate(2deg)}
+.win{position:relative;padding:16px 16px 0}
+.win svg{width:100%;height:auto;border-radius:10px;border:2px solid var(--ink)}
+.room-body{padding:12px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.room-body h3{font-family:var(--serif);font-weight:600;font-size:20px}
+.room-hour{font-family:var(--script);font-size:16.5px;color:var(--pine)}
+.room-body .why{font-size:13.5px;color:var(--muted);flex:1}
+.room-foot{display:flex;justify-content:space-between;align-items:baseline;border-top:1.5px dashed var(--line);padding-top:9px;margin-top:4px}
+.price{font-weight:800;font-size:16.5px}
+.price small{font-weight:600;color:var(--muted)}
+.cap{font-size:12.5px;color:var(--muted)}
+
+/* Lời trong sổ lưu niệm */
+.guestbook{background:var(--cream-2);border-block:2px solid var(--ink);padding-block:clamp(26px,4vw,48px)}
+.gb-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px}
+.gb{background:var(--cream);border:1.5px solid var(--line);border-radius:4px;padding:18px 18px 14px;font-family:var(--script);font-size:18px;line-height:1.5;transform:rotate(-.8deg);box-shadow:3px 4px 0 rgba(34,48,31,.12)}
+.gb:nth-child(2){transform:rotate(.9deg)}
+.gb:nth-child(3){transform:rotate(-.3deg)}
+.gb small{display:block;font-family:var(--ui);font-size:12px;color:var(--muted);margin-top:8px}
+
+/* ---------- Trang phòng ---------- */
+.detail{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(20px,4vw,54px);padding-block:clamp(22px,4vw,48px)}
+.detail-vis{position:sticky;top:80px;align-self:start}
+.detail-vis svg{width:100%;height:auto;border:2.5px solid var(--ink);border-radius:18px;box-shadow:0 16px 32px rgba(24,36,28,.2)}
+.detail-vis .cap-line{font-family:var(--script);font-size:16px;color:var(--muted);text-align:center;margin-top:10px}
+.detail h1{font-family:var(--serif);font-weight:600;font-size:clamp(30px,4vw,46px);line-height:1.08}
+.detail .hour-line{font-family:var(--script);font-size:21px;color:var(--ember);margin-top:6px}
+.detail .desc{margin-top:14px;font-size:16.5px;max-width:560px}
+.amen{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.amen span{font-size:13px;font-weight:600;border:1.5px solid var(--line);border-radius:999px;padding:6px 13px;background:var(--cream)}
+.host-note{margin-top:22px;border-left:3px solid var(--ember);padding:4px 0 4px 16px}
+.host-note .script{font-size:19px;line-height:1.55}
+.host-note small{color:var(--muted)}
+.detail .price-row{display:flex;align-items:baseline;gap:14px;margin-top:24px;flex-wrap:wrap}
+.detail .price-row .price{font-size:26px}
+.back-link{font-weight:700;font-size:13.5px;text-decoration:none;color:var(--muted)}
+.back-link:hover{color:var(--ink)}
+
+/* ---------- Đặt phòng ---------- */
+.book{max-width:960px;margin-inline:auto;padding-block:clamp(22px,4vw,48px)}
+.book-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(18px,3.5vw,44px);margin-top:20px;align-items:start}
+.cal-card{background:var(--cream);border:2px solid var(--ink);border-radius:16px;padding:16px 18px}
+.cal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cal-head b{font-family:var(--serif);font-size:17px}
+.cal-nav{display:flex;gap:6px}
+.cal-nav button{width:34px;height:34px;border:1.5px solid var(--line);border-radius:9px;font-weight:800}
+.cal-nav button:hover{border-color:var(--ink)}
+.cal-nav button[disabled]{opacity:.35;cursor:default}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal .dow{font-size:11px;font-weight:800;color:var(--muted);text-align:center;padding:6px 0 4px}
+.day{position:relative;aspect-ratio:1;border-radius:9px;font-weight:700;font-size:13.5px;display:grid;place-content:center;border:1.5px solid transparent}
+.day:not(.off):not(.full):hover{border-color:var(--ink)}
+.day .pr{display:block;font-size:9px;font-weight:600;color:var(--muted);text-align:center}
+.day.off{color:#C9C0A6;cursor:default}
+.day.full{color:#C9C0A6;cursor:not-allowed;text-decoration:line-through}
+.day.in{background:#F4DBC7}
+.day.pick{background:var(--ember);color:#fff;border-color:var(--ember-d)}
+.day.pick .pr{color:#FFE0C6}
+.cal-note{font-size:12px;color:var(--muted);margin-top:10px}
+.cal-note b{color:var(--ember)}
+/* phiếu đặt */
+.slip{background:var(--cream);border:2px solid var(--ink);border-radius:16px;padding:18px;position:sticky;top:80px}
+.slip h3{font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:8px}
+.slip .trow{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding-block:5px;border-bottom:1px dashed var(--line)}
+.slip .trow.total{font-size:17px;font-weight:800;border-bottom:0;padding-top:10px}
+.slip .hint{font-size:12.5px;color:var(--muted)}
+.extras label{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px dashed var(--line);font-size:14px;cursor:pointer}
+.extras input{accent-color:var(--ember);margin-top:3px}
+.extras small{display:block;color:var(--muted)}
+.fld{display:flex;flex-direction:column;gap:5px;margin-top:12px}
+.fld label{font-size:12.5px;font-weight:700;color:var(--muted)}
+.fld input,.fld select{border:2px solid var(--line);border-radius:10px;background:#fff;padding:11px 13px;font-size:15px}
+.fld input:focus{border-color:var(--pine);outline:none}
+.err{font-size:13px;color:#B4351F;min-height:1.4em;margin-top:6px;font-weight:600}
+.slip .btn{width:100%;margin-top:12px}
+.demo-note{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
+
+/* ---------- Thư mời ---------- */
+.letter-wrap{min-height:72vh;display:grid;place-items:center;padding:clamp(30px,5vw,70px) var(--gut)}
+.letter{max-width:620px;background:var(--cream);border:2px solid var(--ink);border-radius:6px;padding:clamp(24px,4vw,44px);position:relative;box-shadow:0 18px 40px rgba(24,36,28,.28)}
+.letter::before{content:"";position:absolute;inset:10px;border:1.5px dashed var(--line);border-radius:3px;pointer-events:none}
+.letter .stamp-sky{position:absolute;top:22px;right:22px;width:74px;height:92px;border:2px solid var(--ink);border-radius:4px;overflow:hidden;transform:rotate(3deg)}
+.letter .stamp-sky svg{width:100%;height:100%}
+.letter h1{font-family:var(--serif);font-weight:600;font-size:clamp(24px,3.2vw,34px);line-height:1.2;max-width:420px;text-wrap:balance}
+.letter .script{font-size:20px;color:var(--ember)}
+.letter .meta{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;margin-top:20px;font-size:14px}
+.letter .meta b{display:block;font-size:11.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.letter .ps{margin-top:20px;border-top:1.5px dashed var(--line);padding-top:14px;font-family:var(--script);font-size:18px;line-height:1.55}
+.letter .sign{text-align:right;font-family:var(--script);font-size:24px;margin-top:10px;color:var(--pine)}
+
+footer.site{background:var(--hill-2);color:#D9E4D3;margin-top:50px}
+.foot{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:26px;padding:clamp(26px,4vw,48px) var(--gut)}
+.foot .big{font-family:var(--serif);font-style:italic;font-weight:600;font-size:clamp(26px,3.4vw,38px);color:#fff}
+.foot p,.foot li{font-size:13.5px}
+.foot ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px}
+.foot a{color:#fff;text-decoration:none}
+.foot a:hover{text-decoration:underline;color:#F4C89B}
+.colophon{border-top:1px solid rgba(255,255,255,.18);padding:10px var(--gut);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:12px;color:#A7BCA3}
+
+.view{animation:vin .35s ease}
+@keyframes vin{from{opacity:0;transform:translateY(12px)}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.view{animation:none}.room{transition:none}}
+@media (max-width:880px){
+  nav.main{display:none}
+  .detail{grid-template-columns:1fr}
+  .detail-vis{position:static}
+  .book-grid{grid-template-columns:1fr}
+  .slip{position:static}
+  .foot{grid-template-columns:1fr}
+  .dial-wrap{margin-top:-26px}
+  .hero-copy h1{font-size:clamp(26px,7.4vw,38px)}
+}
+</style>
+</head>
+<body>
+<header class="site" id="hdr">
+  <div class="wrap bar">
+    <a class="wordmark" href="#home" data-nav="home">Lưng Đồi<span>.</span></a>
+    <nav class="main" aria-label="Chính">
+      <a href="#home" data-nav="rooms">5 căn phòng</a>
+      <a href="#home" data-nav="gb">Sổ lưu niệm</a>
+    </nav>
+    <div class="grow"></div>
+    <span class="now-chip" id="now-chip"></span>
+    <a class="btn ghost" href="#home" data-nav="rooms" id="hdr-cta">Chọn khoảnh khắc</a>
+  </div>
+</header>
+
+<main id="app">
+  <!-- TRANG ĐỒI -->
+  <section class="view" id="view-home">
+    <div class="sky" id="sky">
+      <div class="sky-inner">
+        <div class="hero-copy">
+          <p class="script" style="font-size:clamp(19px,2.4vw,26px);text-shadow:0 1px 8px rgba(20,30,25,.4)">nhà gỗ trên lưng đồi, Đà Lạt</p>
+          <h1>Ở đây, mỗi giờ trong ngày<br>là <em>một căn phòng khác nhau.</em></h1>
+          <p class="sub">Kéo mặt trời đi hết một ngày trên đồi — rồi chọn khoảnh khắc bạn muốn thức dậy.</p>
+        </div>
+        <div class="scene" id="scene"></div>
+      </div>
+    </div>
+    <div class="dial-wrap">
+      <div class="dial">
+        <div class="dial-top">
+          <span class="t"><span id="h-v">14:00</span> <small>trên đồi</small></span>
+          <span class="moment" id="h-moment"></span>
+        </div>
+        <input type="range" id="h-dial" min="5" max="24" step="0.25" value="14" aria-label="Chọn giờ trong ngày trên đồi">
+        <div class="moments" id="moments"></div>
+      </div>
+    </div>
+
+    <div class="wrap rooms" id="rooms-sec">
+      <p class="sec-kicker">năm căn phòng, năm khoảnh khắc</p>
+      <h2 class="sec-h">Đừng chọn phòng theo giá.<br>Chọn theo giờ bạn thích nhất trong ngày.</h2>
+      <p class="sec-sub">Mỗi phòng ở Lưng Đồi quay về một hướng khác nhau, nên căn nào cũng có một giờ "của nó". Ô cửa dưới đây vẽ đúng khung trời giờ đó.</p>
+      <div class="room-grid" id="room-grid"></div>
+    </div>
+
+    <div class="guestbook" id="gb-sec">
+      <div class="wrap">
+        <p class="sec-kicker">chép lại từ sổ lưu niệm ở bàn trà</p>
+        <h2 class="sec-h">Khách cũ để lại gì</h2>
+        <div class="gb-row">
+          <div class="gb">“5 giờ rưỡi sáng chồng mình lôi dậy coi sương, định càu nhàu mà mở cửa ra thì im luôn. Đáng.”<small>— Ngân &amp; Long, phòng Sương Sớm, 3/2026</small></div>
+          <div class="gb">“Mưa Đà Lạt mà nằm võng ngoài hiên, tay cầm ly trà gừng của chị Hạnh thì hết muốn về Sài Gòn.”<small>— Vy, phòng Hiên Mưa, 6/2026</small></div>
+          <div class="gb">“Con mình 6 tuổi, tối nào cũng đòi ra bếp lửa nướng khoai với chú Tùng. Về nhà cứ hỏi chừng nào lên đồi lại.”<small>— gia đình Minh Thư, phòng Bếp Lửa, 8/2026</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANG PHÒNG -->
+  <section class="view" id="view-room" hidden></section>
+  <!-- ĐẶT PHÒNG -->
+  <section class="view" id="view-book" hidden></section>
+  <!-- THƯ MỜI -->
+  <section class="view" id="view-done" hidden></section>
+</main>
+
+<footer class="site">
+  <div class="foot">
+    <div>
+      <p class="big">Lưng Đồi.</p>
+      <p style="margin-top:10px;max-width:340px">Nhà gỗ 5 phòng trên đồi thông ngoại ô Đà Lạt, chị Hạnh và anh Tùng trông nom. Cách chợ 15 phút chạy xe, cách tiếng ồn thì xa hơn nhiều.</p>
+    </div>
+    <ul>
+      <li><a href="#home" data-nav="rooms">Năm căn phòng</a></li>
+      <li><a href="#home" data-nav="gb">Sổ lưu niệm</a></li>
+      <li><a href="#home" data-nav="home">Về đầu đồi</a></li>
+    </ul>
+    <ul>
+      <li>Nhận phòng 14h — trả phòng 12h</li>
+      <li>Bếp lửa đốt 19h mỗi tối, khoai miễn phí</li>
+      <li>Chó nhà tên Củi, hiền, hay xin ăn</li>
+    </ul>
+  </div>
+  <div class="colophon">
+    <span>© 2026 Lưng Đồi — trang dựng ý tưởng, homestay không có thật.</span>
+    <span>Chữ: Lora · Charm · Nunito Sans</span>
+  </div>
+</footer>
+
+<script>
+"use strict";
+/* ---------- Bầu trời theo giờ ---------- */
+const KEYS=[ // [giờ, trời cao, trời giữa, chân trời, màu nắng, sương, sao]
+ [5,"#2A3E63","#77739B","#E8A97E","#FFD9A0",1,.45],
+ [6.5,"#5E8FBC","#A9C6D8","#F6DDAE","#FFE2A0",1,.12],
+ [8,"#7FB4D6","#BFE0E6","#F4ECCB","#FFEDB0",.55,0],
+ [11,"#5FA7DB","#A8D8EC","#E9F1DE","#FFF3C4",0,0],
+ [14,"#69A9D4","#A5CBDD","#E4EBD6","#FFF0BC",0,0],
+ [15.5,"#647F9C","#93A9B6","#D4DCCB",'#F2E4B4',.1,0],
+ [17,"#57708E","#7F97A6","#BFC9BE","#EED9A2",.2,0],
+ [18.2,"#3E4C7A","#B06A52","#F0A860","#FF9E54",.1,.1],
+ [19.5,"#232F55","#4E4670","#8A5B6E","#FFBE78",.15,.5],
+ [21,"#141E3D","#28304F","#3E4257","#F5E9C8",.1,1],
+ [24,"#0B1226","#151C31","#20263A","#F1EBD4",.05,1],
+];
+const lerp=(a,b,t)=>a+(b-a)*t;
+function hexLerp(h1,h2,t){
+  const p=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+  const[a,b]=[p(h1),p(h2)];
+  return "#"+a.map((v,i)=>Math.round(lerp(v,b[i],t)).toString(16).padStart(2,"0")).join("");
+}
+function skyAt(H){
+  let i=0; while(i<KEYS.length-2&&H>KEYS[i+1][0]) i++;
+  const A=KEYS[i],B=KEYS[i+1],t=Math.min(1,Math.max(0,(H-A[0])/(B[0]-A[0])));
+  return {top:hexLerp(A[1],B[1],t),mid:hexLerp(A[2],B[2],t),low:hexLerp(A[3],B[3],t),sun:hexLerp(A[4],B[4],t),mist:lerp(A[5],B[5],t),star:lerp(A[6],B[6],t)};
+}
+const MOMENTS=[["Hừng đông",5.5],["Nắng sớm",8],["Giữa trưa",12],["Mưa chiều",16],["Hoàng hôn",18.2],["Bếp lửa",20],["Trời sao",22.5]];
+function momentName(H){
+  if(H<6.5)return"hừng đông, sương còn dày";
+  if(H<9)return"nắng sớm xuyên rặng thông";
+  if(H<14)return"nắng vàng ươm cả lưng đồi";
+  if(H<15.2)return"đầu giờ chiều, trời dịu lại";
+  if(H<17.6)return"mưa Đà Lạt ghé ngang đồi";
+  if(H<19)return"hoàng hôn nhuộm cam thung lũng";
+  if(H<21.5)return"bếp lửa đỏ, khói bay lên";
+  return"trời đầy sao, lạnh 16 độ";
+}
+let H=14;
+function renderSky(){
+  const s=skyAt(H), r=document.documentElement.style;
+  r.setProperty("--sky-top",s.top);r.setProperty("--sky-mid",s.mid);r.setProperty("--sky-low",s.low);
+  r.setProperty("--mist",s.mist.toFixed(2));r.setProperty("--star",s.star.toFixed(2));
+  r.setProperty("--rain",(H>=15.2&&H<=17.6)?1:0);
+  r.setProperty("--smoke",(H>=18.8&&H<=22.5)?1:0);
+  const glowOn=Math.min(1,Math.max(0,(H-18)/1.2));
+  r.setProperty("--glow",hexLerp("#7E93A4","#FFC96B",glowOn));
+  const orb=document.getElementById("orb"),halo=document.getElementById("halo"),moon=document.getElementById("moon");
+  if(orb){
+    const day=H>=5.4&&H<=18.7, t=(H-5.4)/13.3;
+    orb.style.display=day?"":"none"; halo.style.display=day?"":"none";
+    if(day){const x=90+t*1020, y=300-250*Math.sin(Math.PI*Math.min(1,Math.max(0,t)));
+      orb.setAttribute("cx",x);orb.setAttribute("cy",y);orb.setAttribute("fill",s.sun);
+      halo.setAttribute("cx",x);halo.setAttribute("cy",y);}
+    const night=H>=19; moon.style.display=night?"":"none";
+    if(night){const tm=(H-19)/5.5, x=140+tm*920, y=250-180*Math.sin(Math.PI*Math.min(1,tm));
+      moon.setAttribute("transform",`translate(${x} ${y})`);}
+  }
+  const el=document.getElementById("h-v");
+  if(el){const hh=Math.floor(H),mm=Math.round((H-hh)*60);el.textContent=String(hh).padStart(2,"0")+":"+String(mm).padStart(2,"0");}
+  const mo=document.getElementById("h-moment"); if(mo)mo.textContent=momentName(H);
+  document.querySelectorAll("#moments .mo").forEach(b=>b.setAttribute("aria-pressed",String(Math.abs(+b.dataset.h-H)<.8)));
+  document.querySelectorAll(".room").forEach(card=>{
+    const p=ROOMS.find(x=>x.id===card.dataset.r);
+    card.classList.toggle("lit",H>=p.hours[0]&&H<=p.hours[1]);
+  });
+  const hdrCta=document.getElementById("hdr-cta");
+  if(hdrCta&&state.view==="home"){const best=ROOMS.find(p=>H>=p.hours[0]&&H<=p.hours[1]);
+    hdrCta.textContent=best?("Giờ này: "+best.name):"Chọn khoảnh khắc";}
+}
+
+/* ---------- Cảnh đồi ---------- */
+function sceneSVG(){
+  const stars=Array.from({length:26},(_,i)=>`<circle cx="${(i*211)%1180+10}" cy="${(i*97)%200+16}" r="${i%3?1.6:2.4}" fill="#F4EFDA"/>`).join("");
+  const rain=Array.from({length:30},(_,i)=>`<line x1="${i*41+15}" y1="${(i*53)%80}" x2="${i*41+8}" y2="${(i*53)%80+22}"/>`).join("");
+  const pine=(x,y,s,d)=>`<g transform="translate(${x} ${y}) scale(${s})" fill="${d?"#22412F":"#2F5D46"}" stroke="#1B3223" stroke-width="2"><rect x="-4" y="54" width="8" height="18" fill="#4A3826"/><path d="M0 -34 L26 12 L10 12 L32 44 L14 44 L30 62 L-30 62 L-14 44 L-32 44 L-10 12 L-26 12 Z"/></g>`;
+  return `<svg viewBox="0 0 1200 560" fill="none" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Ngôi nhà gỗ trên đồi thông, bầu trời đổi theo giờ bạn chọn">
+  <g class="stars">${stars}</g>
+  <circle id="halo" cx="240" cy="150" r="58" fill="#FFF6D8" opacity=".25"/>
+  <circle id="orb" cx="240" cy="150" r="30" fill="#FFF0BC" stroke="rgba(0,0,0,.12)" stroke-width="2"/>
+  <g id="moon" style="display:none"><path d="M0 0 a26 26 0 1 0 14 46 a20 20 0 1 1 -14 -46" fill="#F1EBD4" stroke="rgba(0,0,0,.15)" stroke-width="2"/></g>
+  <g class="rain-g" stroke="#BFD3DF" stroke-width="2.5" opacity="0">${rain}</g>
+  <path d="M0 430 Q300 330 620 392 T1200 380 V560 H0 Z" fill="var(--hill)"/>
+  <path d="M0 480 Q360 400 760 452 T1200 445 V560 H0 Z" fill="var(--hill-2)"/>
+  <g class="mist" opacity="0"><ellipse cx="300" cy="404" rx="250" ry="26" fill="#EFF3F2" opacity=".7"/><ellipse cx="820" cy="430" rx="300" ry="30" fill="#EFF3F2" opacity=".55"/><ellipse cx="1080" cy="396" rx="180" ry="20" fill="#EFF3F2" opacity=".6"/></g>
+  ${pine(105,380,1.1,1)}${pine(190,400,.8,0)}${pine(1050,380,1.2,0)}${pine(1140,410,.85,1)}${pine(960,400,.7,1)}
+  <g stroke="#2E2416" stroke-width="4">
+    <rect x="420" y="336" width="270" height="118" fill="var(--wood)"/>
+    <path d="M400 336 L555 232 L710 336 Z" fill="var(--roof)"/>
+    <rect x="700" y="366" width="150" height="88" fill="var(--wood-d)"/>
+    <path d="M692 366 L775 312 L858 366 Z" fill="var(--roof)"/>
+    <rect x="806" y="266" width="22" height="60" fill="#6E5138"/>
+    <g class="smoke" fill="#DDE2E4" stroke="none" opacity="0"><path d="M817 252 q-12 -14 2 -26 q16 -10 8 -26" stroke="#DDE2E4" stroke-width="8" fill="none" stroke-linecap="round"/></g>
+    <rect x="446" y="376" width="44" height="52" class="house-glow"/>
+    <rect x="516" y="376" width="44" height="52" class="house-glow"/>
+    <rect x="586" y="376" width="44" height="52" class="house-glow"/>
+    <path d="M538 262 h34 v30 h-34 z" class="house-glow"/>
+    <rect x="726" y="388" width="38" height="44" class="house-glow"/>
+    <rect x="648" y="386" width="40" height="68" fill="#4A3826"/>
+    <circle cx="682" cy="422" r="3" fill="#D9C08A" stroke="none"/>
+    <path d="M406 454 h460 M420 454 v26 M500 454 v26 M580 454 v26 M660 454 v26 M740 454 v26 M846 454 v26" stroke-width="5"/>
+    <path d="M398 470 h480" stroke-width="4"/>
+  </g>
+  <path d="M640 480 Q600 510 640 532 Q690 550 660 560 L580 560 Q560 530 600 505 Q630 490 620 480 Z" fill="#C9B98A" stroke="#8A7A50" stroke-width="2"/>
+  <g stroke="#2E2416" stroke-width="3"><path d="M300 470 l-8 46 M340 466 l-4 48" /><path d="M292 486 h52 M290 500 h52"/></g>
+</svg>`;
+}
+/* ---------- Phòng ---------- */
+const VND=n=>n.toLocaleString("vi-VN")+"đ";
+const ROOMS=[
+ {id:"r1",name:"Phòng Sương Sớm",hours:[5,8],h0:5.8,price:620000,cap:2,bed:"giường đôi lớn",
+  why:"Cửa sổ rộng nhìn thẳng xuống thung lũng — 5 rưỡi sáng sương dâng ngang cửa, nằm trong chăn coi cũng được.",
+  amen:["cửa sổ hướng thung lũng","bàn trà cạnh cửa","chăn điện","bình giữ nhiệt"],
+  note:"Cô để sẵn cà phê phin với gừng mật ong ở bàn trà. Ai dậy coi sương thì pha, đừng ngại.",
+  desc:"Phòng nằm ở góc đông của căn nhà, nơi mặt trời chạm vào đầu tiên. Tầm 5 rưỡi tới 7 giờ sáng, sương từ thung lũng dâng lên ngang cửa sổ rồi tan dần khi nắng tới — khách phòng này hay gọi đó là “bình minh hai lớp”. Trong phòng có bàn trà kê sát cửa để bạn ngồi coi trọn cảnh đó mà không cần ra khỏi chăn."},
+ {id:"r2",name:"Phòng Nắng Lưng Đồi",hours:[9,15],h0:11,price:680000,cap:2,bed:"giường đôi + ghế mây",
+  why:"Hiên riêng hướng nam, nắng vàng từ 9 giờ tới giữa chiều. Có ghế mây, sách cũ và một cây đàn guitar.",
+  amen:["hiên nắng riêng","ghế mây đôi","kệ sách cũ","đàn guitar"],
+  note:"Nắng đẹp nhất tầm 10 giờ. Sách trên kệ cuốn nào thích cứ mang về, để lại một cuốn khác là được.",
+  desc:"Đây là phòng duy nhất có hiên riêng quay hướng nam. Từ 9 giờ sáng nắng bắt đầu tràn qua lan can gỗ, ấm tới tận 3 giờ chiều — mùa lạnh khách toàn mang chăn ra hiên nằm. Kệ sách trong phòng là sách khách cũ để lại, đủ thể loại, có cuốn ghi chú chi chít bên lề."},
+ {id:"r3",name:"Phòng Hiên Mưa",hours:[15,18],h0:16.2,price:640000,cap:2,bed:"giường đôi + võng hiên",
+  why:"Hiên mái tôn sau nhà — mưa Đà Lạt tầm 3 rưỡi chiều gõ xuống nghe đã tai. Có võng, có trà gừng.",
+  amen:["hiên mái tôn","võng gai","bộ ấm trà gừng","đèn đọc sách"],
+  note:"Mưa mùa này hay tới lúc 3 rưỡi, kéo dài chừng tiếng rưỡi. Con canh mưa mà về phòng cho kịp nghe.",
+  desc:"Người ta lên Đà Lạt trốn nắng, khách phòng này lên để chờ mưa. Hiên sau lợp tôn đúng kiểu cũ, mưa xuống là cả mái kêu rào rào — nằm võng, đắp mền mỏng, tay cầm ly trà gừng nóng. Mưa Đà Lạt chiều nào cũng ghé chừng một tiếng rưỡi rồi đi, vừa đủ một giấc."},
+ {id:"r4",name:"Phòng Bếp Lửa",hours:[19,22],h0:20,price:760000,cap:4,bed:"1 giường đôi + 2 giường đơn",
+  why:"Phòng gia đình, cửa mở ra sân bếp lửa. 7 giờ tối anh Tùng nhóm củi, nướng khoai, kể chuyện đồi.",
+  amen:["gần sân bếp lửa","4 chỗ ngủ","bàn ăn riêng","ấm siêu tốc + sữa ca cao"],
+  note:"Tối nào cũng đốt lửa lúc 7 giờ, khoai lang miễn phí. Con nít mê lắm, cha mẹ nhớ mang áo ấm cho tụi nhỏ.",
+  desc:"Phòng rộng nhất nhà, đủ cho gia đình bốn người, cửa phòng mở thẳng ra sân bếp lửa. Đúng 7 giờ tối anh Tùng nhóm củi thông — lửa cháy tới khuya, ai ngồi cũng được, khoai lang vùi tro miễn phí. Tụi nhỏ thường ngủ quên trên đùi ba mẹ ngay cạnh đống lửa, khiêng vào phòng chỉ mất ba bước chân."},
+ {id:"r5",name:"Phòng Gác Sao",hours:[22,24],h0:22.8,price:720000,cap:2,bed:"nệm lớn sát cửa sổ trần",
+  why:"Gác mái có ô cửa kính ngay trên đầu giường. Tắt đèn là thấy sao — Đà Lạt ít đèn đường hơn bạn tưởng.",
+  amen:["cửa sổ trần ngắm sao","nệm sát sàn ấm","bản đồ chòm sao","đèn dầu nhỏ"],
+  note:"Đêm quang trời thấy cả dải Ngân Hà mờ mờ. Lạnh đó, cô để hai lớp chăn, cứ đắp hết.",
+  desc:"Căn gác mái được cắt một ô kính lớn ngay trên đầu giường — nằm xuống, tắt đèn, và trần nhà của bạn là bầu trời. Trên bàn có tấm bản đồ chòm sao anh Tùng vẽ tay, đêm nào trời quang chị Hạnh sẽ gõ cửa nhắc “ra sao rồi đó”. Phòng bé nhất nhà nhưng là phòng được đặt trước nhiều nhất."},
+];
+const EXTRAS=[["don","Đón ở bến xe Đà Lạt",100000,"một lượt cho cả nhóm"],["bbq","Nướng BBQ bên bếp lửa",250000,"rau củ, thịt xiên, cho 2–4 người"],["xe","Thuê xe máy",120000,"một ngày, đổ sẵn xăng"]];
+
+/* Ô cửa sổ nhìn đúng giờ đẹp của phòng */
+function winSVG(p){
+  const s=skyAt(p.h0);
+  const rain=p.id==="r3"?Array.from({length:12},(_,i)=>`<line x1="${i*22+8}" y1="${(i*31)%40}" x2="${i*22+3}" y2="${(i*31)%40+18}" stroke="#D6E4EC" stroke-width="2"/>`).join(""):"";
+  const stars=p.id==="r5"?Array.from({length:12},(_,i)=>`<circle cx="${(i*53)%230+10}" cy="${(i*37)%70+8}" r="${i%3?1.4:2.2}" fill="#F4EFDA"/>`).join(""):"";
+  const sun=p.id==="r1"?`<circle cx="200" cy="82" r="16" fill="${s.sun}"/>`:p.id==="r2"?`<circle cx="60" cy="34" r="20" fill="${s.sun}"/>`:"";
+  const moon=p.id==="r5"?`<path d="M196 26 a17 17 0 1 0 9 30 a13 13 0 1 1 -9 -30" fill="#F1EBD4"/>`:"";
+  const ember=p.id==="r4"?`<circle cx="125" cy="118" r="17" fill="#FF9E3D"/><path d="M113 124 q12 -26 24 0 q-6 14 -24 0" fill="#FFC96B" stroke="#B4551F" stroke-width="2"/><path d="M104 132 h42" stroke="#5E4129" stroke-width="5"/>`:"";
+  const mist=p.id==="r1"?`<ellipse cx="90" cy="102" rx="90" ry="13" fill="#EFF3F2" opacity=".85"/><ellipse cx="190" cy="112" rx="70" ry="10" fill="#EFF3F2" opacity=".7"/>`:"";
+  return `<svg viewBox="0 0 250 150" aria-hidden="true">
+    <rect width="250" height="150" fill="url(#g-${p.id})"/>
+    <defs><linearGradient id="g-${p.id}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="${s.top}"/><stop offset=".55" stop-color="${s.mid}"/><stop offset="1" stop-color="${s.low}"/></linearGradient></defs>
+    ${stars}${sun}${moon}
+    <path d="M0 108 Q70 84 140 100 T250 96 V150 H0 Z" fill="#3E5F49"/>
+    <path d="M0 124 Q90 106 180 118 T250 116 V150 H0 Z" fill="#2C463A"/>
+    ${mist}${ember}${rain}
+    <path d="M125 4 V150 M4 75 H246" stroke="rgba(34,48,31,.5)" stroke-width="5"/>
+  </svg>`;
+}
+/* ---------- Trạng thái & điều hướng ---------- */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const state={view:"home",room:null,book:null,calM:0};
+const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const byId=id=>ROOMS.find(r=>r.id===id);
+function show(view,hash){
+  state.view=view;
+  for(const s of $$("main > section")) s.hidden = s.id!=="view-"+view;
+  const sec=$("#view-"+view); sec.classList.remove("view"); void sec.offsetWidth; sec.classList.add("view");
+  $("#hdr").classList.toggle("solid",view!=="home");
+  $("#hdr-cta").textContent = view==="home" ? "Chọn khoảnh khắc" : "Về đầu đồi";
+  window.scrollTo(0,0);
+  try{history.replaceState(null,"","#"+(hash||view));}catch{}
+}
+addEventListener("hashchange",route);
+function route(){
+  const h=location.hash.slice(1);
+  const m=h.match(/^(room|book)-(r\d)$/);
+  if(m&&byId(m[2])){ m[1]==="room"?openRoom(m[2]):openBook(m[2]); }
+  else show("home","home");
+}
+document.addEventListener("click",e=>{
+  const a=e.target.closest("[data-nav]"); if(!a) return;
+  e.preventDefault();
+  const t=a.dataset.nav;
+  show("home","home");
+  if(t==="rooms") setTimeout(()=>$("#rooms-sec").scrollIntoView({behavior:reduced?"auto":"smooth"}),50);
+  if(t==="gb") setTimeout(()=>$("#gb-sec").scrollIntoView({behavior:reduced?"auto":"smooth"}),50);
+});
+
+/* ---------- Trang chủ ---------- */
+function fmtHours(p){return String(p.hours[0]).padStart(2,"0")+"h–"+String(p.hours[1]).padStart(2,"0")+"h";}
+function renderHome(){
+  $("#scene").innerHTML=sceneSVG();
+  $("#moments").innerHTML=MOMENTS.map(([n,h])=>`<button class="mo" data-h="${h}">${n}</button>`).join("");
+  $$("#moments .mo").forEach(b=>b.addEventListener("click",()=>{H=+b.dataset.h;$("#h-dial").value=H;renderSky();}));
+  $("#h-dial").addEventListener("input",e=>{H=+e.target.value;renderSky();});
+  $("#room-grid").innerHTML=ROOMS.map(p=>`<a class="room" data-r="${p.id}" href="#room-${p.id}">
+    <div class="win">${winSVG(p)}</div>
+    <div class="room-body">
+      <h3>${p.name}</h3>
+      <span class="room-hour">đẹp nhất ${fmtHours(p)}</span>
+      <p class="why">${p.why}</p>
+      <div class="room-foot"><span class="price">${VND(p.price)}<small> / đêm</small></span><span class="cap">tối đa ${p.cap} khách</span></div>
+    </div></a>`).join("");
+  $$("#room-grid .room").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();openRoom(a.dataset.r);}));
+  const now=new Date(); H=Math.min(24,Math.max(5,now.getHours()+now.getMinutes()/60));
+  $("#h-dial").value=H;
+  $("#now-chip").textContent="trên đồi đang là "+String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0");
+  renderSky();
+}
+
+/* ---------- Trang phòng ---------- */
+function openRoom(id){
+  const p=byId(id); state.room=id;
+  $("#view-room").innerHTML=`<div class="wrap detail">
+    <div class="detail-vis">${winSVG(p).replace('viewBox="0 0 250 150"','viewBox="0 0 250 150" preserveAspectRatio="xMidYMid slice" style="aspect-ratio:250/165"')}
+      <p class="cap-line">khung trời ngoài cửa sổ ${p.name.replace("Phòng ","phòng ")} lúc ${fmtHours(p)}</p></div>
+    <div>
+      <a class="back-link" href="#home" data-nav="rooms">← xem cả năm phòng</a>
+      <h1 style="margin-top:10px">${p.name}</h1>
+      <p class="hour-line">khoảnh khắc của phòng: ${fmtHours(p)} · ${momentName(p.h0)}</p>
+      <p class="desc">${p.desc}</p>
+      <div class="amen">${[p.bed,...p.amen].map(a=>`<span>${a}</span>`).join("")}</div>
+      <div class="host-note"><p class="script">“${p.note}”</p><small>— chị Hạnh, chủ nhà</small></div>
+      <div class="price-row"><span class="price">${VND(p.price)}<small> / đêm thường</small></span>
+        <span class="muted small">cuối tuần +25% · tối đa ${p.cap} khách</span></div>
+      <div style="display:flex;gap:12px;margin-top:18px;flex-wrap:wrap">
+        <a class="btn" href="#book-${p.id}" id="go-book">Chọn đêm ở phòng này</a>
+        <a class="btn ghost" style="color:var(--ink)" href="#home" data-nav="rooms">Coi phòng khác</a>
+      </div>
+    </div></div>`;
+  $("#go-book").addEventListener("click",e=>{e.preventDefault();openBook(p.id);});
+  show("room","room-"+id);
+}
+
+/* ---------- Lịch & tính tiền ---------- */
+const DAY=86400000, T0=new Date(); T0.setHours(0,0,0,0);
+const iso=d=>d.toISOString().slice(0,10);
+function busy(roomId,d){ // giả lập lịch kín — cố định theo ngày
+  let h=0; const s=roomId+iso(d);
+  for(const ch of s) h=(h*31+ch.charCodeAt(0))>>>0;
+  return h%100<22;
+}
+const isWknd=d=>d.getDay()===0||d.getDay()===6;
+const nightPrice=(p,d)=>Math.round(p.price*(isWknd(d)?1.25:1));
+function openBook(id){
+  const p=byId(id);
+  if(!state.book||state.book.id!==id) state.book={id,ci:null,co:null,guests:Math.min(2,p.cap),ex:{}};
+  state.calM=0;
+  $("#view-book").innerHTML=`<div class="wrap book">
+    <a class="back-link" href="#room-${id}">← về trang ${p.name}</a>
+    <p class="sec-kicker" style="margin-top:10px">đặt đêm ở ${p.name.toLowerCase()}</p>
+    <h1 class="sec-h">Bạn muốn thức dậy ở đây<br>những đêm nào?</h1>
+    <div class="book-grid">
+      <div class="cal-card">
+        <div class="cal-head"><b id="cal-title"></b>
+          <div class="cal-nav"><button id="cal-prev" aria-label="Tháng trước">‹</button><button id="cal-next" aria-label="Tháng sau">›</button></div></div>
+        <div class="cal" id="cal"></div>
+        <p class="cal-note">Bấm ngày <b>nhận phòng</b>, rồi bấm ngày <b>trả phòng</b>. Ngày gạch là đêm đã kín. Giá ghi dưới mỗi ngày là giá đêm đó.</p>
+      </div>
+      <div class="slip" id="slip"></div>
+    </div></div>`;
+  $("#cal-prev").addEventListener("click",()=>{if(state.calM>0){state.calM--;renderCal();}});
+  $("#cal-next").addEventListener("click",()=>{if(state.calM<2){state.calM++;renderCal();}});
+  document.getElementById("view-book").addEventListener("click",onDayClick);
+  renderCal();renderSlip();
+  show("book","book-"+id);
+}
+function onDayClick(e){
+  const el=e.target.closest(".day[data-t]"); if(!el) return;
+  const t=+el.dataset.t, b=state.book, p=byId(b.id), d=new Date(t);
+  if(el.classList.contains("off")||el.classList.contains("full")) return;
+  if(b.ci==null||(b.ci!=null&&b.co!=null)){ b.ci=t; b.co=null; }
+  else if(t<=b.ci){ b.ci=t; }
+  else{
+    let ok=true;
+    for(let x=b.ci;x<t;x+=DAY) if(busy(b.id,new Date(x))){ok=false;break;}
+    if(!ok){ b.ci=t; b.co=null; } else b.co=t;
+  }
+  renderCal();renderSlip();
+}
+function renderCal(){
+  const b=state.book, base=new Date(T0.getFullYear(),T0.getMonth()+state.calM,1);
+  $("#cal-title").textContent="Tháng "+(base.getMonth()+1)+" / "+base.getFullYear();
+  $("#cal-prev").disabled=state.calM===0; $("#cal-next").disabled=state.calM===2;
+  let html=["T2","T3","T4","T5","T6","T7","CN"].map(d=>`<span class="dow">${d}</span>`).join("");
+  const first=(base.getDay()+6)%7, days=new Date(base.getFullYear(),base.getMonth()+1,0).getDate();
+  for(let i=0;i<first;i++) html+="<span></span>";
+  for(let d=1;d<=days;d++){
+    const dt=new Date(base.getFullYear(),base.getMonth(),d), t=dt.getTime();
+    const past=dt<T0, kin=busy(b.id,dt);
+    const pick=(b.ci===t)||(b.co===t), inR=b.ci!=null&&b.co!=null&&t>b.ci&&t<b.co;
+    html+=`<button class="day ${past?"off":""} ${!past&&kin?"full":""} ${pick?"pick":""} ${inR?"in":""}" ${past||kin?"":`data-t="${t}"`} aria-label="${d}/${base.getMonth()+1}${kin?" — đã kín":""}">
+      <span>${d}</span>${!past&&!kin?`<span class="pr">${Math.round(nightPrice(byId(b.id),dt)/1000)}k</span>`:""}</button>`;
+  }
+  $("#cal").innerHTML=html;
+}
+function calcTotal(){
+  const b=state.book,p=byId(b.id);
+  if(b.ci==null||b.co==null) return null;
+  let nights=0,room=0;
+  for(let x=b.ci;x<b.co;x+=DAY){room+=nightPrice(p,new Date(x));nights++;}
+  let extras=0;
+  for(const[k,,pr]of EXTRAS) if(b.ex[k]) extras+= k==="xe"? pr*nights : pr;
+  return {nights,room,extras,total:room+extras};
+}
+const dmy=t=>{const d=new Date(t);return d.getDate()+"/"+(d.getMonth()+1);};
+function renderSlip(){
+  const b=state.book,p=byId(b.id),c=calcTotal();
+  $("#slip").innerHTML=`<h3>Phiếu giữ phòng</h3>
+    <div class="trow"><span>${p.name}</span><span>${fmtHours(p)}</span></div>
+    <div class="trow"><span>Nhận phòng</span><span>${b.ci?dmy(b.ci)+" · từ 14h":"— chưa chọn"}</span></div>
+    <div class="trow"><span>Trả phòng</span><span>${b.co?dmy(b.co)+" · trước 12h":"— chưa chọn"}</span></div>
+    ${c?`<div class="trow"><span>${c.nights} đêm</span><span>${VND(c.room)}</span></div>`:""}
+    <div class="fld"><label for="f-guests">Mấy người ở</label>
+      <select id="f-guests">${Array.from({length:p.cap},(_,i)=>`<option value="${i+1}" ${b.guests===i+1?"selected":""}>${i+1} khách</option>`).join("")}</select></div>
+    <div class="extras" style="margin-top:10px">
+      ${EXTRAS.map(([k,n,pr,d])=>`<label><input type="checkbox" data-ex="${k}" ${b.ex[k]?"checked":""}><span>${n} — <b>${VND(pr)}</b><small>${d}</small></span></label>`).join("")}
+    </div>
+    <div class="fld"><label for="f-name">Tên bạn</label><input id="f-name" autocomplete="name" value="${b.name||""}"></div>
+    <div class="fld"><label for="f-phone">Số điện thoại</label><input id="f-phone" inputmode="tel" autocomplete="tel" value="${b.phone||""}"></div>
+    ${c?`<div class="trow total"><span>Tổng ${c.nights} đêm${c.extras?" + thêm":""}</span><span>${VND(c.total)}</span></div>
+    <p class="hint">Giữ chỗ trước — chị Hạnh gọi xác nhận rồi mới cọc 30%. Hủy trước 5 ngày hoàn đủ.</p>`:`<p class="hint" style="margin-top:10px">Chọn đêm trên lịch để xem tổng tiền.</p>`}
+    <p class="err" id="bk-err" role="alert"></p>
+    <button class="btn" id="bk-go" ${c?"":"disabled style='opacity:.5'"}>Giữ phòng ${c?"— "+VND(c.total):""}</button>
+    <p class="demo-note">Trang dựng ý tưởng — không giữ phòng thật, không thu tiền.</p>`;
+  $("#f-guests").addEventListener("change",e=>{b.guests=+e.target.value;});
+  $$("#slip [data-ex]").forEach(cb=>cb.addEventListener("change",()=>{b.ex[cb.dataset.ex]=cb.checked;keepFields();renderSlip();}));
+  $("#f-name").addEventListener("input",e=>b.name=e.target.value);
+  $("#f-phone").addEventListener("input",e=>b.phone=e.target.value);
+  $("#bk-go").addEventListener("click",()=>{
+    if(!c){$("#bk-err").textContent="Chọn đêm nhận và trả phòng trên lịch trước nghe.";return;}
+    if(!(b.name||"").trim()||!(b.phone||"").trim()){$("#bk-err").textContent="Cho chị Hạnh xin tên với số điện thoại để gọi xác nhận.";return;}
+    finishBooking();
+  });
+}
+function keepFields(){const b=state.book;b.name=$("#f-name")?.value||b.name;b.phone=$("#f-phone")?.value||b.phone;}
+
+/* ---------- Thư mời ---------- */
+function finishBooking(){
+  const b=state.book,p=byId(b.id),c=calcTotal();
+  const code="LD-"+String(new Date(b.ci).getDate()).padStart(2,"0")+String(new Date(b.ci).getMonth()+1).padStart(2,"0")+"-"+p.id.toUpperCase();
+  const name=(b.name.trim().split(" ").slice(-1)[0])||"bạn";
+  const s=skyAt(p.h0);
+  $("#view-done").innerHTML=`<div class="letter-wrap"><div class="letter">
+    <div class="stamp-sky"><svg viewBox="0 0 74 92"><rect width="74" height="92" fill="${s.top}"/><rect y="34" width="74" height="58" fill="${s.mid}"/><path d="M0 62 Q22 50 40 58 T74 56 V92 H0 Z" fill="#2C463A"/><circle cx="52" cy="22" r="10" fill="${s.sun}"/><text x="37" y="86" text-anchor="middle" style="font:700 9px 'Nunito Sans';fill:#fff">LƯNG ĐỒI</text></svg></div>
+    <p class="script">Đà Lạt, ${new Date().getDate()}/${new Date().getMonth()+1}</p>
+    <h1>${name} ơi, ${p.name.replace("Phòng ","phòng ")} đã để dành cho bạn.</h1>
+    <div class="meta">
+      <div><b>Mã giữ chỗ</b>${code}</div><div><b>Khách</b>${b.guests} người</div>
+      <div><b>Nhận phòng</b>${dmy(b.ci)} · sau 14h</div><div><b>Trả phòng</b>${dmy(b.co)} · trước 12h</div>
+      <div><b>${c.nights} đêm${c.extras?" + phần thêm":""}</b>${VND(c.total)}</div><div><b>Cọc</b>30% khi chị Hạnh gọi xác nhận</div>
+    </div>
+    <p class="ps">Nhớ nghe: khoảnh khắc của phòng bạn là <b>${fmtHours(p)}</b> — ${momentName(p.h0)}. Đêm trên đồi lạnh đó, nhớ mang áo ấm. Bếp lửa đốt 7 giờ tối, khoai lang khỏi mang, ở đây có sẵn.</p>
+    <p class="sign">— chị Hạnh &amp; anh Tùng, Lưng Đồi</p>
+  </div></div>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;padding-bottom:30px">
+    <a class="btn pine" href="#home" data-nav="rooms">Coi các phòng khác</a>
+    <a class="btn ghost" style="color:var(--ink)" href="#home" data-nav="home">Về đầu đồi</a>
+  </div>`;
+  show("done","done");
+}
+
+/* ---------- Khởi động ---------- */
+renderHome();
+route();
+</script>
+</body>
+</html>

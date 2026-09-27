@@ -45,3 +45,7 @@ Thư mục `mua/` là một website riêng: cửa hàng thời trang hư cấu *
 ## Tiệm Bà Tư — tạp hóa online concept
 
 Thư mục `taphoa/` là website thứ hai cùng dạng: tạp hóa hư cấu **Tiệm Bà Tư**. Mặt tiền tiệm vẽ bằng SVG làm điều hướng, giỏ hàng là cuốn sổ ghi viết tay, và ô "Cô ơi, cho con…" hiểu nguyên câu nói để tự nhặt món. Một file `taphoa/index.html`, mở trực tiếp là chạy.
+
+## Lưng Đồi — đặt phòng homestay concept
+
+Thư mục `homestay/` là website thứ ba: homestay hư cấu **Lưng Đồi** trên đồi Đà Lạt. Kéo mặt trời từ 5h sáng tới nửa đêm là cả trang đổi trời theo (sương, mưa chiều, hoàng hôn, trời sao), mỗi phòng gắn với một khoảnh khắc trong ngày, đặt phòng bằng lịch chọn đêm và nhận thư mời viết tay. Một file `homestay/index.html`.
