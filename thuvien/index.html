@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thư viện Cây Bàng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Mali:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+:root{
+  --kraft:#E4D5B2; --kraft-2:#D9C7A0; --card:#F5EDD6; --card-2:#EFE3C4; --line:#C9B68C;
+  --ink:#2E2A24; --type:#3A342B; --mut:#8A7B5F;
+  --wood:#7A4A32; --wood-d:#5C3624; --wood-l:#956043;
+  --stamp:#C03B2D; --inkblue:#2F5580; --leaf:#5C7248;
+  --serif:"Literata",Georgia,serif; --mono:"IBM Plex Mono",ui-monospace,monospace; --hand:"Mali",cursive;
+  --gut:clamp(16px,4vw,50px);
+}
+*{box-sizing:border-box}
+::selection{background:var(--inkblue);color:#fff}
+body{margin:0;color:var(--ink);font-family:var(--serif);font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  background:
+   radial-gradient(140% 90% at 50% -10%, rgba(255,250,232,.55), transparent 60%),
+   repeating-linear-gradient(0deg, transparent 0 3px, rgba(120,95,55,.05) 3px 4px),
+   var(--kraft)}
+h1,h2,h3,h4,p{margin:0}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+input,select{font:inherit;color:inherit}
+svg{display:block;max-width:100%}
+:focus-visible{outline:3px solid var(--stamp);outline-offset:2px}
+[hidden]{display:none!important}
+.wrap{padding-inline:var(--gut)}
+.mono{font-family:var(--mono);font-size:12.5px}
+.hand{font-family:var(--hand)}
+.mut{color:var(--mut)}
+
+/* ---------- Đầu trang ---------- */
+header.site{position:sticky;top:0;z-index:40;background:var(--wood);color:#F3E4CF;border-bottom:4px solid var(--wood-d);box-shadow:0 3px 10px rgba(60,38,20,.3)}
+.bar{display:flex;align-items:center;gap:20px;height:60px}
+.wordmark{font-weight:700;font-size:20px;text-decoration:none;letter-spacing:.01em;display:flex;align-items:center;gap:9px}
+.wordmark svg{width:26px;height:26px;flex:none}
+nav.main{display:flex;gap:18px}
+nav.main a{font-family:var(--mono);font-size:12.5px;text-decoration:none;opacity:.9;border-bottom:2px solid transparent;padding:3px 0}
+nav.main a:hover{opacity:1;border-bottom-color:#E8C98F}
+.grow{flex:1}
+.hours{font-family:var(--hand);font-size:13px;color:#E8CFA9}
+#btn-stack{font-family:var(--mono);font-size:12.5px;display:flex;align-items:center;gap:8px;background:#F3E4CF;color:var(--wood-d);padding:8px 14px;border-radius:8px;box-shadow:0 3px 0 rgba(0,0,0,.3);font-weight:500;transition:transform .12s}
+#btn-stack:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.3)}
+#stack-n{display:inline-grid;place-items:center;min-width:20px;height:20px;border-radius:50%;background:var(--stamp);color:#fff;font-size:11.5px;transition:transform .2s}
+#stack-n.tick{transform:scale(1.4)}
+
+/* ---------- Sảnh: tủ phích ---------- */
+.hall{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,56px);align-items:center;padding-block:clamp(26px,5vw,64px)}
+.hall h1{font-weight:700;font-size:clamp(30px,4.6vw,52px);line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.hall h1 em{font-style:italic;color:var(--wood)}
+.hall .lede{margin-top:14px;max-width:460px;font-size:16.5px}
+.hall .note{margin-top:16px;font-family:var(--hand);font-size:14.5px;color:var(--mut)}
+.cabinet{position:relative}
+.cabinet svg{width:100%;height:auto;filter:drop-shadow(0 18px 26px rgba(60,38,20,.35))}
+.drawer-g{cursor:pointer}
+.drawer-g .dr-body{transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+.drawer-g:hover .dr-body{transform:translateY(7px)}
+.drawer-g:hover .dr-label-bg{fill:#FFF7E0}
+.search-slip{margin-top:22px;background:var(--card);border:1.5px solid var(--ink);padding:14px 16px;box-shadow:4px 5px 0 rgba(46,42,36,.35);max-width:460px;transform:rotate(-.5deg)}
+.search-slip label{font-family:var(--mono);font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:6px}
+.search-slip .row{display:flex;gap:10px}
+#q{flex:1;border:0;border-bottom:1.5px dashed var(--mut);background:transparent;font-family:var(--mono);font-size:16px;color:var(--inkblue);outline:none;padding:2px 0;min-width:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--mono);font-weight:500;font-size:13.5px;background:var(--wood);color:#F6EBD5;padding:11px 18px;border:1.5px solid var(--wood-d);box-shadow:3px 4px 0 rgba(46,42,36,.4);text-decoration:none;transition:transform .12s}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 rgba(46,42,36,.4)}
+.btn.red{background:var(--stamp);border-color:#8F2418}
+.btn.ghost{background:var(--card);color:var(--ink);border-color:var(--ink)}
+/* nội quy */
+.rules{border-block:1.5px solid var(--ink);background:var(--card-2);padding-block:clamp(20px,3.6vw,40px)}
+.rules-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:14px}
+.rule{display:flex;gap:12px;align-items:flex-start}
+.rule>b{font-family:var(--mono);font-size:22px;color:var(--wood);font-weight:500;line-height:1.1}
+.rule p{font-size:14px}
+.sec-h{font-weight:700;font-size:clamp(22px,3vw,30px)}
+/* ---------- Ngăn phích mở: duyệt phiếu ---------- */
+.browse-head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:clamp(20px,3.6vw,40px) 10px}
+.browse-head h1{font-weight:700;font-size:clamp(28px,4.2vw,46px);line-height:1.05}
+.browse-head .mono{color:var(--mut)}
+.drawer-tabs{display:flex;gap:8px;flex-wrap:wrap;padding-block:10px;position:sticky;top:60px;background:var(--kraft);z-index:30}
+.dtab{font-family:var(--mono);font-size:12.5px;border:1.5px solid var(--ink);padding:8px 13px;background:var(--card);box-shadow:2px 3px 0 rgba(46,42,36,.3);transition:transform .12s}
+.dtab:hover{transform:translateY(-1px)}
+.dtab[aria-pressed="true"]{background:var(--wood);color:#F6EBD5;border-color:var(--wood-d)}
+.count-line{font-family:var(--hand);font-size:13.5px;color:var(--mut);padding-block:8px 4px}
+/* phiếu mục lục */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;padding-block:10px 34px}
+.fiche{position:relative;background:var(--card);border:1.5px solid var(--ink);padding:16px 16px 14px;text-align:left;box-shadow:4px 5px 0 rgba(46,42,36,.3);transition:transform .16s;font-family:var(--mono)}
+.fiche::before{content:"";position:absolute;left:50%;bottom:7px;transform:translateX(-50%);width:13px;height:13px;border-radius:50%;border:1.5px solid var(--mut);background:var(--kraft)}
+.fiche:hover{transform:translateY(-4px) rotate(-.4deg)}
+.fiche .call{font-size:11px;color:var(--stamp);letter-spacing:.04em}
+.fiche h3{font-family:var(--serif);font-weight:700;font-size:19px;line-height:1.2;margin:6px 0 2px}
+.fiche .au{font-size:12px;color:var(--type)}
+.fiche .sum{font-size:11.5px;color:var(--mut);line-height:1.7;margin-top:8px;border-top:1px dashed var(--line);padding-top:8px;padding-bottom:12px}
+.fiche .st{position:absolute;top:12px;right:12px;font-size:10px;padding:3px 8px;border:1.5px solid}
+.fiche .st.ok{color:var(--leaf);border-color:var(--leaf);transform:rotate(3deg)}
+.fiche .st.no{color:var(--stamp);border-color:var(--stamp);transform:rotate(-3deg)}
+
+/* ---------- Phiếu sách chi tiết ---------- */
+.detail{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(20px,4vw,54px);padding-block:clamp(22px,4vw,48px);align-items:start}
+.bigcard{background:var(--card);border:1.5px solid var(--ink);padding:clamp(18px,3vw,30px);box-shadow:6px 7px 0 rgba(46,42,36,.3);font-family:var(--mono);position:relative;transform:rotate(-.6deg)}
+.bigcard::before{content:"";position:absolute;left:50%;bottom:10px;transform:translateX(-50%);width:16px;height:16px;border-radius:50%;border:1.5px solid var(--mut);background:var(--kraft)}
+.bigcard .call{color:var(--stamp);font-size:12px;letter-spacing:.05em}
+.bigcard h1{font-family:var(--serif);font-weight:700;font-size:clamp(24px,3.2vw,36px);line-height:1.15;margin:8px 0 4px}
+.bigcard .au{font-size:13.5px}
+.bigcard dl{margin:14px 0 0;border-top:1px dashed var(--line);padding-top:12px;display:grid;grid-template-columns:110px 1fr;gap:6px 12px;font-size:12.5px}
+.bigcard dt{color:var(--mut)}
+.bigcard dd{margin:0}
+.bigcard .sum{font-family:var(--serif);font-size:15.5px;line-height:1.65;margin-top:14px;border-top:1px dashed var(--line);padding-top:12px}
+.lib-note{margin-top:14px;font-family:var(--hand);font-size:14.5px;color:var(--inkblue);border-top:1px dashed var(--line);padding-top:10px}
+/* túi thẻ & thẻ ngày trả */
+.pocket-wrap{position:sticky;top:80px}
+.pocket{position:relative;background:var(--card-2);border:1.5px solid var(--ink);padding:18px 18px 0;box-shadow:6px 7px 0 rgba(46,42,36,.3)}
+.pocket h4{font-family:var(--mono);font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.duecard{background:#FBF6E4;border:1.5px solid var(--ink);padding:12px 14px 16px;margin-inline:6px;position:relative;top:10px}
+.duecard .dc-h{font-family:var(--mono);font-size:10.5px;text-align:center;border-bottom:1.5px solid var(--ink);padding-bottom:6px;letter-spacing:.06em}
+.stamps{display:flex;flex-wrap:wrap;gap:10px 16px;padding:14px 4px 8px;min-height:96px;align-content:flex-start}
+.stampd{font-family:var(--mono);font-size:13.5px;font-weight:500;padding:2px 6px;border:2px solid;display:inline-block}
+.stampd.r{color:var(--stamp);border-color:var(--stamp)}
+.stampd.b{color:var(--inkblue);border-color:var(--inkblue)}
+.stampd.new{animation:slam .45s cubic-bezier(.2,1.6,.4,1)}
+@keyframes slam{0%{transform:scale(2.6) rotate(-14deg);opacity:0}55%{transform:scale(.92) rotate(var(--rot,-3deg));opacity:1}100%{transform:scale(1) rotate(var(--rot,-3deg))}}
+.pocket-lip{height:64px;margin:14px -18px 0;background:var(--kraft-2);border-top:1.5px solid var(--ink);position:relative}
+.pocket-lip::after{content:"THƯ VIỆN CÂY BÀNG · TRẢ SÁCH ĐÚNG HẸN NHÉ";position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--mut)}
+.readers-line{font-family:var(--hand);font-size:14px;color:var(--mut);text-align:center;margin-top:10px}
+.borrow-box{margin-top:18px;display:flex;flex-direction:column;gap:10px}
+.fld{display:flex;flex-direction:column;gap:5px}
+.fld label{font-family:var(--mono);font-size:11px;color:var(--mut)}
+.fld input{background:var(--card);border:1.5px solid var(--ink);padding:11px 12px;font-family:var(--mono);font-size:14px}
+.fld input:focus{border-color:var(--inkblue);outline:none}
+.err{font-family:var(--hand);font-size:13.5px;color:var(--stamp);min-height:1.4em}
+.hold-note{font-family:var(--hand);font-size:14px;background:#F6E3DB;border:1.5px dashed var(--stamp);padding:10px 13px;color:#7A2A1E}
+
+/* ---------- Chồng sách & thẻ bạn đọc ---------- */
+.scrim{position:fixed;inset:0;background:rgba(46,36,22,.5);z-index:60;opacity:0;pointer-events:none;transition:opacity .25s}
+.scrim.on{opacity:1;pointer-events:auto}
+.stackp{position:fixed;top:0;right:0;bottom:0;width:min(430px,94vw);background:var(--kraft);border-left:3px solid var(--wood-d);z-index:61;transform:translateX(103%);transition:transform .3s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column}
+.stackp.on{transform:none}
+.stackp-h{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:var(--wood);color:#F3E4CF}
+.stackp-h h2{font-weight:700;font-size:19px}
+.stackp-h button{font-family:var(--mono);font-size:12px}
+.stackp-list{flex:1;overflow-y:auto;padding:14px 20px}
+.sb{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px dashed var(--line)}
+.sb .spine{width:40px;height:56px;border:1.5px solid var(--ink);display:grid;place-items:center;padding:3px}
+.sb .spine i{writing-mode:vertical-rl;font-family:var(--mono);font-size:7px;color:#fff;overflow:hidden;max-height:48px;font-style:normal}
+.sb .ti{font-family:var(--serif);font-weight:600;font-size:15px;line-height:1.2}
+.sb .mono{color:var(--mut)}
+.sb .rm{font-family:var(--hand);font-size:12.5px;color:var(--mut);text-decoration:underline}
+.sb .rm:hover{color:var(--stamp)}
+.stackp-f{border-top:1.5px solid var(--ink);padding:14px 20px 18px;background:var(--card-2)}
+.stackp-f .mono{color:var(--mut)}
+.stack-empty{padding:40px 20px;text-align:center;font-family:var(--hand);font-size:15.5px;color:var(--mut)}
+/* thẻ bạn đọc + trang xong */
+.done-wrap{max-width:780px;margin-inline:auto;padding:clamp(28px,5vw,64px) var(--gut);display:grid;gap:26px;justify-items:center;text-align:center}
+.done-wrap h1{font-weight:700;font-size:clamp(28px,4.6vw,46px);line-height:1.1;text-wrap:balance}
+.done-wrap h1 em{font-style:italic;color:var(--wood)}
+.reader-card{width:min(420px,92vw);background:linear-gradient(135deg,#F8F0DC,#EFE0BE);border:2px solid var(--ink);padding:18px 20px;text-align:left;box-shadow:7px 8px 0 rgba(46,42,36,.3);transform:rotate(-1.2deg);position:relative}
+.reader-card .rc-h{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--mut);border-bottom:1.5px solid var(--ink);padding-bottom:8px}
+.reader-card .nm{font-family:var(--serif);font-weight:700;font-size:24px;margin-top:12px}
+.reader-card .no{font-family:var(--mono);font-size:13px;color:var(--inkblue);margin-top:2px}
+.reader-card .rows{margin-top:14px;font-family:var(--mono);font-size:12px;display:grid;gap:5px}
+.reader-card .rows div{display:flex;justify-content:space-between;gap:10px}
+.reader-card .rows b{font-weight:500;color:var(--stamp)}
+.reader-card .bigstamp{position:absolute;right:14px;bottom:12px;font-family:var(--mono);font-size:15px;font-weight:500;color:var(--stamp);border:2.5px solid var(--stamp);padding:5px 10px;transform:rotate(-9deg);animation:slam .5s cubic-bezier(.2,1.6,.4,1)}
+.done-note{font-family:var(--hand);font-size:15px;color:var(--mut);max-width:480px}
+
+footer.site{background:var(--wood);color:#E8CFA9;margin-top:44px;border-top:4px solid var(--wood-d)}
+.foot{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:24px;padding:clamp(24px,4vw,44px) var(--gut)}
+.foot .big{font-weight:700;font-size:clamp(22px,3vw,30px);color:#F6EBD5}
+.foot p,.foot li{font-family:var(--hand);font-size:13.5px}
+.foot ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.foot a{color:#F6EBD5;text-decoration:none}
+.foot a:hover{text-decoration:underline}
+.colophon{border-top:1px solid rgba(246,235,213,.25);padding:10px var(--gut);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:11px;color:#D8BC91}
+.view{animation:vin .3s ease}
+@keyframes vin{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.view,.stampd.new,.reader-card .bigstamp{animation:none}.fiche,.dtab,.drawer-g .dr-body{transition:none}}
+@media (max-width:880px){
+  .hall{grid-template-columns:1fr}
+  .detail{grid-template-columns:1fr}
+  .pocket-wrap{position:static}
+  nav.main{display:none}
+  .hours{display:none}
+  .foot{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap bar">
+    <a class="wordmark" href="#home" data-nav="home">
+      <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4 C10 2 5 2 3 3.5 V21 c2-1.5 7-1.5 10 .5 c3-2 8-2 10-.5 V3.5 C21 2 16 2 13 4 Z"/><path d="M13 4 V21.5"/></svg>
+      Thư viện Cây Bàng</a>
+    <nav class="main" aria-label="Chính">
+      <a href="#browse" data-nav="browse">TRA PHÍCH</a>
+      <a href="#home" data-nav="rules">NỘI QUY</a>
+    </nav>
+    <div class="grow"></div>
+    <span class="hours">mở cửa 8h–20h, chủ nhật tới trưa</span>
+    <button id="btn-stack">Chồng sách <span id="stack-n">0</span></button>
+  </div>
+</header>
+
+<main id="app">
+  <!-- SẢNH -->
+  <section class="view" id="view-home">
+    <div class="wrap hall">
+      <div>
+        <h1>Muốn tìm sách ở đây,<br>bạn phải <em>kéo ngăn phích.</em></h1>
+        <p class="lede">Thư viện nhỏ trong hẻm, 4.000 đầu sách và một cái tủ phích gỗ từ năm 1992. Mỗi cuốn sách là một tấm phiếu đánh máy — giờ tụi mình gõ lại toàn bộ lên đây, kéo ngăn nào cũng được, không sợ kẹt như tủ thật.</p>
+        <div class="search-slip">
+          <label for="q">Phiếu tra cứu — gõ tên sách hoặc tác giả</label>
+          <div class="row"><input id="q" autocomplete="off" placeholder="vd: dế mèn, tô hoài…"><button class="btn" id="q-go">Tra</button></div>
+        </div>
+        <p class="note">Mượn miễn phí — làm thẻ bạn đọc mất đúng 10 giây, ngay lúc mượn cuốn đầu tiên.</p>
+      </div>
+      <div class="cabinet" id="cabinet"></div>
+    </div>
+    <div class="rules" id="rules-sec">
+      <div class="wrap">
+        <h2 class="sec-h">Nội quy dán trên tủ</h2>
+        <div class="rules-grid">
+          <div class="rule"><b>01</b><p>Mỗi thẻ mượn tối đa <b>3 cuốn</b> một lần, hai tuần một lượt, gia hạn được một lần.</p></div>
+          <div class="rule"><b>02</b><p>Trả trễ không phạt tiền — chỉ phải kể cho cô thủ thư nghe cuốn đó hay chỗ nào.</p></div>
+          <div class="rule"><b>03</b><p>Gấp mép trang là bị cô Diệp lườm. Kẹp giấy có sẵn ở quầy, lấy thoải mái.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NGĂN PHÍCH -->
+  <section class="view" id="view-browse" hidden>
+    <div class="wrap browse-head">
+      <div><h1 id="br-title">Ngăn phích</h1><p class="mono" id="br-sub"></p></div>
+      <a class="btn ghost" href="#home" data-nav="home">← Về sảnh</a>
+    </div>
+    <div class="wrap drawer-tabs" id="dtabs"></div>
+    <p class="wrap count-line" id="count-line"></p>
+    <div class="wrap cards" id="cards"></div>
+  </section>
+
+  <!-- PHIẾU SÁCH -->
+  <section class="view" id="view-book" hidden></section>
+  <!-- XONG -->
+  <section class="view" id="view-done" hidden></section>
+</main>
+
+<footer class="site">
+  <div class="foot">
+    <div>
+      <p class="big">Thư viện Cây Bàng</p>
+      <p style="margin-top:10px;max-width:330px">28 hẻm 60 Lý Chính Thắng. Dưới gốc bàng có ghế đá, đọc tại chỗ khỏi cần thẻ. Cô Diệp trực quầy, đừng ăn xoài lắc gần kệ sách.</p>
+    </div>
+    <ul>
+      <li><a href="#browse" data-nav="browse">Tra phích</a></li>
+      <li><a href="#home" data-nav="rules">Nội quy</a></li>
+      <li><a href="#home" data-nav="home">Về sảnh</a></li>
+    </ul>
+    <ul>
+      <li>Mượn 14 ngày, miễn phí</li>
+      <li>Sách mới về mỗi sáng thứ Ba</li>
+      <li>Góc thiếu nhi có chiếu, cởi dép</li>
+    </ul>
+  </div>
+  <div class="colophon">
+    <span>© 2026 Thư viện Cây Bàng — trang dựng ý tưởng, thư viện không có thật.</span>
+    <span>Chữ: Literata · IBM Plex Mono · Mali</span>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="stackp" id="stackp" role="dialog" aria-modal="true" aria-label="Chồng sách mang về">
+  <div class="stackp-h"><h2>Chồng sách mang về</h2><button id="stack-close">đóng ✕</button></div>
+  <div class="stackp-list" id="stack-list"></div>
+  <div class="stackp-f" id="stack-foot"></div>
+</aside>
+
+<script>
+"use strict";
+/* ---------- Kho phích ---------- */
+const CATS=[
+ ["vnvan","Văn học Việt Nam","895.922"],["dich","Văn học dịch","800"],["nhi","Thiếu nhi","800-N"],
+ ["su","Lịch sử","959"],["khoa","Khoa học","500"],["nang","Kỹ năng & đời sống","150"]];
+const B=[
+ ["b01","vnvan","Dế Mèn phiêu lưu ký","Tô Hoài",1941,"Chú dế kiêu ngạo rời tổ đi chu du, va vấp rồi lớn lên. Cuốn được mượn nhiều nhất tủ này, gáy đã dán băng keo ba lần.","Bản in có tranh minh họa của Tạ Huy Long."],
+ ["b02","vnvan","Số đỏ","Vũ Trọng Phụng",1936,"Xuân Tóc Đỏ từ nhặt bóng sân quần vợt leo tới đỉnh xã hội thượng lưu. Đọc để cười, cười xong thấy rát.",""],
+ ["b03","vnvan","Tắt đèn","Ngô Tất Tố",1937,"Một đêm sưu thuế ở làng quê Bắc Bộ, chị Dậu bán con bán chó để cứu chồng.","Có bài giới thiệu dài 12 trang ở đầu sách."],
+ ["b04","vnvan","Vang bóng một thời","Nguyễn Tuân",1940,"Mười hai truyện về những thú chơi cũ: uống trà, thả thơ, chém treo ngành. Chữ đẹp tới mức muốn chép tay.",""],
+ ["b05","dich","Hoàng tử bé","Antoine de Saint-Exupéry",1943,"Phi công rơi giữa sa mạc gặp cậu bé tới từ tiểu tinh cầu B612. Đọc năm 10 tuổi hiểu một kiểu, 30 tuổi hiểu kiểu khác.","Bản dịch có kèm tranh màu gốc."],
+ ["b06","dich","Không gia đình","Hector Malot",1878,"Cậu bé Rémi theo gánh xiếc rong ruổi nước Pháp cùng cụ Vitalis và chú chó Capi. Cuốn dày nhất ngăn này, đọc là quên giờ cơm.",""],
+ ["b07","dich","Ông già và biển cả","Ernest Hemingway",1952,"Ông lão Santiago 84 ngày không câu được cá, rồi gặp con cá kiếm lớn nhất đời mình. Mỏng mà nặng.",""],
+ ["b08","dich","Robinson Crusoe","Daniel Defoe",1719,"Hai mươi tám năm một mình trên đảo hoang, dựng nhà, trồng lúa, đếm ngày bằng vết khắc.","Trang 214 có ai kẹp một cái vé xe buýt năm 2003."],
+ ["b09","nhi","Góc sân và khoảng trời","Trần Đăng Khoa",1968,"Thơ của cậu bé 10 tuổi viết về con bướm, cơn mưa, tiếng gà — mà người lớn đọc xong lặng người.",""],
+ ["b10","nhi","Đất rừng phương Nam","Đoàn Giỏi",1957,"Cậu bé An lưu lạc miệt U Minh: đi ăn ong, bắt cá sấu, gặp những con người hào sảng.","Tụi nhỏ hay giành nhau cuốn này dịp hè."],
+ ["b11","nhi","Tôi thấy hoa vàng trên cỏ xanh","Nguyễn Nhật Ánh",2010,"Tuổi thơ ở làng quê với thương, giận, ghen tị và một mùa lũ. Đọc xong muốn gọi điện cho em mình.",""],
+ ["b12","nhi","Truyện cổ tích Việt Nam chọn lọc","nhiều tác giả",1972,"Tấm Cám, Cây tre trăm đốt, Sọ Dừa… bản kể đầy đủ, không cắt đoạn nào.","Bìa được bọc lại bằng giấy hoa năm 2015."],
+ ["b13","su","Việt Nam sử lược","Trần Trọng Kim",1920,"Bộ thông sử tiếng Việt đầu tiên, kể chuyện nước mình từ họ Hồng Bàng tới đầu thế kỷ 20, giọng văn sáng và dễ theo.",""],
+ ["b14","su","Đại Việt sử ký toàn thư","Ngô Sĩ Liên",1479,"Chính sử triều Lê, bản dịch trọn bộ. Đọc chậm thôi, mỗi tối một kỷ là vừa.","Bộ 3 tập — mượn tính là một cuốn, khiêng hơi nặng."],
+ ["b15","su","Lịch sử khẩn hoang miền Nam","Sơn Nam",1973,"Ông già Nam Bộ kể chuyện mở đất: kênh rạch, đình làng, ghe xuồng. Sử mà đọc như nghe kể chuyện đêm khuya.",""],
+ ["b16","su","Hà Nội nửa đầu thế kỷ XX","Nguyễn Văn Uẩn",1995,"Từng con phố, từng cái chợ, từng tiếng rao của Hà Nội cũ được chép lại tỉ mỉ.","Có bản đồ gấp ở bìa sau, xin đừng xé."],
+ ["b17","khoa","Nguồn gốc các loài","Charles Darwin",1859,"Cuốn sách làm cả thế giới nhìn lại chính mình. Bản dịch có chú thích dày dặn, đọc không sợ lạc.",""],
+ ["b18","khoa","Lược sử thời gian","Stephen Hawking",1988,"Từ Vụ Nổ Lớn tới hố đen, viết cho người chưa từng học vật lý. Chỉ có đúng một công thức trong cả cuốn.",""],
+ ["b19","khoa","Côn trùng ký","Jean-Henri Fabre",1879,"Ông già ngồi cả đời trong vườn quan sát bọ hung, ve sầu, nhện — và viết như viết về hàng xóm.","Ngăn này tụi nhỏ mượn nhiều hơn người lớn."],
+ ["b20","khoa","Sapiens: Lược sử loài người","Yuval Noah Harari",2011,"Bảy vạn năm của loài mình gói trong một cuốn: từ hái lượm tới xếp hàng mua điện thoại.",""],
+ ["b21","nang","Đắc nhân tâm","Dale Carnegie",1936,"Cuốn kỹ năng cũ nhất còn được mượn đều mỗi tháng. Đọc để bớt cãi nhau, thêm bạn bè.",""],
+ ["b22","nang","Nghệ thuật bày mâm cơm Việt","Triệu Thị Chơi",1990,"Sách dạy nấu ăn quốc dân một thời: món kho, món canh, mâm giỗ, mâm Tết.","Trang 89 dính vết nghệ, thông cảm."],
+ ["b23","nang","Sống đơn giản","nhóm biên soạn",2018,"Dọn nhà, dọn lịch, dọn cả điện thoại. Mỏng, đọc một buổi tối là xong, làm theo thì cả năm.",""],
+ ["b24","nang","Tự học chữ Nôm căn bản","Vũ Văn Kính",1994,"Bắt đầu từ 214 bộ thủ tới đọc được câu Kiều bản Nôm. Kiên nhẫn là được, cô Diệp học cuốn này 2 năm.",""],
+].map(([id,cat,ti,au,yr,sum,note])=>({id,cat,ti,au,yr,sum,note}));
+/* ---------- Tiện ích & trạng thái ---------- */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const strip=s=>String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d");
+const state={cat:"vnvan",q:"",stack:[],view:"home",reader:null,mine:{}};
+try{const r=JSON.parse(localStorage.getItem("caybang")||"null");if(r){state.reader=r.reader||null;state.mine=r.mine||{};}}catch{}
+const save=()=>{try{localStorage.setItem("caybang",JSON.stringify({reader:state.reader,mine:state.mine}));}catch{}};
+const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const byId=id=>B.find(b=>b.id===id);
+const catOf=b=>CATS.find(c=>c[0]===b.cat);
+function hash(s){let h=0;for(const ch of s)h=(h*31+ch.charCodeAt(0))>>>0;return h;}
+const call=b=>catOf(b)[2]+"."+String(hash(b.id)%90+10)+" / "+strip(b.au).split(" ").slice(-1)[0].slice(0,3).toUpperCase();
+const onLoan=b=>!state.mine[b.id]&&hash(b.id+"loan")%100<20;
+const fmt=d=>String(d.getDate()).padStart(2,"0")+"."+String(d.getMonth()+1).padStart(2,"0")+"."+String(d.getFullYear()).slice(2);
+function dueOf(b){const d=new Date();d.setDate(d.getDate()+3+hash(b.id)%9);return fmt(d);}
+function pastStamps(b){
+  const n=3+hash(b.id+"s")%5, out=[];
+  let d=new Date(); d.setDate(d.getDate()-(20+hash(b.id)%40));
+  for(let i=0;i<n;i++){out.push({t:fmt(d),c:hash(b.id+i)%2?"r":"b",rot:(hash(b.id+"r"+i)%9)-4});d=new Date(d);d.setDate(d.getDate()-(40+hash(b.id+"d"+i)%200));}
+  return out.reverse();
+}
+const readerCount=b=>pastStamps(b).length+14+hash(b.id+"rc")%40;
+
+/* ---------- Điều hướng ---------- */
+function show(view,hash2){
+  state.view=view;
+  for(const s of $$("main > section")) s.hidden = s.id!=="view-"+view;
+  const sec=$("#view-"+view);sec.classList.remove("view");void sec.offsetWidth;sec.classList.add("view");
+  window.scrollTo(0,0);
+  try{history.replaceState(null,"","#"+(hash2||view));}catch{}
+}
+addEventListener("hashchange",route);
+function route(){
+  const h=location.hash.slice(1);
+  const m=h.match(/^s-(b\d\d)$/);
+  if(m&&byId(m[1]))openBook(m[1]);
+  else if(h==="browse"){show("browse","browse");renderBrowse();}
+  else show("home","home");
+}
+document.addEventListener("click",e=>{
+  const a=e.target.closest("[data-nav]");if(!a)return;
+  e.preventDefault();
+  if(a.dataset.nav==="browse"){show("browse","browse");renderBrowse();}
+  else if(a.dataset.nav==="rules"){show("home","home");setTimeout(()=>$("#rules-sec").scrollIntoView({behavior:reduced?"auto":"smooth"}),40);}
+  else show("home","home");
+});
+
+/* ---------- Tủ phích ---------- */
+function cabinetSVG(){
+  const dr=(x,y,c,i)=>`<g class="drawer-g" data-cat="${c[0]}" role="button" tabindex="0" aria-label="Mở ngăn ${c[1]}">
+    <g class="dr-body">
+      <rect x="${x}" y="${y}" width="212" height="88" fill="${i%2?"#8A5638":"#7A4A32"}" stroke="#3E2415" stroke-width="3"/>
+      <rect x="${x+8}" y="${y+8}" width="196" height="72" fill="none" stroke="#5C3624" stroke-width="2"/>
+      <rect class="dr-label-bg" x="${x+46}" y="${y+18}" width="120" height="30" fill="#F5EDD6" stroke="#3E2415" stroke-width="2.5"/>
+      <rect x="${x+42}" y="${y+14}" width="128" height="38" fill="none" stroke="#C9A03C" stroke-width="3" rx="2"/>
+      <text x="${x+106}" y="${y+38}" text-anchor="middle" style="font:500 12.5px 'IBM Plex Mono';fill:#2E2A24" stroke="none">${c[1].length>14?c[1].split(" ").slice(0,2).join(" "):c[1]}</text>
+      <path d="M${x+86} ${y+64} h40" stroke="#C9A03C" stroke-width="7" stroke-linecap="round"/>
+      <path d="M${x+86} ${y+64} h40" stroke="#3E2415" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6"/>
+    </g></g>`;
+  let rows="";
+  CATS.forEach((c,i)=>{rows+=dr(34+(i%2)*224,42+Math.floor(i/2)*100,c,i);});
+  return `<svg viewBox="0 0 504 420" fill="none" role="img" aria-label="Tủ phích gỗ sáu ngăn — bấm một ngăn để mở">
+    <rect x="18" y="20" width="468" height="330" fill="#6B3E28" stroke="#3E2415" stroke-width="4"/>
+    <rect x="6" y="8" width="492" height="22" fill="#8A5638" stroke="#3E2415" stroke-width="3.5"/>
+    ${rows}
+    <rect x="6" y="348" width="492" height="16" fill="#8A5638" stroke="#3E2415" stroke-width="3.5"/>
+    <path d="M40 364 l-10 48 M464 364 l10 48 M120 364 l-4 48 M384 364 l4 48" stroke="#3E2415" stroke-width="7"/>
+    <text x="252" y="404" text-anchor="middle" style="font:italic 400 13px Mali;fill:#6B5A3E" stroke="none">tủ đóng năm 1992, kéo nhẹ tay — bản web kéo thoải mái</text>
+  </svg>`;
+}
+function renderHome(){
+  $("#cabinet").innerHTML=cabinetSVG();
+  $$("#cabinet .drawer-g").forEach(g=>{
+    const open=()=>{state.cat=g.dataset.cat;state.q="";show("browse","browse");renderBrowse();};
+    g.addEventListener("click",open);
+    g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open();}});
+  });
+  $("#q-go").addEventListener("click",doSearch);
+  $("#q").addEventListener("keydown",e=>{if(e.key==="Enter")doSearch();});
+}
+function doSearch(){
+  state.q=$("#q").value.trim();state.cat="";
+  show("browse","browse");renderBrowse();
+}
+
+/* ---------- Duyệt phiếu ---------- */
+function ficheHTML(b){
+  const loan=onLoan(b);
+  return `<button class="fiche" data-b="${b.id}">
+    <span class="st ${loan?"no":"ok"}">${state.mine[b.id]?"BẠN ĐANG MƯỢN":loan?"HẸN TRẢ "+dueOf(b):"CÒN TRÊN KỆ"}</span>
+    <span class="call">${call(b)}</span>
+    <h3>${b.ti}</h3>
+    <span class="au">${b.au} · ${b.yr}</span>
+    <p class="sum">${b.sum}</p></button>`;
+}
+function renderBrowse(){
+  const c=CATS.find(x=>x[0]===state.cat);
+  $("#br-title").textContent=state.q?"Kết quả tra cứu":"Ngăn "+(c?c[1].toLowerCase():"phích");
+  $("#br-sub").textContent=state.q?`phiếu khớp với “${state.q}”`:c?`ký hiệu ${c[2]} — kéo ra ${B.filter(b=>b.cat===c[0]).length} tấm phiếu`:"";
+  $("#dtabs").innerHTML=CATS.map(x=>`<button class="dtab" data-c="${x[0]}" aria-pressed="${state.cat===x[0]}">${x[1]}</button>`).join("");
+  $$("#dtabs .dtab").forEach(t=>t.addEventListener("click",()=>{state.cat=t.dataset.c;state.q="";renderBrowse();}));
+  let list=state.q? B.filter(b=>[b.ti,b.au].some(x=>strip(x).includes(strip(state.q)))) : B.filter(b=>b.cat===state.cat);
+  $("#count-line").textContent=list.length?list.length+" phiếu · phiếu nào cũng gõ máy chữ lại từ bản gốc":"không thấy phiếu nào — thử gõ ngắn hơn, hoặc hỏi cô Diệp";
+  $("#cards").innerHTML=list.map(ficheHTML).join("");
+  $$("#cards .fiche").forEach(f=>f.addEventListener("click",()=>openBook(f.dataset.b)));
+}
+/* ---------- Phiếu sách & mượn ---------- */
+function openBook(id){
+  const b=byId(id),loan=onLoan(b),mine=!!state.mine[id],inStack=state.stack.includes(id);
+  const stamps=pastStamps(b);
+  $("#view-book").innerHTML=`<div class="wrap detail">
+    <div>
+      <a class="mono" style="color:var(--mut);text-decoration:none" href="#browse" data-nav="browse">← về ngăn phích</a>
+      <div class="bigcard" style="margin-top:14px">
+        <span class="call">${call(b)}</span>
+        <h1>${b.ti}</h1>
+        <p class="au">${b.au} — ${b.yr}</p>
+        <dl><dt>Ngăn</dt><dd>${catOf(b)[1]}</dd>
+          <dt>Tình trạng</dt><dd>${mine?"bạn đang mượn":loan?"đang được mượn, hẹn trả "+dueOf(b):"còn trên kệ"}</dd>
+          <dt>Đã qua tay</dt><dd>${readerCount(b)} bạn đọc</dd></dl>
+        <p class="sum">${b.sum}</p>
+        ${b.note?`<p class="lib-note">✎ ghi chú của cô Diệp: ${b.note}</p>`:""}
+      </div>
+    </div>
+    <div class="pocket-wrap">
+      <div class="pocket">
+        <h4>Túi thẻ sau bìa — thẻ ngày trả</h4>
+        <div class="duecard">
+          <p class="dc-h">MƯỢN — HẸN TRẢ NGÀY</p>
+          <div class="stamps" id="stamps">${stamps.map(s=>`<span class="stampd ${s.c}" style="--rot:${s.rot}deg;transform:rotate(${s.rot}deg)">${s.t}</span>`).join("")}</div>
+        </div>
+        <div class="pocket-lip"></div>
+      </div>
+      <p class="readers-line">tấm thẻ này đã đóng ${stamps.length} dấu — cuốn sách có ${readerCount(b)} lượt mượn từ 1998</p>
+      <div class="borrow-box">
+        ${mine?`<p class="hold-note" style="border-color:var(--leaf);background:#E9EEDD;color:#3E4E2A">Bạn đang mượn cuốn này — hẹn trả ${state.mine[id]}. Đọc thong thả.</p>`:
+         loan?`<p class="hold-note">Cuốn này đang ở nhà một bạn đọc khác, hẹn trả ${dueOf(b)}. Bấm giữ chỗ, sách về tụi mình nhắn liền.</p>
+               <button class="btn ghost" id="hold">Giữ chỗ cho tôi</button>`:
+         inStack?`<button class="btn ghost" id="unstack">✓ Đã trong chồng sách — bỏ ra</button>`:
+         `<button class="btn red" id="stackit">Chồng vào sách mang về</button>`}
+        <p class="mono" style="color:var(--mut)" id="bk-msg"></p>
+      </div>
+    </div></div>`;
+  show("book","s-"+id);
+  const s1=$("#stackit");if(s1)s1.addEventListener("click",()=>{
+    if(state.stack.length>=3){$("#bk-msg").textContent="Nội quy: mỗi lượt 3 cuốn thôi — bỏ bớt một cuốn trong chồng đã nhé.";openStack();return;}
+    state.stack.push(id);badge(true);openBook(id);setTimeout(openStack,250);});
+  const s2=$("#unstack");if(s2)s2.addEventListener("click",()=>{state.stack=state.stack.filter(x=>x!==id);badge();openBook(id);});
+  const s3=$("#hold");if(s3)s3.addEventListener("click",()=>{$("#bk-msg").textContent="Đã ghi tên bạn vào phiếu giữ chỗ. Sách về là tới lượt bạn đầu tiên.";s3.disabled=true;s3.style.opacity=.6;});
+}
+
+/* ---------- Chồng sách ---------- */
+const badge=t=>{const n=$("#stack-n");n.textContent=state.stack.length;
+  if(t){n.classList.remove("tick");void n.offsetWidth;n.classList.add("tick");}};
+function openStack(){renderStack();$("#stackp").classList.add("on");$("#scrim").classList.add("on");}
+function closeStack(){$("#stackp").classList.remove("on");$("#scrim").classList.remove("on");}
+$("#btn-stack").addEventListener("click",openStack);
+$("#scrim").addEventListener("click",closeStack);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeStack();});
+const SPINE=["#7A4A32","#2F5580","#5C7248","#C03B2D"];
+function renderStack(){
+  $("#stack-close").addEventListener?0:0;
+  const L=$("#stack-list"),F=$("#stack-foot");
+  if(!state.stack.length){
+    L.innerHTML=`<p class="stack-empty">Chồng sách đang trống.<br>Ra ngăn phích lựa vài cuốn — tối đa 3 cuốn một lượt.</p>`;
+    F.innerHTML=`<a class="btn" style="width:100%;justify-content:center" href="#browse" data-nav="browse" id="se-go">Mở ngăn phích</a>`;
+    $("#se-go").addEventListener("click",closeStack);
+  }else{
+    L.innerHTML=state.stack.map((id,i)=>{const b=byId(id);return `<div class="sb">
+      <span class="spine" style="background:${SPINE[i%4]}"><i>${b.ti}</i></span>
+      <div><p class="ti">${b.ti}</p><p class="mono">${b.au} · ${call(b)}</p></div>
+      <button class="rm" data-rm="${id}">bỏ ra</button></div>`;}).join("")+
+      `<div class="fld" style="margin-top:14px"><label for="r-name">${state.reader?"Thẻ bạn đọc":"Tên bạn (làm thẻ lần đầu, 10 giây)"}</label>
+       ${state.reader?`<input value="${state.reader.name} — ${state.reader.no}" disabled style="opacity:.7">`:`<input id="r-name" placeholder="vd: Lê Duy Vương" autocomplete="name">`}</div>
+       <p class="err" id="st-err"></p>`;
+    F.innerHTML=`<p class="mono">${state.stack.length}/3 cuốn · mượn 14 ngày · miễn phí</p>
+      <button class="btn red" style="width:100%;justify-content:center;margin-top:10px" id="borrow">Đóng dấu mượn ${state.stack.length} cuốn</button>
+      <p class="mono" style="text-align:center;margin-top:8px;color:var(--mut)">Trang dựng ý tưởng — thư viện không có thật.</p>`;
+    $$("#stack-list [data-rm]").forEach(b=>b.addEventListener("click",()=>{state.stack=state.stack.filter(x=>x!==b.dataset.rm);badge();renderStack();}));
+    $("#borrow").addEventListener("click",()=>{
+      if(!state.reader){
+        const nm=($("#r-name").value||"").trim();
+        if(!nm){$("#st-err").textContent="Cho cô Diệp xin tên để in lên thẻ bạn đọc nhé.";$("#r-name").focus();return;}
+        state.reader={name:nm,no:"CB-"+String(1000+hash(nm)%9000)};
+      }
+      finishBorrow();
+    });
+  }
+  $("#stack-close").onclick=closeStack;
+}
+
+/* ---------- Đóng dấu & thẻ bạn đọc ---------- */
+function finishBorrow(){
+  const due=new Date();due.setDate(due.getDate()+14);
+  const dueS=fmt(due);
+  const books=state.stack.map(byId);
+  for(const b of books)state.mine[b.id]=dueS;
+  state.stack=[];save();badge();closeStack();
+  $("#view-done").innerHTML=`<div class="done-wrap">
+    <h1>Dấu đã đóng.<br><em>Hẹn gặp lại trước ngày ${dueS}.</em></h1>
+    <div class="reader-card">
+      <div class="rc-h"><span>THƯ VIỆN CÂY BÀNG</span><span>THẺ BẠN ĐỌC</span></div>
+      <p class="nm">${state.reader.name}</p>
+      <p class="no">${state.reader.no} · cấp ${fmt(new Date())}</p>
+      <div class="rows">${books.map(b=>`<div><span>${b.ti}</span><b>trả ${dueS}</b></div>`).join("")}</div>
+      <span class="bigstamp">ĐÃ CHO MƯỢN<br>${dueS}</span>
+    </div>
+    <p class="done-note">Sách để sẵn ở quầy, đọc tên thẻ là cô Diệp đưa. Trả trễ không phạt — chỉ phải kể cuốn đó hay chỗ nào. Mà kể thật đó, cô hỏi kỹ lắm.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+      <a class="btn" href="#browse" data-nav="browse">Tra phích tiếp</a>
+      <a class="btn ghost" href="#home" data-nav="home">Về sảnh</a>
+    </div></div>`;
+  show("done","done");
+}
+
+/* ---------- Khởi động ---------- */
+renderHome();badge();route();
+</script>
+</body>
+</html>

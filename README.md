@@ -53,3 +53,7 @@ Thư mục `homestay/` là website thứ ba: homestay hư cấu **Lưng Đồi**
 ## GIỌT — order cà phê tại bàn concept
 
 Thư mục `giot/` là website thứ tư: quán cà phê hư cấu **GIỌT**, khách quét QR tại bàn (`#ban-7`) rồi gọi món trên điện thoại. Cái ly là giao diện: chỉnh cữ phin / độ ngọt / đá là ly vẽ đổi lớp theo; gửi quầy xong có phin nhỏ giọt đếm từng giọt tới lúc món ra bàn. Một file `giot/index.html`, mobile-first.
+
+## Thư viện Cây Bàng — trang thư viện concept
+
+Thư mục `thuvien/` là website thứ năm: thư viện hư cấu **Cây Bàng**. Cả trang là cái tủ phích gỗ — kéo ngăn để lật phiếu mục lục đánh máy, mỗi cuốn có thẻ ngày trả với dấu mượn của bạn đọc cũ, và mượn sách (tối đa 3 cuốn/14 ngày) kết thúc bằng con dấu đóng lên thẻ bạn đọc. Một file `thuvien/index.html`.
